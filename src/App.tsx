@@ -1,5 +1,6 @@
 import HomeView from './views/HomeView';
 import PageFooter from './components/PageFooter';
+import './stylesheet.scss';
 
 function App() {
   return (
