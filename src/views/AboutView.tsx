@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 type Props = {
-    
+    test: string
 }
 
 function AboutView({}: Props) {
