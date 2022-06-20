@@ -3,8 +3,6 @@
 
 name: Node.js CI
 
-process.env.CI = false
-
 on:
   push:
     branches: [ "main", "CI" ]
