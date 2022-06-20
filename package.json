@@ -1,7 +1,7 @@
 {
   "name": "snakebot-webclient-2.0",
   "version": "0.1.0",
-  "homepage": "https://dolvur.github.io/snakebot-web",
+  "homepage": "https://dolvur.github.io/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
