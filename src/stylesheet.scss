@@ -429,6 +429,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   /* Gameboard with controls */
   .gameboard {
     ///images/backgrounds/space.png');
+    background-image: url('./assets/images/space.png');
     background-repeat: no-repeat;
     background-size: cover;
     width: 1024px;
@@ -437,7 +438,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   }
   
   canvas {
-    // background: url('../images/backgrounds/game.svg');
+    background: url('./assets/images/game.svg');
     background-repeat: no-repeat;
     background-size: cover;
     padding-left: 0;
