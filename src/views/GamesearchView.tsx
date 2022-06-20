@@ -1,45 +1,54 @@
-import { useState } from "react"
+import axios from "axios";
+import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom';
 
 type Props = {}
 
 function GamesearchView({}: Props) {
   const [snakeName, setSnakeName] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   function searchGames(event: any) {
     event.preventDefault();
-    alert(`Searching for games with ${snakeName}`);
+    axios(`history/search/${snakeName}`).then(
+      (response) => {
+        setSearchResults(response.data.items);
+        console.log("searchResults: ", searchResults);
+      }
+    ).catch(()=>setSearchResults([]));
   }
 
-  let results;
-  if (true) { //TODO: Change to "noResultsFound"
-    results = (
-      <p
-        className={true ? 'show' : 'hidden'}
-        style={{ color: 'red' }}
-      >No result found</p>);
-  } else {
-    results = (<p>TODO: IMPLEMENT SEARCHRESULTS</p>);
-    // results = (
-    //   <ul className="searchresults"> {
-    //     this.props.searchResults.matchingGames.map((game, index) => (
-    //       <li key={index}>
-    //         <h3 className="searchheadline">
-    //           <Link to={{ pathname: '/viewgame/' + game.gameId }}>
-    //             <span className="date">Date: {game.gameDate}</span>
-    //           </Link>
-    //         </h3>
-    //         <ul className="players"> {
-    //           game.players.map((player, i) => (
-    //             <li key={i} className={(this.state.searchName === player ? 'match' : '')}>
-    //               { player }
-    //             </li>
-    //           ))}
-    //         </ul>
-    //       </li>
-    //     ))}
-    //   </ul>);
-  }
-  
+  useEffect(()=>console.log(searchResults), [searchResults]);
+
+  function Results() {
+    if (searchResults.length === 0) {
+      return (
+        <p
+          className={true ? 'show' : 'hidden'}
+          style={{ color: 'red' }}
+        >No result found</p>);
+      } else {
+        return (
+        <ul className="searchresults"> {
+          searchResults.map((game: any, index: any) => (
+            <li key={index}>
+              <h3 className="searchheadline">
+                <Link to={{ pathname: '/viewgame/' + game.gameId }}>
+                  <span className="date">Date: {game.gameDate}</span>
+                </Link>
+              </h3>
+              <ul className="players"> {
+                game.players.map((player: any, i: number) => (
+                  <li key={i} className={(snakeName === player ? 'match' : '')}>
+                    { player }
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>);
+      }
+    }
 
   return (
     <section className="page clear-fix">
@@ -62,7 +71,7 @@ function GamesearchView({}: Props) {
             </form>
             <h2 className="searchresultsheadline">Results</h2>
 
-            { results }
+            { Results() }
 
           </div>
         </article>

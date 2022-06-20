@@ -6,8 +6,12 @@ import HomeView from './views/HomeView';
 import AboutView from './views/AboutView';
 import GettingStartedView from './views/GettingStartedView';
 import GamesearchView from './views/GamesearchView';
+import axios from 'axios';
+import Constants from './constants/constants';
 
 function App() {
+  axios.defaults.baseURL = Constants.SERVER_URL;
+
   return (
   <>
    <BrowserRouter>
