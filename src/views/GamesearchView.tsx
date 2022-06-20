@@ -1,14 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Link } from 'react-router-dom';
 
-type Props = {}
+type game = {
+  gameDate: string,
+  gameId: string,
+  players: string[],
+}
 
-function GamesearchView({}: Props) {
+function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<game []>([]);
 
-  function searchGames(event: any) {
+  function searchGames(event: React.FormEvent) {
     event.preventDefault();
     axios(`history/search/${snakeName}`).then(
       (response) => {
@@ -17,8 +21,6 @@ function GamesearchView({}: Props) {
       }
     ).catch(()=>setSearchResults([]));
   }
-
-  useEffect(()=>console.log(searchResults), [searchResults]);
 
   function Results() {
     if (searchResults.length === 0) {
@@ -30,7 +32,7 @@ function GamesearchView({}: Props) {
       } else {
         return (
         <ul className="searchresults"> {
-          searchResults.map((game: any, index: any) => (
+          searchResults.map((game: game, index: number) => (
             <li key={index}>
               <h3 className="searchheadline">
                 <Link to={{ pathname: '/viewgame/' + game.gameId }}>
@@ -38,7 +40,7 @@ function GamesearchView({}: Props) {
                 </Link>
               </h3>
               <ul className="players"> {
-                game.players.map((player: any, i: number) => (
+                game.players.map((player: string, i: number) => (
                   <li key={i} className={(snakeName === player ? 'match' : '')}>
                     { player }
                   </li>
