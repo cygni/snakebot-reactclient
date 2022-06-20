@@ -3,6 +3,8 @@
 
 name: Node.js CI
 
+process.env.CI = false
+
 on:
   push:
     branches: [ "main", "CI" ]
@@ -35,4 +37,4 @@ jobs:
     #  run: npm test
   
     - name: Build
-      run: npm run build
+      run: CI='' npm run build
