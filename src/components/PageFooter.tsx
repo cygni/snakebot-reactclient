@@ -1,4 +1,4 @@
-import cygnilogo from '../assets/logos/cygni_oldlogo.svg';
+import cygnilogo from '../assets/logos/cygni-logo.svg';
 
 function PageFooter() {
   return (
