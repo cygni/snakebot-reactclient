@@ -24,6 +24,7 @@ const snakes = ["Snake1", "Snake2", "Snake3"];
             <figure>
             <img src={snakehead} alt="snakehead" />
             </figure>
+            <strong>10</strong> {snake}
             </li>
             ))}
         </ul>
