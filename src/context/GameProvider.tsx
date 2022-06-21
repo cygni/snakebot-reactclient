@@ -1,7 +1,11 @@
 import React, { createContext } from 'react';
 import { useState } from 'react';
 
-export const GameContext = createContext<[GameData, React.Dispatch<React.SetStateAction<GameData>>]>([{} as GameData,()=>{}]);
+export const GameContext = createContext<GameContextType>({} as GameContextType);
+export const CurrentFrameContext = createContext<CurrentFrameContextType>({} as CurrentFrameContextType);
+
+type GameContextType = [GameData, React.Dispatch<React.SetStateAction<GameData>>];
+type CurrentFrameContextType = [number, React.Dispatch<React.SetStateAction<number>>];
 
 export type GameData = {
     gameDate: string;
@@ -27,9 +31,12 @@ export function GameProvider( { children }: any ) {
         type: ""
     }
     const [gameData, setGameData] = useState(emptyGameData);
+    const [currentFrame, setCurrentFrame] = useState(0);
     return (
         <GameContext.Provider value={[gameData, setGameData]}>
-            {children}
+            <CurrentFrameContext.Provider value={[currentFrame, setCurrentFrame]}>
+                {children}
+            </CurrentFrameContext.Provider>
         </GameContext.Provider>
     )
 }
