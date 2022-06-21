@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom"
+import ControllBar from '../components/ControllBar'
 
 import Sidebar from "../components/game/components/ScoreBoard";
 
@@ -37,6 +38,9 @@ function GameboardView({}: Props) {
                 //   }}
                 />
                 {/* <GameControl /> */}
+                <ControllBar/>
+                
+                
             </div>
         </div>
     </section>
