@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom"
+import Sidebar from "../components/game/components/ScoreBoard";
 
 
 type Props = {}
@@ -17,9 +18,9 @@ function GameboardView({}: Props) {
   return (
     <section className="page clear-fix">
         {Navigation()}
-
+       
         <div className="thegame clear-fix">
-            {/* <Sidebar /> */}
+        <Sidebar />
             <div className="gameboard">
                 <canvas
                 id="canvas"
