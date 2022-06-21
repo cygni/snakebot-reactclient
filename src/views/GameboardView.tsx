@@ -1,4 +1,7 @@
 import { useParams } from "react-router-dom"
+
+import Sidebar from "../components/game/components/ScoreBoard";
+
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
 
@@ -19,10 +22,11 @@ function GameboardView({}: Props) {
     <section className="page clear-fix">
         {Navigation()}
 
+       
         <button onClick={async () => {console.log(await api.getGame(gameID!))}}>Get game</button>
 
         <div className="thegame clear-fix">
-            {/* <Sidebar /> */}
+        <Sidebar />
             <div className="gameboard">
                 <canvas
                 id="canvas"
@@ -38,5 +42,4 @@ function GameboardView({}: Props) {
     </section>
   )
 }
-
 export default GameboardView
