@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom"
+import ControllBar from '../components/ControllBar'
 
 
 type Props = {}
@@ -30,6 +31,9 @@ function GameboardView({}: Props) {
                 //   }}
                 />
                 {/* <GameControl /> */}
+                <ControllBar/>
+                
+                
             </div>
         </div>
     </section>
