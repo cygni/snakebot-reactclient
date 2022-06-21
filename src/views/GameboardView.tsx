@@ -5,7 +5,7 @@ import ScoreBoard from "../components/game/components/ScoreBoard";
 
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { GameContext } from "../context/GameProvider";
 
 type Props = {}
