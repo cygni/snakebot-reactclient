@@ -10,8 +10,8 @@ function ScoreBoard({ snakes }: Props) {
       <div className="box activePlayers">
           <ul>
               {
-              snakes.map(snake => (
-              <li key={snake}>
+              snakes.map((snake, index) => (
+              <li key={index}>
               <figure>
               <img src={snakehead} alt="snakehead" />
               </figure>

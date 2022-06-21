@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import ControllBar from '../components/ControllBar'
 
-import Sidebar from "../components/game/components/ScoreBoard";
+import ScoreBoard from "../components/game/components/ScoreBoard";
 
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
@@ -33,7 +33,7 @@ function GameboardView({}: Props) {
         } >Get game</button>
 
         <div className="thegame clear-fix">
-        <Sidebar snakes={gameData.hasOwnProperty("playerNames") ? gameData.playerNames : []} />
+        <ScoreBoard snakes={gameData.hasOwnProperty("playerNames") ? gameData.playerNames : []} />
             <div className="gameboard">
                 <canvas
                 id="canvas"
