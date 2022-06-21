@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom"
+import BoardUtils from "../constants/BoardUtils";
+import api from "../api";
 
 
 type Props = {}
 
 function GameboardView({}: Props) {
+    const size = BoardUtils.calculateSize();
     let { gameID } = useParams();
-
-    let size = {width: 1000, height: 1000};
 
     function Navigation() {
         return (
@@ -17,6 +18,8 @@ function GameboardView({}: Props) {
   return (
     <section className="page clear-fix">
         {Navigation()}
+
+        <button onClick={async () => {console.log(await api.getGame(gameID!))}}>Get game</button>
 
         <div className="thegame clear-fix">
             {/* <Sidebar /> */}
