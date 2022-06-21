@@ -1,10 +1,10 @@
 import snakehead from '../../../assets/images/0EBDE7.png';
+import { useContext } from 'react';
+import { GameContext } from '../../../context/GameProvider';
 
-type Props = {
-    snakes: string[];
-}
-
-function ScoreBoard({ snakes }: Props) {
+function ScoreBoard() {
+    const gameData = useContext(GameContext)[0];
+    const snakes = gameData.playerNames;
 
     return (
       <div className="box activePlayers">

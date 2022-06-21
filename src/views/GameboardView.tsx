@@ -5,13 +5,14 @@ import ScoreBoard from "../components/game/components/ScoreBoard";
 
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { GameContext } from "../context/GameProvider";
 
 type Props = {}
 
 function GameboardView({}: Props) {
     const size = BoardUtils.calculateSize();
-    const [gameData, setGameData] = useState<any>({});
+    const [gameData, setGameData] = useContext(GameContext);
 
     let { gameID } = useParams();
 
@@ -33,7 +34,7 @@ function GameboardView({}: Props) {
         } >Get game</button>
 
         <div className="thegame clear-fix">
-        <ScoreBoard snakes={gameData.hasOwnProperty("playerNames") ? gameData.playerNames : []} />
+        <ScoreBoard />
             <div className="gameboard">
                 <canvas
                 id="canvas"

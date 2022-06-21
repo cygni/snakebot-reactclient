@@ -9,12 +9,14 @@ import GamesearchView from './views/GamesearchView';
 import axios from 'axios';
 import Constants from './constants/constants';
 import GameboardView from './views/GameboardView';
+import { GameProvider } from './context/GameProvider';
+
 
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;
 
   return (
-  <>
+  <GameProvider>
    <BrowserRouter>
    <PageHeader/>
       <Routes>
@@ -29,7 +31,7 @@ function App() {
 
     <PageFooter/>
     
-    </>
+    </GameProvider>
   );
 }
 
