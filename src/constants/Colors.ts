@@ -31,10 +31,10 @@ const snakeColors = [
 ];
 
 export default {
-  getBoardColor(i) {
+  getBoardColor(i: number) {
     return boardColors[i];
   },
-  getSnakeColor(i) {
+  getSnakeColor(i: number) {
     return snakeColors[i];
   },
   DEAD_SNAKE: '#999999',
