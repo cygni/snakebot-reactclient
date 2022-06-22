@@ -18,7 +18,6 @@ const currentFrame = 8;
           step="1"
           min="0"
           max={frameCount}
-          value={currentFrame}
           className="react-native-slider"
           //onChange={GameControl.currentFrameChanged}
         />
