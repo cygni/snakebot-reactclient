@@ -9,29 +9,29 @@ import GamesearchView from './views/GamesearchView';
 import axios from 'axios';
 import Constants from './constants/constants';
 import GameboardView from './views/GameboardView';
-import { GameProvider } from './context/GameProvider';
+import { Provider } from 'react-redux';
+import { store } from './context/store';
+import TestView from './views/TestView';
 
 
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;
 
   return (
-  <GameProvider>
-   <BrowserRouter>
-   <PageHeader/>
+  <Provider store={store}>
+    <BrowserRouter>
+    <PageHeader/>
       <Routes>
         <Route path="/" element={<HomeView />}></Route>
         <Route path="/about" element={<AboutView />}></Route>
         <Route path="/getting-started" element={<GettingStartedView />}></Route>
         <Route path="/viewgame" element={<GamesearchView />}></Route>
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
+        <Route path="/test" element={<TestView />}></Route>
       </Routes>
-   </BrowserRouter>
-
-
+    </BrowserRouter>
     <PageFooter/>
-    
-    </GameProvider>
+  </Provider>
   );
 }
 
