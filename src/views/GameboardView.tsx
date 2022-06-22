@@ -5,14 +5,21 @@ import ScoreBoard from "../components/game/components/ScoreBoard";
 
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
-import { useContext } from "react";
+import { useState } from "react";
 import { GameContext } from "../context/GameProvider";
+import { useDispatch } from "react-redux";
+import { setGameData } from "../context/slices/gameDataSlice";
+import { AppDispatch } from "../context/store";
+
+import { assignColor } from "../context/slices/colorSlice";
+
 
 type Props = {}
 
 function GameboardView({}: Props) {
     const size = BoardUtils.calculateSize();
-    const [gameData, setGameData] = useContext(GameContext);
+    // const [gameData, setGameData] = useState({});
+    const dispatch = useDispatch();
 
     let { gameID } = useParams();
 
@@ -28,8 +35,9 @@ function GameboardView({}: Props) {
         <button onClick={
             async () => {
                 const data = await api.getGame(gameID!);
-                console.log(data)
-                setGameData(data);
+                console.log("fetched gameData", data);
+                // setGameData(data);
+                dispatch(setGameData(data));
             }
         } >Get game</button>
 

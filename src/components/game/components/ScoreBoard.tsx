@@ -3,8 +3,10 @@ import { useContext } from 'react';
 import { GameContext } from '../../../context/GameProvider';
 
 function ScoreBoard() {
-  const [gameData, setGameData] = useContext(GameContext);
-  const snakes = gameData.playerNames;
+  // const [gameData, setGameData] = useContext(GameContext);
+  // const snakes = gameData.playerNames;
+
+  const snakes = ["temp1", "temp2"];
 
   return (
     <div className="box activePlayers">
