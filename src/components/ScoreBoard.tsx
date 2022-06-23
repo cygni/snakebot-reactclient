@@ -17,7 +17,7 @@ function ScoreBoard() {
     <div className="box activePlayers">
         <ul>
             {
-            Object.keys(snakes).map((snakeID, index: number) => (
+            Object.keys(snakes).sort((aID, bID) => snakes[bID].points - snakes[aID].points).map((snakeID, index: number) => (
             <li key={index}>
               <>
                 <figure>

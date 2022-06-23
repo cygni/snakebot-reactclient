@@ -53,8 +53,8 @@ export const snakesSlice = createSlice({
             action.payload.map.snakeInfos.forEach(snake => {
               state.snakesData[snake.id].positions = snake.positions;
               state.snakesData[snake.id].points = snake.points;
+              // state.snakesData[snake.id].points = Math.floor(Math.random() * 100);
             });
-            
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
@@ -68,3 +68,5 @@ export const snakesSlice = createSlice({
   export const { } = snakesSlice.actions
   
   export default snakesSlice.reducer
+
+
