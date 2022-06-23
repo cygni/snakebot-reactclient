@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { MapUpdateMessage } from '../constants/messageTypes';
-import type { Message } from '../constants/messageTypes';
+import type { Message, MapUpdateMessage, SnakeDiedMessage } from '../constants/messageTypes';
 
 export default{
     mapUpdateEvent: createAction("MAP_UPDATE_EVENT", (message: MapUpdateMessage) => ({payload: message})),
@@ -8,6 +7,6 @@ export default{
     gameStartingEvent: createAction("GAME_STARTING_EVENT", (message: Message) => ({payload: message})),
     gameEndedEvent: createAction("GAME_ENDED_EVENT", (message: Message) => ({payload: message})),
     gameHistoryEvent: createAction("GAME_HISTORY_EVENT", (message: Message) => ({payload: message})),
-    snakeDiedEvent: createAction("SNAKE_DEAD_EVENT", (message: Message) => ({payload: message}))
+    snakeDiedEvent: createAction("SNAKE_DEAD_EVENT", (message: SnakeDiedMessage) => ({payload: message}))
 }
 

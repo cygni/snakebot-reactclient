@@ -1,7 +1,7 @@
 import { store } from './store';
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
-import type { Message, MapUpdateMessage } from '../constants/messageTypes';
+import type { Message, MapUpdateMessage, SnakeDiedMessage } from '../constants/messageTypes';
 import { nextMessage } from './slices/gameDataSlice';
 
 export default function dataDispatch() {
@@ -9,7 +9,7 @@ export default function dataDispatch() {
     const message = store.getState().gameData.messages[index];
     let messageType = message.type;
 
-    console.log("MESSAGETYPE:", messageType);
+    console.log("Message dispatched:", messageType, message);
     switch(messageType){
         case messageTypes.GAME_HISTORY:
             console.log("GAME_HISTORY");
@@ -29,7 +29,7 @@ export default function dataDispatch() {
         case messageTypes.MAP_UPDATE_EVENT:
             console.log("MAP_UPDATE_EVENT");
             store.dispatch(Actions.mapUpdateEvent(message as MapUpdateMessage));
-            //assign snake color
+            
             //render obstacles
             //start updating frames
             break;
@@ -41,7 +41,7 @@ export default function dataDispatch() {
 
         case messageTypes.SNAKE_DEAD_EVENT:
             console.log("SNAKE_DEAD_EVENT");
-            store.dispatch(Actions.snakeDiedEvent(message));
+            store.dispatch(Actions.snakeDiedEvent(message as SnakeDiedMessage));
             break;
 
         default:

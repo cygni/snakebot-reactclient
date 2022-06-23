@@ -45,8 +45,14 @@ export interface GameCreatedEvent extends Message {
     gameSettings: any;
 }
 
-
 export interface MapUpdateMessage extends Message {
     gameTick: number;
     map: GameMap;
+}
+
+export interface SnakeDiedMessage extends Message {
+    deathReason: string;
+    playerId: string;
+    x: number;
+    y: number;
 }

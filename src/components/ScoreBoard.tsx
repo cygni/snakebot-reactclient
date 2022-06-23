@@ -6,6 +6,10 @@ function ScoreBoard() {
   const snakes = useSelector((state: RootState) => state.snakes.snakesData);
 
   function snakeHead(snakeID: string) {
+    if (!snakes[snakeID].alive) {
+      return Images.getSnakeHead("#dead", true).src;
+    }
+
     return Images.getSnakeHead(snakes[snakeID].color, true).src;
   }
 
@@ -16,10 +20,11 @@ function ScoreBoard() {
             Object.keys(snakes).map((snakeID, index: number) => (
             <li key={index}>
               <>
-              <figure>
-              <img src={snakeHead(snakeID)} alt="snakehead" />
-              </figure>
-              <strong>10</strong> {snakes[snakeID].name}
+                <figure>
+                <img src={snakeHead(snakeID)} alt="snakehead" />
+                </figure>
+                <strong>{snakes[snakeID].points}</strong>
+                {snakes[snakeID].name}
               </>
             </li>
             ))
