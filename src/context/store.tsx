@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './slices/counterSlice';
-import colorReducer from './slices/colorSlice';
+import snakesReducer from './slices/snakesSlice';
 import gameDataReducer from './slices/gameDataSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    snakeColors: colorReducer,
+    snakes: snakesReducer,
     gameData: gameDataReducer,
   },
 })

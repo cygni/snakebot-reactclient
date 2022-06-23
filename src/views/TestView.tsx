@@ -1,21 +1,22 @@
 import { useDispatch, useSelector } from "react-redux"
-import { assignColor } from "../context/slices/colorSlice";
-import { createSlice, createAction } from '@reduxjs/toolkit'
-import { dataDispatch, setGameData } from '../context/slices/gameDataSlice'
+import { createAction } from '@reduxjs/toolkit'
+import { setGameData } from '../context/slices/gameDataSlice'
+import type { Message } from "../constants/messageTypes";
 import api from '../api';
+import messageDispatch from '../context/messageDispatch';
 
 const testAction = createAction('testAction');
 
 function TestView() {
-    const snakeColors = useSelector<any,any>(state => state.snakeColors.color);
+    const snakeColors = useSelector<any,any>(state => state.snakes.colors);
     const dispatch = useDispatch();
     
-    const messages = useSelector<any,any>(state => state.gameData.messages);
+    const messages: Message[] = useSelector<any,any>(state => state.gameData.messages);
     console.log(messages);
 
     const snakes = ["Snake1", "Snake2", "Snake3"];
 
-    const gameID = "c95ba49c-0baf-480c-a397-d4304c8b0043"; //HARDCODED WILL BREAK NEXT RESTART
+    const gameID = "35bd8834-0dda-4cd2-bb8a-2e54f8a04c61"; //HARDCODED WILL BREAK NEXT RESTART
 
     let msgNumber = 0;
 
@@ -29,11 +30,11 @@ function TestView() {
                 dispatch(setGameData(data));
             }
         } >Get game</button>
-            <button onClick={()=>dispatch(assignColor(snakes))}>ADD</button >
+            {/* <button onClick={()=>dispatch(assignColor(snakes))}>ADD</button > */}
             <button onClick={()=>dispatch(testAction())}>TEST</button>
-            <button onClick={()=>dispatch(dataDispatch(messages[msgNumber++]))}>SWITCH</button>
+            <button onClick={()=>messageDispatch()}>SWITCH</button>
             {/* <p>messages: {JSON.stringify(messages)}</p> */}
-            <p>snakeColors: {snakeColors}</p>
+            <p>snakeColors: {JSON.stringify(snakeColors)}</p>
        
         </section>
     )

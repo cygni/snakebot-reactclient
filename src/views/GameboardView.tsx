@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
-import ControllBar from '../components/ControllBar'
+import ControllBar from '../components/ControllBar';
 
-import ScoreBoard from "../components/game/components/ScoreBoard";
+import ScoreBoard from "../components/ScoreBoard";
 
 import BoardUtils from "../constants/BoardUtils";
 import api from "../api";
@@ -9,9 +9,7 @@ import { useState } from "react";
 import { GameContext } from "../context/GameProvider";
 import { useDispatch } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
-import { AppDispatch } from "../context/store";
-
-import { assignColor } from "../context/slices/colorSlice";
+import messageDispatch from "../context/messageDispatch";
 
 
 type Props = {}
@@ -40,6 +38,8 @@ function GameboardView({}: Props) {
                 dispatch(setGameData(data));
             }
         } >Get game</button>
+
+        <button onClick={()=>messageDispatch()}>Dispatch next message</button>
 
         <div className="thegame clear-fix">
         <ScoreBoard />
