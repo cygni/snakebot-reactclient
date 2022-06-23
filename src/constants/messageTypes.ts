@@ -13,6 +13,8 @@ export default{
     UNAUTHORIZED : 'se.cygni.snake.eventapi.exception.Unauthorized',
     SNAKE_DEAD_EVENT : 'se.cygni.snake.api.event.SnakeDeadEvent',
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
+    GAME_RESULT_EVENT : 'se.cygni.snake.api.event.GameResultEvent',
+    
 }
 
 export type Message = {
@@ -41,8 +43,32 @@ export type GameMap = {
 
 export type GameCreatedMessage = Message;
 
-export interface GameCreatedEvent extends Message {
-    gameSettings: any;
+export type GameSettings = {
+    addFoodLikelihood: number;
+    foodEnabled: boolean;
+    headToTailConsumes: boolean;
+    maxNoofPlayers: number;
+    noofRoundsTailProtectedAfterNibble: number;
+    obstaclesEnabled: boolean;
+    pointsPerCausedDeath: number;
+    pointsPerFood: number;
+    pointsPerLength: number;
+    pointsPerNibble: number;
+    removeFoodLikelihood: number;
+    spontaneousGrowthEveryNWorldTick: number;
+    startFood: number;
+    startObstacles: number;
+    startSnakeLength: number;
+    tailConsumeGrows: boolean;
+    timeInMsPerTick: number;
+    trainingGame: boolean;
+}
+
+export interface GameStartingEvent extends Message {
+    gameSettings: GameSettings;
+    height: number;
+    noofPlayers: number;
+    width: number;
 }
 
 export interface MapUpdateMessage extends Message {
@@ -55,4 +81,23 @@ export interface SnakeDiedMessage extends Message {
     playerId: string;
     x: number;
     y: number;
+}
+
+export type PlayerRank = {
+    alive: boolean;
+    playerId: string;
+    playerName: string;
+    points: number;
+    rank: number;
+};
+
+export interface GameResultMessage extends Message {
+    playerRanks: PlayerRank[];
+}
+
+export interface GameEndedMessage extends Message {
+    gameTick: number;
+    map: GameMap;
+    playerWinnerId: string;
+    playerWinnerName: string;
 }
