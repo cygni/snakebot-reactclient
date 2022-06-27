@@ -6,9 +6,9 @@ import ScoreBoard from "../components/ScoreBoard";
 import {convertCoords, MAP_HEIGHT_PX, MAP_WIDTH_PX, TILE_SIZE } from "../constants/BoardUtils";
 import { MAP_HEIGHT, MAP_WIDTH } from "../constants/BoardUtils";
 import api from "../api";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { GameContext } from "../context/GameProvider";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
 import { RootState } from "../context/store";
@@ -20,13 +20,31 @@ import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
 type Props = {}
 
 function GameboardView({}: Props) {
-    const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX}
-    // const [gameData, setGameData] = useState({});
+    const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX};
     const dispatch = useDispatch();
+    const snakesState = useSelector((state: RootState) => state.snakes);
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     let { gameID } = useParams();
+
+    // Initialize the game
+    useEffect(() => {
+        api.getGame(gameID!).then(game => {
+            console.log("fetched game", game);
+            dispatch(setGameData(game));
+
+            // Dispatch until the first snake positions are fetched
+            messageDispatch();
+            messageDispatch();
+            messageDispatch();
+        });
+    }, [gameID]);
+
+    // Redraw on snakeState change
+    useEffect(() => {
+        drawSnakes();
+    }, [snakesState]);
 
     function drawSnakes() {
         const ctx = canvasRef.current!.getContext("2d");
@@ -94,26 +112,9 @@ function GameboardView({}: Props) {
   return (
     <section className="page clear-fix">
         {Navigation()}
-        <button onClick={
-            async () => {
-                const data = await api.getGame(gameID!);
-                console.log("fetched gameData", data);
-                // setGameData(data);
-                dispatch(setGameData(data));
-
-                //TEMP
-                // const ctx = canvasRef.current!.getContext('2d') as CanvasRenderingContext2D;
-                // ctx.fillStyle = '#ff0000';
-                // const tileSize = BoardUtils.getTileSize();
-                // const {x, y} = convertCoords(MAP_WIDTH*4 + 3);
-                // ctx.fillRect(tileSize*x, tileSize*y, tileSize, tileSize);
-                // ctx.fillRect(0, tileSize, tileSize, tileSize);
-            }
-        } >Get game</button>
-
         <button onClick={()=>{
             messageDispatch();
-            drawSnakes();
+            // drawSnakes();
             }}>Dispatch next message</button>
 
         <div className="thegame clear-fix">

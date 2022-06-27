@@ -34,6 +34,10 @@ export const snakesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
+        .addCase(Actions.gameCreatedEvent, (state, action) => {
+          // Reset color index
+          state.colorIndex = 0;
+        })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
 
             // Initialize snakes first iteration
