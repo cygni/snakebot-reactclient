@@ -3,23 +3,87 @@ import ControllBar from '../components/ControllBar';
 
 import ScoreBoard from "../components/ScoreBoard";
 
-import BoardUtils from "../constants/BoardUtils";
+import {convertCoords, MAP_HEIGHT_PX, MAP_WIDTH_PX, TILE_SIZE } from "../constants/BoardUtils";
+import { MAP_HEIGHT, MAP_WIDTH } from "../constants/BoardUtils";
 import api from "../api";
-import { useState } from "react";
+import { useRef } from "react";
 import { GameContext } from "../context/GameProvider";
 import { useDispatch } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
+import { RootState } from "../context/store";
+import { store } from "../context/store";
+import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
+
 
 
 type Props = {}
 
 function GameboardView({}: Props) {
-    const size = BoardUtils.calculateSize();
+    const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX}
     // const [gameData, setGameData] = useState({});
     const dispatch = useDispatch();
 
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
     let { gameID } = useParams();
+
+    function drawSnakes() {
+        const ctx = canvasRef.current!.getContext("2d");
+
+        // Clear canvas
+        ctx?.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+
+        const snakes = store.getState().snakes;
+        snakes.IDs.forEach(snakeID => {
+            const snake = snakes.snakesData[snakeID];
+            snake.positions.forEach((position, index) => {
+                const { x, y } = position;
+                
+                if (index === 0) {
+                    let img = new Image;
+                    img.onload = () => {
+                        // Move to the the given tile
+                        ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
+
+                        // Rotate around the center of the image
+                        ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
+                        ctx?.rotate(getRotation(snake.positions[0], snake.positions[1]));
+                        ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
+
+                        ctx?.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE);
+
+                        // Reset the translation and rotation for next draw
+                        ctx?.resetTransform();
+                    }
+                    img.src = getSnakeHead(snake.color);
+                } else if (index === snake.positions.length - 1) {
+                    let img = new Image;
+                    img.onload = () => {
+                        // Move to the the given tile
+                        ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
+
+                        // Rotate around the center of the image
+                        ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
+                        ctx?.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
+                        ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
+
+                        ctx?.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE);
+
+                        // Reset the translation and rotation for next draw
+                        ctx?.resetTransform();
+                    }
+                    img.src = getSnakeTail(snake.color);
+                }
+                else {
+                    ctx!.fillStyle = snake.color;
+                    ctx!.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                }
+                
+            });
+        });
+    }
+
 
     function Navigation() {
         return (
@@ -36,10 +100,21 @@ function GameboardView({}: Props) {
                 console.log("fetched gameData", data);
                 // setGameData(data);
                 dispatch(setGameData(data));
+
+                //TEMP
+                // const ctx = canvasRef.current!.getContext('2d') as CanvasRenderingContext2D;
+                // ctx.fillStyle = '#ff0000';
+                // const tileSize = BoardUtils.getTileSize();
+                // const {x, y} = convertCoords(MAP_WIDTH*4 + 3);
+                // ctx.fillRect(tileSize*x, tileSize*y, tileSize, tileSize);
+                // ctx.fillRect(0, tileSize, tileSize, tileSize);
             }
         } >Get game</button>
 
-        <button onClick={()=>messageDispatch()}>Dispatch next message</button>
+        <button onClick={()=>{
+            messageDispatch();
+            drawSnakes();
+            }}>Dispatch next message</button>
 
         <div className="thegame clear-fix">
         <ScoreBoard />
@@ -51,6 +126,7 @@ function GameboardView({}: Props) {
                 // ref={(c) => {
                 //     this.canvas = c;
                 //   }}
+                ref={canvasRef}
                 />
                 {/* <GameControl /> */}
                 <ControllBar/>
