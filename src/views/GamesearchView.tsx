@@ -1,25 +1,17 @@
-import axios from "axios";
 import React, { useState } from "react"
 import { Link } from 'react-router-dom';
-
-type game = {
-  gameDate: string,
-  gameId: string,
-  players: string[],
-}
+import api from "../api";
+import type { game } from "../api";
 
 function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
   const [searchResults, setSearchResults] = useState<game []>([]);
 
-  function searchGames(event: React.FormEvent) {
+  async function searchGames(event: React.FormEvent) {
     event.preventDefault();
-    axios(`history/search/${snakeName}`).then(
-      (response) => {
-        setSearchResults(response.data.items);
-        console.log("searchResults: ", searchResults);
-      }
-    ).catch(()=>setSearchResults([]));
+    let games = await api.searchForGames(snakeName);
+    console.log(games);
+    setSearchResults(games);
   }
 
   function Results() {
