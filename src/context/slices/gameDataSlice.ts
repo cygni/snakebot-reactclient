@@ -38,11 +38,13 @@ export const gameDataSlice = createSlice({
         nextMessage: (state) => {
             state.counter += 1;
           },
-        
-    
+
+        setCounter: (state, action: PayloadAction<number>) => {
+            state.counter = action.payload;
+        }
     },
   });
   
-  export const { setGameData, nextMessage } = gameDataSlice.actions
+  export const { setGameData, nextMessage, setCounter } = gameDataSlice.actions
   
   export default gameDataSlice.reducer

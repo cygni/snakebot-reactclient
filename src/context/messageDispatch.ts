@@ -4,7 +4,7 @@ import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
 
-export default function dataDispatch() {
+export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
     const message = store.getState().gameData.messages[index];
     let messageType = message.type;
@@ -49,6 +49,7 @@ export default function dataDispatch() {
         default:
             console.error("MISSING MESSAGE TYPE", messageType);
             break;
-    }    
-    store.dispatch(nextMessage())
+    }
+
+    if (increaseCounter) store.dispatch(nextMessage());
 }

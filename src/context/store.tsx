@@ -5,7 +5,6 @@ import gameDataReducer from './slices/gameDataSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     snakes: snakesReducer,
     gameData: gameDataReducer,
   },
