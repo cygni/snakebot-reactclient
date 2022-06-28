@@ -35,8 +35,10 @@ export const snakesSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(Actions.gameCreatedEvent, (state, action) => {
-          // Reset color index
+          // Reset state
           state.colorIndex = 0;
+          state.IDs = [];
+          state.snakesData = {};
         })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
 
