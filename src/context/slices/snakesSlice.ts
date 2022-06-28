@@ -13,18 +13,31 @@ export type SnakeData = {
   alive: boolean;
 }
 
+export type playerRanks = {
+  name: string;
+}
+
+export type playerPoints = {
+  points: number;
+}
+
 interface SnakesState {
   IDs: string[];
   colorIndex: number;
   snakesData: {
     [key: string]: SnakeData;
   };
+  playerRanks: string[],
+  playerPoints: number [],
+  
 }
 
 const initialState: SnakesState = {
   IDs: [],
   colorIndex: 0,
   snakesData: {},
+  playerRanks: [],
+  playerPoints: [],
 }
 
 export const snakesSlice = createSlice({
@@ -69,6 +82,14 @@ export const snakesSlice = createSlice({
           console.log("Snake has died!", action.payload);
           state.snakesData[action.payload.playerId].color = '#999999'; // This as global ???
           state.snakesData[action.payload.playerId].alive = false;
+          
+        })
+        .addCase(Actions.gameResultEvent, (state, action) => {
+         action.payload.playerRanks.forEach(player => {
+          console.log(player.playerName);
+           state.playerRanks.push(player.playerName);
+           state.playerPoints.push(player.points);
+         });
           
         })
         

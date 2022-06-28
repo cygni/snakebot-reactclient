@@ -6,11 +6,12 @@ import ScoreBoard from "../components/ScoreBoard";
 import {convertCoords, MAP_HEIGHT_PX, MAP_WIDTH_PX, TILE_SIZE } from "../constants/BoardUtils";
 import { MAP_HEIGHT, MAP_WIDTH } from "../constants/BoardUtils";
 import api from "../api";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { GameContext } from "../context/GameProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
+import Modal from "../components/Modal";
 import { RootState } from "../context/store";
 import { store } from "../context/store";
 import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
@@ -20,10 +21,11 @@ import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
 type Props = {}
 
 function GameboardView({}: Props) {
+    
+    const [isOpen, setIsOpen] = useState(false);
     const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX};
     const dispatch = useDispatch();
     const snakesState = useSelector((state: RootState) => state.snakes);
-
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     let { gameID } = useParams();
@@ -116,6 +118,9 @@ function GameboardView({}: Props) {
             messageDispatch();
             // drawSnakes();
             }}>Dispatch next message</button>
+
+            <button className="primaryBtn" onClick={() => setIsOpen(true)}>Open Modal</button>
+            {isOpen && <Modal setIsOpen={setIsOpen} />}
 
         <div className="thegame clear-fix">
         <ScoreBoard />
