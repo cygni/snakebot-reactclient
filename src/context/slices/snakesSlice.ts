@@ -1,17 +1,15 @@
 import colors from '../../constants/Colors';
 import { createSlice } from '@reduxjs/toolkit';
 import Actions from '../Actions';
-import  Modal from '../../components/Modal';
-import React, { useState } from 'react';
-import getPosition from '../../components/Modal';
+import {convertCoords} from '../../constants/BoardUtils'
 
-let colorIndex = 0;
+export type TilePosition = { x: number, y: number };
 
 export type SnakeData = {
   name: string;
   points: number;
   color: string;
-  positions: number[];
+  positions: TilePosition[];
   alive: boolean;
 }
 
@@ -25,6 +23,7 @@ export type playerPoints = {
 
 interface SnakesState {
   IDs: string[];
+  colorIndex: number;
   snakesData: {
     [key: string]: SnakeData;
   };
@@ -35,6 +34,7 @@ interface SnakesState {
 
 const initialState: SnakesState = {
   IDs: [],
+  colorIndex: 0,
   snakesData: {},
   playerRanks: [],
   playerPoints: [],
@@ -47,6 +47,12 @@ export const snakesSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
+        .addCase(Actions.gameCreatedEvent, (state, action) => {
+          // Reset state
+          state.colorIndex = 0;
+          state.IDs = [];
+          state.snakesData = {};
+        })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
 
             // Initialize snakes first iteration
@@ -57,23 +63,24 @@ export const snakesSlice = createSlice({
                     [snake.id]:
                       {name: snake.name,
                       points: snake.points,
-                      color: colors.getSnakeColor(colorIndex),
-                      positions: snake.positions,
+                      color: colors.getSnakeColor(state.colorIndex),
+                      positions: [],
                       alive: true}};
 
-                  colorIndex++;
+                  state.colorIndex++;
                 });
             }
 
             // Update snake positions and points
             action.payload.map.snakeInfos.forEach(snake => {
-              state.snakesData[snake.id].positions = snake.positions;
+              state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
               state.snakesData[snake.id].points = snake.points;
               // state.snakesData[snake.id].points = Math.floor(Math.random() * 100);
             });
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
+          state.snakesData[action.payload.playerId].color = '#999999'; // This as global ???
           state.snakesData[action.payload.playerId].alive = false;
           
         })
