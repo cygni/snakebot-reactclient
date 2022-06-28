@@ -13,6 +13,7 @@ function PageFooter() {
         <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'selected' : '')}>About</NavLink></li>
         <li><NavLink to="/viewgame" className={({ isActive }) => (isActive ? 'selected' : '')}>Game</NavLink></li>
         <li><NavLink to="/getting-started" className={({ isActive }) => (isActive ? 'selected' : '')}>Getting started</NavLink></li>
+        <li><NavLink to="/tournament" className={({ isActive }) => (isActive ? 'selected' : '')}>Tournament</NavLink></li>
         {/*
           <li><NavLink to="arena" activeClassName="selected">Arena</NavLink></li>
         */}
