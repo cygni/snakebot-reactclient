@@ -10,12 +10,14 @@ import { GameContext } from "../context/GameProvider";
 import { useDispatch } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
+import Modal from "../components/Modal";
 
 
 type Props = {}
 
 function GameboardView({}: Props) {
     const size = BoardUtils.calculateSize();
+    const [isOpen, setIsOpen] = useState(false);
     // const [gameData, setGameData] = useState({});
     const dispatch = useDispatch();
 
@@ -40,6 +42,8 @@ function GameboardView({}: Props) {
         } >Get game</button>
 
         <button onClick={()=>messageDispatch()}>Dispatch next message</button>
+        <button className="primaryBtn" onClick={() => setIsOpen(true)}>Open Modal</button>
+        {isOpen && <Modal setIsOpen={setIsOpen} />}
 
         <div className="thegame clear-fix">
         <ScoreBoard />

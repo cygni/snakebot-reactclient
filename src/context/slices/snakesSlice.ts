@@ -1,6 +1,9 @@
 import colors from '../../constants/Colors';
 import { createSlice } from '@reduxjs/toolkit';
 import Actions from '../Actions';
+import  Modal from '../../components/Modal';
+import React, { useState } from 'react';
+import getPosition from '../../components/Modal';
 
 let colorIndex = 0;
 
@@ -12,16 +15,29 @@ export type SnakeData = {
   alive: boolean;
 }
 
+export type playerRanks = {
+  name: string;
+}
+
+export type playerPoints = {
+  points: number;
+}
+
 interface SnakesState {
   IDs: string[];
   snakesData: {
     [key: string]: SnakeData;
   };
+  playerRanks: string[],
+  playerPoints: number [],
+  
 }
 
 const initialState: SnakesState = {
   IDs: [],
   snakesData: {},
+  playerRanks: [],
+  playerPoints: [],
 }
 
 export const snakesSlice = createSlice({
@@ -59,6 +75,14 @@ export const snakesSlice = createSlice({
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
           state.snakesData[action.payload.playerId].alive = false;
+          
+        })
+        .addCase(Actions.gameResultEvent, (state, action) => {
+         action.payload.playerRanks.forEach(player => {
+          console.log(player.playerName);
+           state.playerRanks.push(player.playerName);
+           state.playerPoints.push(player.points);
+         });
           
         })
         
