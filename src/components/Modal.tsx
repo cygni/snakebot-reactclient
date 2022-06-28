@@ -3,8 +3,6 @@ import { RiCloseLine } from "react-icons/ri";
 import  snakeHead  from "./ScoreBoard";
 import { useSelector } from "react-redux"
 import type { RootState } from '../context/store';
-import Images from '../constants/Images'
-
 
 
 function Modal({setIsOpen} :any){
