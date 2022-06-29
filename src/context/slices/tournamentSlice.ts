@@ -1,10 +1,12 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
+import api from '../../api';
 import { TournamentCreatedMessage, GameSettings, Message} from "../../constants/messageTypes";
 
 export type TournamentData = {
     gameSettings: GameSettings;
     tournamentId: string;
     tournamentName: string;
+    noofLevels: number;
 
     messages: Message[];
     counter: number;
@@ -12,29 +14,10 @@ export type TournamentData = {
 
 const initialState: TournamentData = {
     // Default game settings
-    gameSettings: {
-        addFoodLikelihood: 15,
-        foodEnabled: true,
-        headToTailConsumes: true,
-        maxNoofPlayers: 10,
-        noofRoundsTailProtectedAfterNibble: 3,
-        obstaclesEnabled: true,
-        pointsPerCausedDeath: 5,
-        pointsPerFood: 2,
-        pointsPerLength: 1,
-        pointsPerNibble: 10,
-        removeFoodLikelihood: 5,
-        spontaneousGrowthEveryNWorldTick: 3,
-        startFood: 0,
-        startObstacles: 5,
-        startSnakeLength: 1,
-        tailConsumeGrows: false,
-        timeInMsPerTick: 250,
-        trainingGame: true
-
-    },
+    gameSettings: {addFoodLikelihood: 15, removeFoodLikelihood: 5} as GameSettings,
     tournamentId: "",
     tournamentName: "Tournament Not Created",
+    noofLevels: 0,
 
     messages: [],
     counter: 0,
@@ -48,10 +31,24 @@ export const tournamentSlice = createSlice({
             state.messages.push(action.payload);
         },
 
-        setGameSettings: (state, action: PayloadAction<TournamentCreatedMessage>) => {
-            console.log("setGameSettings action.payload: ", action.payload);
+        createTournament: (state, action: PayloadAction<TournamentCreatedMessage>) => {
+            // Clear out old data
+            state.messages = [];
+            state.counter = 0;
+            state.noofLevels = 0;
+
+            // Set data from message
+            state.gameSettings = action.payload.gameSettings;
+            state.tournamentId = action.payload.tournamentId;
             state.tournamentName = action.payload.tournamentName;
         },
+
+        updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
+            state.gameSettings = action.payload;
+
+            // TODO: Exception handling, what if message gets lost?
+            api.updateTournamentSettings(action.payload);
+        }
 
         
     },
@@ -59,6 +56,6 @@ export const tournamentSlice = createSlice({
 
   });
   
-  export const { addMessage, setGameSettings } = tournamentSlice.actions
+  export const { addMessage, createTournament, updateGameSettings } = tournamentSlice.actions
   
   export default tournamentSlice.reducer

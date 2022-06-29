@@ -1,6 +1,6 @@
 import axios from "axios";
 import SockJS from "sockjs-client";
-import MessageTypes from "./constants/messageTypes"
+import MessageTypes, { GameSettings } from "./constants/messageTypes"
 import { onSocketMessage } from "./context/messageDispatch";
 
 console.log("THIS IS RUNNING");
@@ -110,7 +110,7 @@ export default {
         }));
     },
 
-    async updateTournamentSettings(gameSettings: {}): Promise<void> {
+    async updateTournamentSettings(gameSettings: GameSettings): Promise<void> {
         logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.UpdateTournamentSettings',
