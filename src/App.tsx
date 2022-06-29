@@ -12,8 +12,12 @@ import GameboardView from './views/GameboardView';
 import { Provider } from 'react-redux';
 import { store } from './context/store';
 import TestView from './views/TestView';
+import TournamentViewOld from './views/TournamentViewOld';
 import TournamentView from './views/TournamentView';
 
+
+// Start socket connection
+import api from './api';
 
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;

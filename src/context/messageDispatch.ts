@@ -3,6 +3,7 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
+import { setGameSettings } from './slices/tournamentSlice';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
@@ -52,4 +53,29 @@ export default function dataDispatch(increaseCounter: boolean = true) {
     }
 
     if (increaseCounter) store.dispatch(nextMessage());
+}
+
+export function onSocketMessage(jsonData: string) {
+    const message = JSON.parse(jsonData);
+    console.log("SOCKET: Message received:", message);
+
+    switch (message.type) {
+        case messageTypes.TOURNAMENT_CREATED:
+            console.log("Tournament created");
+            store.dispatch(setGameSettings(message as types.TournamentCreatedMessage));
+            break;
+
+        case messageTypes.UPDATE_TOURNAMENT_SETTINGS:
+            console.log("Updated tournament settings")
+            break;
+
+        case messageTypes.ACTIVE_GAMES_LIST:
+            console.log("UNUSED MESSAGE: Active games list");
+            break;
+            
+
+        default:
+            console.error("Unknown message type:", message.type);
+            break;
+    }
 }

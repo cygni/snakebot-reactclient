@@ -14,6 +14,10 @@ export default{
     SNAKE_DEAD_EVENT : 'se.cygni.snake.api.event.SnakeDeadEvent',
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
     GAME_RESULT_EVENT : 'se.cygni.snake.api.event.GameResultEvent',
+    UPDATE_TOURNAMENT_SETTINGS : 'se.cygni.snake.event.UpdateTournamentSettings',
+    CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
+    START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
+    START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame'
     
 }
 
@@ -100,4 +104,18 @@ export interface GameEndedMessage extends Message {
     map: GameMap;
     playerWinnerId: string;
     playerWinnerName: string;
+}
+
+// ##################################################
+// Tournament related messages
+// ##################################################
+
+export type SocketMessage = {
+    type: string;
+}
+
+export interface TournamentCreatedMessage extends SocketMessage {
+    gameSettings: GameSettings;
+    tournamentId: string;
+    tournamentName: string;
 }
