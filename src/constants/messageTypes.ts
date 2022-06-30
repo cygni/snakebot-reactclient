@@ -1,3 +1,4 @@
+import { playerPoints } from "../context/slices/snakesSlice";
 
 export default{
     GAME_HISTORY: "se.cygni.snake.eventapi.history.GameHistory",
@@ -107,7 +108,7 @@ export interface GameEndedMessage extends Message {
 }
 
 // ##################################################
-// Tournament related messages
+// ########## Tournament related messages ###########
 // ##################################################
 
 export type SocketMessage = {
@@ -117,5 +118,35 @@ export type SocketMessage = {
 export interface TournamentCreatedMessage extends SocketMessage {
     gameSettings: GameSettings;
     tournamentId: string;
+    tournamentName: string;
+}
+
+export type Player = {
+    id: string;
+    isMovedUpInTournament: boolean;
+    name: string;
+    points: number;
+}
+
+export type TournamentGame = {
+    expectedNoofPlayers: number;
+    gameId: string | null;
+    gamePlayed: boolean;
+    players: any[]
+}
+
+export type TournamentLevel = {
+    expectedNoofPlayers: number;
+    level: number;
+    players: any[];
+    tournamentGames: TournamentGame[];
+    tournamentName: string;
+}
+
+export interface TournamentGamePlanMessage extends SocketMessage {
+    noofLevels: number;
+    players: Player[];
+    tournamentId: string;
+    tournamentLevels: TournamentLevel[];
     tournamentName: string;
 }

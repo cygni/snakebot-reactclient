@@ -3,7 +3,7 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
-import { createTournament } from './slices/tournamentSlice';
+import { createTournament, setGamePlan } from './slices/tournamentSlice';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
@@ -56,7 +56,7 @@ export default function dataDispatch(increaseCounter: boolean = true) {
 }
 
 export function onSocketMessage(jsonData: string) {
-    const message = JSON.parse(jsonData);
+    const message: types.SocketMessage = JSON.parse(jsonData);
     console.log("SOCKET: Message received:", message);
 
     switch (message.type) {
@@ -65,13 +65,25 @@ export function onSocketMessage(jsonData: string) {
             store.dispatch(createTournament(message as types.TournamentCreatedMessage));
             break;
 
-        case messageTypes.UPDATE_TOURNAMENT_SETTINGS:
-            console.log("UPDATE_TOURNAMENT_SETTINGS_EVENT");
-            break;
+        // case messageTypes.UPDATE_TOURNAMENT_SETTINGS:
+        //     console.log("UPDATE_TOURNAMENT_SETTINGS_EVENT");
+        //     break;
 
         case messageTypes.ACTIVE_GAMES_LIST:
             console.log("ACTIVE_GAMES_LIST_EVENT");
             // Unused
+            break;
+
+        case messageTypes.TOURNAMENT_GAME_PLAN:
+            console.log("TOURNAMENT_GAME_PLAN_EVENT");
+
+            //TEMP to find player type
+            let gamePlan = message as types.TournamentGamePlanMessage;
+            if (gamePlan.tournamentLevels[0].players.length > 0) {
+                console.error("Add players type to TournamentGamePlan!", gamePlan);
+            }
+
+            store.dispatch(setGamePlan(message as types.TournamentGamePlanMessage));
             break;
             
 

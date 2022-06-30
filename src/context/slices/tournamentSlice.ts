@@ -1,6 +1,6 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage} from "../../constants/messageTypes";
+import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel} from "../../constants/messageTypes";
 
 const placeholdGameSettings: GameSettings = {
     addFoodLikelihood: 0,
@@ -29,6 +29,9 @@ export type TournamentData = {
     tournamentName: string;
     noofLevels: number;
 
+    players: Player[];
+    tournamentLevels: TournamentLevel[];
+
     messages: Message[];
     counter: number;
 }
@@ -39,6 +42,9 @@ const initialState: TournamentData = {
     tournamentId: "",
     tournamentName: "Tournament Not Created",
     noofLevels: 0,
+
+    players: [],
+    tournamentLevels: [],
 
     messages: [],
     counter: 0,
@@ -73,7 +79,16 @@ export const tournamentSlice = createSlice({
 
         startTournamentGame: (state, action: PayloadAction<GameCreatedMessage>) => {
             api.startTournamentGame(action.payload.gameId);
+        },
+
+        setGamePlan: (state, action: PayloadAction<TournamentGamePlanMessage>) => {
+            state.noofLevels = action.payload.noofLevels;
+            state.players = action.payload.players;
+            state.tournamentId = action.payload.tournamentId;
+            state.tournamentLevels = action.payload.tournamentLevels;
+            state.tournamentName = action.payload.tournamentName;
         }
+        
 
         
     },
@@ -81,6 +96,6 @@ export const tournamentSlice = createSlice({
 
   });
   
-  export const { addMessage, createTournament, updateGameSettings, startTournamentGame } = tournamentSlice.actions
+  export const { addMessage, createTournament, updateGameSettings, startTournamentGame, setGamePlan} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

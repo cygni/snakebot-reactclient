@@ -2,11 +2,7 @@ import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
 import { GameSettings } from '../constants/messageTypes'
 import { useAppDispatch, useAppSelector } from '../context/hooks'
 import { createTournament, updateGameSettings, startTournamentGame } from '../context/slices/tournamentSlice'
-
-type Props = {
-  tournamentName: string,
-  gameSettings: GameSettings
-}
+import PlayerList from './PlayerList';
 
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
@@ -281,6 +277,10 @@ function TournamentSettings() {
                     /> False
                   </label>
                 </div>
+              </div>
+
+              <div>
+                <PlayerList/>
               </div>
 
 

@@ -119,14 +119,12 @@ export default {
         }));
     },
 
+
+
     // async getToken() {
     //     const resp = await axios.get("http://localhost:8080/login?login=emil&password=lime").catch(err => {
     //         console.error(err);
     //     });
     //     myToken = resp ? resp.data.token: "NO_TOKEN";
     // },
-
-    async socketSend(msg: string) {
-        socket.send(msg);
-    },
 };
