@@ -29,7 +29,7 @@ function TournamentView() {
   
   return (
     <section className="page clear-fix">
-      <TournamentSettings tournamentName={tournament.tournamentName} gameSettings={tournament.gameSettings}/>
+      <TournamentSettings />
     </section>
       
   )

@@ -1,6 +1,27 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import { TournamentCreatedMessage, GameSettings, Message} from "../../constants/messageTypes";
+import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage} from "../../constants/messageTypes";
+
+const placeholdGameSettings: GameSettings = {
+    addFoodLikelihood: 0,
+    foodEnabled: false,
+    headToTailConsumes: false,
+    maxNoofPlayers: 0,
+    noofRoundsTailProtectedAfterNibble: 0,
+    obstaclesEnabled: false,
+    pointsPerCausedDeath: 0,
+    pointsPerFood: 0,
+    pointsPerLength: 0,
+    pointsPerNibble: 0,
+    removeFoodLikelihood: 0,
+    spontaneousGrowthEveryNWorldTick: 0,
+    startFood: 0,
+    startObstacles: 0,
+    startSnakeLength: 0,
+    tailConsumeGrows: false,
+    timeInMsPerTick: 0,
+    trainingGame: false,
+}
 
 export type TournamentData = {
     gameSettings: GameSettings;
@@ -14,7 +35,7 @@ export type TournamentData = {
 
 const initialState: TournamentData = {
     // Default game settings
-    gameSettings: {addFoodLikelihood: 15, removeFoodLikelihood: 5} as GameSettings,
+    gameSettings: placeholdGameSettings,
     tournamentId: "",
     tournamentName: "Tournament Not Created",
     noofLevels: 0,
@@ -48,6 +69,10 @@ export const tournamentSlice = createSlice({
 
             // TODO: Exception handling, what if message gets lost?
             api.updateTournamentSettings(action.payload);
+        },
+
+        startTournamentGame: (state, action: PayloadAction<GameCreatedMessage>) => {
+            api.startTournamentGame(action.payload.gameId);
         }
 
         
@@ -56,6 +81,6 @@ export const tournamentSlice = createSlice({
 
   });
   
-  export const { addMessage, createTournament, updateGameSettings } = tournamentSlice.actions
+  export const { addMessage, createTournament, updateGameSettings, startTournamentGame } = tournamentSlice.actions
   
   export default tournamentSlice.reducer

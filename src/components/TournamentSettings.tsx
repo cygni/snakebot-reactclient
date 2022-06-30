@@ -1,15 +1,28 @@
-import { FormEventHandler, ReactEventHandler } from 'react'
+import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
 import { GameSettings } from '../constants/messageTypes'
-import { useAppDispatch } from '../context/hooks'
-import { createTournament, updateGameSettings } from '../context/slices/tournamentSlice'
+import { useAppDispatch, useAppSelector } from '../context/hooks'
+import { createTournament, updateGameSettings, startTournamentGame } from '../context/slices/tournamentSlice'
 
 type Props = {
   tournamentName: string,
   gameSettings: GameSettings
 }
 
-function TournamentSettings({tournamentName, gameSettings}: Props) {
+function TournamentSettings() {
+  const gameSettings = useAppSelector(state => state.tournament.gameSettings);
+  const tournamentName = useAppSelector(state => state.tournament.tournamentName);
+  const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
+  const dispatch = useAppDispatch();
 
+  function initTournament(){
+    dispatch(updateGameSettings);
+    dispatch(startTournamentGame);
+  }
+
+  useEffect(() => {
+    console.log("UPDATING GAME SETTINGS FROM SOCKET:",gameSettings);
+    setLocalGameSettings(gameSettings);
+  }, [gameSettings]);
 
   return (
     <div>
@@ -21,39 +34,42 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
           <form role="form" onSubmit={(e) => {
               e.preventDefault();
               console.log("STARTING TOURNAMENT");
+              initTournament();
               //Dispatch action to start tournament and update game settings (which in turn sends socket message to server)
             }}>
 
             <div>
                 <label htmlFor="maxNoofPlayers">
-                  MaxPlayers: {gameSettings.maxNoofPlayers}
+                  MaxPlayers
                 </label>
                 <input
                   name="maxPlayers"
                   id="maxNoofPlayers"
                   type="number"
                   min="5" max="100"
-                  placeholder={gameSettings.maxNoofPlayers?.toString()}
+                  value={localGameSettings.maxNoofPlayers}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
                 />
                 
             </div>
 
             <div>
                 <label htmlFor="startSnakeLength">
-                  StartSnakeLength: {gameSettings.startSnakeLength}
+                  StartSnakeLength
                 </label>
                 <input
                   name="startSnakeLength"
                   id="startSnakeLength"
                   type="number"
                   min="1" max="10"
-                  placeholder={gameSettings.startSnakeLength?.toString()}
+                  value={localGameSettings.startSnakeLength}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, startSnakeLength: parseInt(e.target.value)})}}
                 />
             </div>
 
             <div>
                 <label htmlFor="timeInMsPerTick">
-                  TimeInMsPerTick: {gameSettings.timeInMsPerTick}
+                  TimeInMsPerTick
                 </label>
                 <input
                   name="timeInMsPerTick"
@@ -61,72 +77,77 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
                   id="timeInMsPerTick"
                   step="250"
                   min="250" max="1500"
-                  placeholder={gameSettings.timeInMsPerTick?.toString()}
+                  value={localGameSettings.timeInMsPerTick}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, timeInMsPerTick: parseInt(e.target.value)})}}
                 />
             </div>
 
             <div>
                 <label htmlFor="pointsPerLength">
-                  PointsPerLength: {gameSettings.pointsPerLength}
+                  PointsPerLength
                 </label>
                 <input
                   name="pointsPerLength"
                   id="pointsPerLength"
                   type="number"
                   min="0" max="25"
-                  placeholder={gameSettings.pointsPerLength?.toString()}
+                  value={localGameSettings.pointsPerLength}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerLength: parseInt(e.target.value)})}}
                 />
             </div>
 
             <div>
                 <label htmlFor="pointsPerFood">
-                  PointsPerFood: {gameSettings.pointsPerFood}
+                  PointsPerFood
                 </label>
                 <input
                   name="pointsPerFood"
                   id="pointsPerFood"
                   type="number"
                   min="0" max="25"
-                  placeholder={gameSettings.pointsPerFood?.toString()}
+                  value={localGameSettings.pointsPerFood}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerFood: parseInt(e.target.value)})}}
                 />
               </div>
 
               <div>
                 <label htmlFor="pointsPerCausedDeath">
-                  PointsPerCausedDeath: {gameSettings.pointsPerCausedDeath}
+                  PointsPerCausedDeath
                 </label>
                 <input
                   name="pointsPerCausedDeath"
                   id="pointsPerCausedDeath"
                   type="number"
                   min="0" max="25"
-                  placeholder={gameSettings.pointsPerCausedDeath?.toString()}
+                  value={localGameSettings.pointsPerCausedDeath}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerCausedDeath: parseInt(e.target.value)})}}
                 />
               </div>
 
               <div>
                 <label htmlFor="pointsPerNibble">
-                  PointsPerNibble: {gameSettings.pointsPerNibble}
+                  PointsPerNibble
                 </label>
                 <input
                   name="pointsPerNibble"
                   id="pointsPerNibble"
                   type="number"
                   min="0" max="25"
-                  placeholder={gameSettings.pointsPerNibble?.toString()}
+                  value={localGameSettings.pointsPerNibble}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerNibble: parseInt(e.target.value)})}}
                 />
               </div>
 
               <div>
                 <label htmlFor="noofRoundsTailProtectedAfterNibble">
-                  NoofRoundsTailProtectedAfterNibble:
-                  {gameSettings.noofRoundsTailProtectedAfterNibble}
+                  NoofRoundsTailProtectedAfterNibble
                 </label>
                 <input
                   name="noofRoundsTailProtectedAfterNibble"
                   id="noofRoundsTailProtectedAfterNibble" type="number" min="0"
                   max="10"
-                  placeholder={gameSettings.noofRoundsTailProtectedAfterNibble?.toString()}
+                  value={localGameSettings.noofRoundsTailProtectedAfterNibble}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, noofRoundsTailProtectedAfterNibble: parseInt(e.target.value)})}}
                 />
               </div>
 
@@ -134,7 +155,7 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
               <div>
                 <div>
                   <label htmlFor="addFoodLikelihood">
-                    AddFoodLikelihood: {gameSettings.addFoodLikelihood} %
+                    AddFoodLikelihood: {localGameSettings.addFoodLikelihood}%
                   </label>
                 </div>
                 <input
@@ -144,14 +165,15 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
                   type="range"
                   min="0" max="100"
                   step="5"
-                  defaultValue={gameSettings.addFoodLikelihood}
+                  value={localGameSettings.addFoodLikelihood}
+                  onChange={(e) => {setLocalGameSettings({...localGameSettings, addFoodLikelihood: parseInt(e.target.value)})}}
                 />
               </div>
 
               <div>
                 <div>
                   <label htmlFor="removeFoodLikelihood">
-                    RemoveFoodLikelihood: {gameSettings.removeFoodLikelihood} %
+                    RemoveFoodLikelihood: {localGameSettings.removeFoodLikelihood}%
                   </label>
                 </div>
                 <div>
@@ -162,7 +184,8 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
                     type="range"
                     min="0" max="100"
                     step="5"
-                    defaultValue={gameSettings.removeFoodLikelihood}
+                    value={localGameSettings.removeFoodLikelihood}
+                    onChange={(e) => {setLocalGameSettings({...localGameSettings, removeFoodLikelihood: parseInt(e.target.value)})}}
                     
                   />
                 </div>
@@ -170,29 +193,23 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
               
               <div style={{ width: '440px' }}>
                 <div>
-                  <label htmlFor="obstaclesEnabled">
-                      ObstaclesEnabled:
+                  <label>
+                      ObstaclesEnabled: {localGameSettings.obstaclesEnabled ? "Yes" : "No"}
                   </label>
                 </div>
                 
                 <div>
                   <input
-                    name="obstaclesEnabled"
-                    id="obstaclesEnabled"
                     type="radio"
-                    value="True"
-                    // defaultChecked={this.props.settings.obstaclesEnabled === true}
-                    // onChange={ConfigureTournamentForm.onInputChange}
+                    checked={localGameSettings.obstaclesEnabled}
+                    onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: true})}}
                   /> True
 
-                  <label htmlFor="obstaclesEnabled" style={{ marginLeft: '20px' }}>
+                  <label style={{ marginLeft: '20px' }}>
                     <input
-                      name="obstaclesEnabled"
-                      id="obstaclesEnabled"
                       type="radio"
-                      value="False"
-                      // defaultChecked={this.props.settings.obstaclesEnabled === false}
-                      // onChange={ConfigureTournamentForm.onInputChange}
+                      checked={!localGameSettings.obstaclesEnabled}
+                      onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: false})}}
                     /> False
                   </label>
                 </div>
@@ -200,28 +217,22 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
               
               <div style={{ width: '440px' }}>
                 <div>
-                  <label htmlFor="foodEnabled">
+                  <label>
                     FoodEnabled:
                   </label>
                 </div>
                 <div>
                   <input
-                    name="foodEnabled"
-                    id="foodEnabled"
                     type="radio"
-                    value="True"
-                    // defaultChecked={this.props.settings.foodEnabled === true}
-                    // onChange={ConfigureTournamentForm.onInputChange}
+                    checked={localGameSettings.foodEnabled === true}
+                    onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: true})}}
                   /> True
 
-                  <label htmlFor="foodEnabled" style={{ marginLeft: '20px' }}>
+                  <label style={{ marginLeft: '20px' }}>
                     <input
-                      name="foodEnabled"
-                      id="foodEnabled"
                       type="radio"
-                      value="False"
-                      // defaultChecked={this.props.settings.foodEnabled === false}
-                      // onChange={ConfigureTournamentForm.onInputChange}
+                      checked={localGameSettings.foodEnabled === false}
+                      onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: false})}}
                     /> False
                   </label>
                 </div>
@@ -229,26 +240,21 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
 
               <div style={{ width: '440px' }}>
                 <div>
-                  <label htmlFor="headToTailConsumes" style={{ marginRight: '20px' }}>
+                  <label style={{ marginRight: '20px' }}>
                     HeadToTailConsumes:
                   </label>
                 </div>
                 <div>
                   <input
-                    name="headToTailConsumes"
-                    id="headToTailConsumes" type="radio"
-                    value="True"
-                    // defaultChecked={this.props.settings.headToTailConsumes === true}
-                    // onChange={ConfigureTournamentForm.onInputChange}
+                    type="radio"
+                    checked={localGameSettings.headToTailConsumes === true}
+                    onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: true})}}
                   /> True
-                  <label htmlFor="headToTailConsumes" style={{ marginLeft: '20px' }}>
+                  <label style={{ marginLeft: '20px' }}>
                     <input
-                      name="headToTailConsumes"
-                      id="headToTailConsumes"
                       type="radio"
-                      defaultChecked={gameSettings.headToTailConsumes === false}
-                      // value="False"
-                      // onChange={ConfigureTournamentForm.onInputChange}
+                      checked={localGameSettings.headToTailConsumes === false}
+                      onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: false})}}
                     /> False
                   </label>
                 </div>
@@ -256,26 +262,22 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
 
               <div style={{ width: '440px' }}>
                 <div>
-                  <label htmlFor="tailConsumeGrows" style={{ marginRight: '20px' }}>
+                  <label style={{ marginRight: '20px' }}>
                     TailConsumeGrows:
                   </label>
                 </div>
                 <div>
                   <input
-                    name="tailConsumeGrows"
-                    id="tailConsumeGrows"
                     type="radio"
-                    value="True"
-                    // placeholder={gameSettings.startSnakeLength?.toString()}
+                    checked={localGameSettings.tailConsumeGrows === true}
+                    onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: true})}}
                   /> True
 
-                  <label htmlFor="tailConsumeGrows" style={{ marginLeft: '20px' }}>
+                  <label style={{ marginLeft: '20px' }}>
                     <input
-                      name="tailConsumeGrows"
-                      id="tailConsumeGrows"
                       type="radio"
-                      value="False"
-                      // placeholder={gameSettings.tailConsumeGrows?.toString()}
+                      checked={localGameSettings.tailConsumeGrows === false}
+                      onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: false})}}
                     /> False
                   </label>
                 </div>
@@ -283,6 +285,8 @@ function TournamentSettings({tournamentName, gameSettings}: Props) {
 
 
               <button type="submit" className="btn btn-primary">Start</button>
+              <button onClick={()=>setLocalGameSettings(gameSettings)} className="btn btn-primary">Reset to Default Settings</button>
+
 
           </form>
         </article>
