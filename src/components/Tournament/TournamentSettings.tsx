@@ -1,8 +1,9 @@
 import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
-import { GameSettings } from '../constants/messageTypes'
-import { useAppDispatch, useAppSelector } from '../context/hooks'
-import { createTournament, updateGameSettings, startTournamentGame } from '../context/slices/tournamentSlice'
-import PlayerList from './PlayerList';
+import api from '../../api';
+import { GameSettings } from '../../constants/messageTypes'
+import { useAppDispatch, useAppSelector } from '../../context/hooks'
+import { createTournament, updateGameSettings } from '../../context/slices/tournamentSlice'
+import PlayerList from '../PlayerList';
 
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
@@ -12,7 +13,7 @@ function TournamentSettings() {
 
   function initTournament(){
     dispatch(updateGameSettings);
-    dispatch(startTournamentGame);
+    api.createTournament("Tournament");
   }
 
   useEffect(() => {

@@ -122,23 +122,24 @@ export interface TournamentCreatedMessage extends SocketMessage {
 }
 
 export type Player = {
-    id: string;
-    isMovedUpInTournament: boolean;
     name: string;
+    id: string;
     points: number;
+    isWinner: boolean;
+    isMovedUpInTournament: boolean;
 }
 
 export type TournamentGame = {
     expectedNoofPlayers: number;
     gameId: string | null;
     gamePlayed: boolean;
-    players: any[]
+    players: Player[]
 }
 
 export type TournamentLevel = {
     expectedNoofPlayers: number;
     level: number;
-    players: any[];
+    players: Player[];
     tournamentGames: TournamentGame[];
     tournamentName: string;
 }

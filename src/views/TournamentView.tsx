@@ -3,7 +3,8 @@ import api from '../api';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
 import { createTournament, updateGameSettings } from '../context/slices/tournamentSlice'
 import type { GameSettings } from '../constants/messageTypes';
-import TournamentSettings from '../components/TournamentSettings';
+import TournamentSettings from '../components/Tournament/TournamentSettings';
+import TournamentSchedule from '../components/Tournament/TournamentSchedule';
 
 
 function startTournament(){
@@ -29,7 +30,8 @@ function TournamentView() {
   
   return (
     <section className="page clear-fix">
-      <TournamentSettings />
+      {/* <TournamentSettings /> */}
+      <TournamentSchedule />
     </section>
       
   )
