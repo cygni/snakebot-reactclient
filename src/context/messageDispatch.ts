@@ -3,7 +3,8 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
-import { createTournament, setGamePlan } from './slices/tournamentSlice';
+import { createTournament, setGamePlan, runActiveGames } from './slices/tournamentSlice';
+import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
@@ -71,18 +72,18 @@ export function onSocketMessage(jsonData: string) {
 
         case messageTypes.ACTIVE_GAMES_LIST:
             console.log("ACTIVE_GAMES_LIST_EVENT");
-            // Unused
+            store.dispatch(runActiveGames(message as types.ActiveGamesListMessage));
+
+            // Run games when received
+            // const games = (message as types.ActiveGamesListMessage).games;
+            // games.forEach(game => {
+            //     const gameId = game.gameId;
+            //     api.startTournamentGame(gameId);
+            // });
             break;
 
         case messageTypes.TOURNAMENT_GAME_PLAN:
             console.log("TOURNAMENT_GAME_PLAN_EVENT");
-
-            //TEMP to find player type
-            let gamePlan = message as types.TournamentGamePlanMessage;
-            if (gamePlan.tournamentLevels[0].players.length > 0) {
-                console.error("Add players type to TournamentGamePlan!", gamePlan);
-            }
-
             store.dispatch(setGamePlan(message as types.TournamentGamePlanMessage));
             break;
             

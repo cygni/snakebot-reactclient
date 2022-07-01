@@ -8,12 +8,13 @@ import PlayerList from '../PlayerList';
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
   const tournamentName = useAppSelector(state => state.tournament.tournamentName);
+  const tournamentId = useAppSelector(state => state.tournament.tournamentId);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
   const dispatch = useAppDispatch();
 
   function initTournament(){
-    dispatch(updateGameSettings);
-    api.createTournament("Tournament");
+    dispatch(updateGameSettings(localGameSettings));
+    api.startTournament(tournamentId);
   }
 
   useEffect(() => {
@@ -43,7 +44,7 @@ function TournamentSettings() {
                   name="maxPlayers"
                   id="maxNoofPlayers"
                   type="number"
-                  min="5" max="100"
+                  min="2" max="100"
                   value={localGameSettings.maxNoofPlayers}
                   onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
                 />

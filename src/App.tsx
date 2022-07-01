@@ -12,7 +12,6 @@ import GameboardView from './views/GameboardView';
 import { Provider } from 'react-redux';
 import { store } from './context/store';
 import TestView from './views/TestView';
-import TournamentViewOld from './views/TournamentViewOld';
 import TournamentView from './views/TournamentView';
 
 
@@ -34,6 +33,7 @@ function App() {
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
         <Route path="/test" element={<TestView />}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
+        <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
       </Routes>
     </BrowserRouter>
     <PageFooter/>

@@ -1,6 +1,7 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel} from "../../constants/messageTypes";
+import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage} from "../../constants/messageTypes";
+import { store } from '../store';
 
 const placeholdGameSettings: GameSettings = {
     addFoodLikelihood: 0,
@@ -32,6 +33,8 @@ export type TournamentData = {
     players: Player[];
     tournamentLevels: TournamentLevel[];
 
+    playedGameIds: string[];
+
     messages: Message[];
     counter: number;
 }
@@ -42,12 +45,13 @@ const dummyPlayers: Player[] = [
     {id: "test-id3", isMovedUpInTournament: false, name: "sebbe", points: 3, isWinner: false},
     {id: "test-id4", isMovedUpInTournament: false, name: "slimey", points: 4, isWinner: false}]
 
-const initialState: TournamentData = {
+const testState: TournamentData = {
     // Default game settings
     gameSettings: placeholdGameSettings,
     tournamentId: "",
     tournamentName: "Tournament Not Created",
     noofLevels: 0,
+    playedGameIds: [],
 
     players: dummyPlayers,
     tournamentLevels: [ // level same as round
@@ -66,6 +70,33 @@ const initialState: TournamentData = {
     counter: 0,
 }
 
+function isGamePlayed(tournamentData: TournamentData, gameId: string) {
+    tournamentData.tournamentLevels.forEach(level => {
+        level.tournamentGames.forEach(game => {
+            if (game.gameId === gameId) {
+                return true;
+            }
+        });
+    });
+    return false;
+}
+
+const initialState: TournamentData = {
+    // Default game settings
+    gameSettings: placeholdGameSettings,
+    tournamentId: "",
+    tournamentName: "Tournament Not Created",
+    noofLevels: 0,
+
+    players: [],
+    tournamentLevels: [],
+
+    playedGameIds: [],
+
+    messages: [],
+    counter: 0,
+}
+
 export const tournamentSlice = createSlice({
     name: 'gameData',
     initialState,
@@ -76,9 +107,7 @@ export const tournamentSlice = createSlice({
 
         createTournament: (state, action: PayloadAction<TournamentCreatedMessage>) => {
             // Clear out old data
-            state.messages = [];
-            state.counter = 0;
-            state.noofLevels = 0;
+            Object.assign(state, initialState);
 
             // Set data from message
             state.gameSettings = action.payload.gameSettings;
@@ -100,11 +129,22 @@ export const tournamentSlice = createSlice({
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
         },
+
+        runActiveGames: (state, action: PayloadAction<ActiveGamesListMessage>) => {
+            const games = action.payload.games;
+            games.forEach(game => {
+                if (!state.playedGameIds.includes(game.gameId)) {
+                    const gameId = game.gameId;
+                    api.startTournamentGame(gameId);
+                    state.playedGameIds.push(gameId);
+                }
+            });
+        },
     },
 
 
   });
   
-  export const { addMessage, createTournament, updateGameSettings, setGamePlan} = tournamentSlice.actions
+  export const { addMessage, createTournament, updateGameSettings, setGamePlan, runActiveGames} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

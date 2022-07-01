@@ -21,8 +21,7 @@ function roundClassName(round: TournamentLevel) {
 
 function TournamentSchedule({}: Props) {
 
-    const levels = useAppSelector(state => state.tournament.tournamentLevels);
-
+const levels = useAppSelector(state => state.tournament.tournamentLevels);
 
 const tournamentName = useAppSelector(state => state.tournament.tournamentName);
   return (
@@ -31,7 +30,7 @@ const tournamentName = useAppSelector(state => state.tournament.tournamentName);
           <h1>{tournamentName}</h1>
         </article>
         <div className="tournament">
-          {levels.map((level, index) => (
+          {levels.slice(0).reverse().map((level, index) => (
               <div key={index}>
                 <div className={roundClassName(level) + ' round-box'}>
                   <h2>Round {level.level}</h2>

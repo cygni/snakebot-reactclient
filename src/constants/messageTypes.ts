@@ -151,3 +151,14 @@ export interface TournamentGamePlanMessage extends SocketMessage {
     tournamentLevels: TournamentLevel[];
     tournamentName: string;
 }
+
+type ActiveGame = {
+    gameFeatures: GameSettings;
+    gameId: string;
+    players: Player[];
+    subscribing: boolean;
+}
+
+export interface ActiveGamesListMessage extends SocketMessage {
+    games: ActiveGame[];
+}

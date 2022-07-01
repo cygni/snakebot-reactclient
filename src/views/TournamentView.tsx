@@ -19,21 +19,25 @@ function TournamentView() {
   const tournament = useAppSelector(state => state.tournament);
   const dispatch = useAppDispatch();
 
-
+  // Create tournament on mount
   useEffect(() => {
     api.createTournament("Tournament");
   }, []);
 
   useEffect(() => {
-    console.log("Tournament",tournament);
-    }, [tournament]);
+    console.log("TournamentData changed:",tournament);
+  }, [tournament]);
   
   return (
+    <>
     <section className="page clear-fix">
-      {/* <TournamentSettings /> */}
+      <TournamentSettings />
+    </section>
+    
+    <section className="page clear-fix">
       <TournamentSchedule />
     </section>
-      
+    </>
   )
 }
 
