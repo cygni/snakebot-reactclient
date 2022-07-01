@@ -32,6 +32,7 @@ export type TournamentData = {
 
     players: Player[];
     tournamentLevels: TournamentLevel[];
+    isTournamentActive: boolean;
 
     playedGameIds: string[];
 
@@ -66,6 +67,7 @@ const testState: TournamentData = {
 
     ],
 
+    isTournamentActive: false,
     messages: [],
     counter: 0,
 }
@@ -92,6 +94,7 @@ const initialState: TournamentData = {
     tournamentLevels: [],
 
     playedGameIds: [],
+    isTournamentActive: false,
 
     messages: [],
     counter: 0,
@@ -113,6 +116,8 @@ export const tournamentSlice = createSlice({
             state.gameSettings = action.payload.gameSettings;
             state.tournamentId = action.payload.tournamentId;
             state.tournamentName = action.payload.tournamentName;
+
+            state.isTournamentActive = true;
         },
 
         updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
@@ -131,6 +136,8 @@ export const tournamentSlice = createSlice({
         },
 
         runActiveGames: (state, action: PayloadAction<ActiveGamesListMessage>) => {
+            if (state.isTournamentActive === false) return;
+
             const games = action.payload.games;
             games.forEach(game => {
                 if (!state.playedGameIds.includes(game.gameId)) {
