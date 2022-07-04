@@ -3,19 +3,21 @@ import { Link } from 'react-router-dom';
 import api from "../api";
 import type { game } from "../api";
 
-function GamesearchView() {
+ function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [searchResults, setSearchResults] = useState<game []>([]);
 
   async function searchGames(event: React.FormEvent) {
     event.preventDefault();
     let games = await api.searchForGames(snakeName);
     console.log(games);
+    setHasSearched(true);
     setSearchResults(games);
   }
 
   function Results() {
-    if (searchResults.length === 0) {
+    if (searchResults.length === 0 && hasSearched) {
       return (
         <p
           className={true ? 'show' : 'hidden'}
