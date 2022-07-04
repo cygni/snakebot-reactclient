@@ -22,14 +22,17 @@ import snake9AF48ETail from '../assets/snakes/9AF48E/9AF48E_TAIL.png';
 import snake9BF3F0Tail from '../assets/snakes/9BF3F0/9BF3F0_TAIL.png';
 import deadSnakeTail100 from '../assets/snakes/999999/grey-dead-tail-100.svg';
 import deadSnakeHead100 from '../assets/snakes/999999/grey-dead-head-100.svg';
+import starPath from '../assets/images/star.svg';
 
-import type { TilePosition } from '../context/slices/snakesSlice';
+import type { TilePosition } from '../context/slices/currentFrameSlice';
 
 function createImg(src: string) {
   const img = new Image();
   img.src = src;
   return img;  
 }
+
+const star = createImg(starPath);
 
 const deadSnakeHead = createImg(deadSnakeHead100);
 const snakeHeads = [
@@ -60,6 +63,10 @@ const snakeTails = [
   createImg(snake9AF48ETail),
   createImg(snake9BF3F0Tail)
 ]
+
+export function getStar() {
+  return star;
+}
 
 export function getSnakeHead(color: string) {
   switch (color) {

@@ -16,7 +16,7 @@ import messageDispatch from "../context/messageDispatch";
 import Modal from "../components/Modal";
 import { RootState } from "../context/store";
 import { store } from "../context/store";
-import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
+import { getRotation, getSnakeHead, getSnakeTail, getStar} from '../constants/Images'
 import colors from '../constants/Colors'
 import { useNavigate } from 'react-router-dom';
 
@@ -30,8 +30,8 @@ function GameboardView({}: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX};
     const dispatch = useDispatch();
-    const snakesState = useSelector((state: RootState) => state.snakes);
-    const tournamentState = useSelector((state: RootState) => state.tournament.isTournamentActive);
+    const currentFrameState = useSelector((state: RootState) => state.currentFrame);
+    const tournamentState = useSelector((state: RootState) => state.tournament.isTournamentStarted);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imagesRef = useRef<{[key: string]: HTMLImageElement}>({});
 
@@ -47,52 +47,70 @@ function GameboardView({}: Props) {
 
     // Redraw on snakeState change
     useEffect(() => {
-        drawSnakes();
-    }, [snakesState]);
+        draw();
+    }, [currentFrameState]);
 
-    function drawSnakes() {
+    function draw() {
         const ctx = canvasRef.current!.getContext("2d");
 
         // Clear canvas
-        ctx?.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        ctx!.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        drawFood(ctx!);
+        drawSnakes(ctx!);
+        drawObstacles(ctx!);
+    }
 
-        const snakes = store.getState().snakes;
-        snakes.IDs.forEach((snakeID, snakeIndex) => {
-            const snake = snakes.snakesData[snakeID];
+
+    function drawFood(ctx: CanvasRenderingContext2D) {
+        currentFrameState.foodPositions.forEach(food => {
+            ctx.drawImage(getStar(), food.x * TILE_SIZE, food.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        });
+
+    }
+
+    function drawObstacles(ctx: CanvasRenderingContext2D) {
+        currentFrameState.obstaclePositions.forEach(obstacle => {
+            ctx.fillStyle = "black";
+            ctx.fillRect(obstacle.x * TILE_SIZE, obstacle.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        });
+    }
+
+    function drawSnakes(ctx: CanvasRenderingContext2D) {
+        currentFrameState.IDs.forEach(snakeID => {
+            const snake = currentFrameState.snakesData[snakeID];
             snake.positions.forEach((position, index) => {
                 const { x, y } = position;
                 
                 if (index === 0) {
                     // Move to the the given tile
-                    ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
+                    ctx.translate(x * TILE_SIZE, y * TILE_SIZE);
 
                     // Rotate around the center of the image
-                    ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                    ctx?.rotate(getRotation(snake.positions[0], snake.positions[1]));
-                    ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
+                    ctx.translate(TILE_SIZE / 2, TILE_SIZE / 2);
+                    ctx.rotate(getRotation(snake.positions[0], snake.positions[1]));
+                    ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
 
-                    // ctx?.drawImage(testImg, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                    ctx?.drawImage(getSnakeHead(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
+                    ctx.drawImage(getSnakeHead(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
 
                     // Reset the translation and rotation for next draw
-                    ctx?.resetTransform();
+                    ctx.resetTransform();
                 } else if (index === snake.positions.length - 1) {
                     // Move to the the given tile
-                    ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
+                    ctx.translate(x * TILE_SIZE, y * TILE_SIZE);
 
                     // Rotate around the center of the image
-                    ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                    ctx?.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
-                    ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
+                    ctx.translate(TILE_SIZE / 2, TILE_SIZE / 2);
+                    ctx.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
+                    ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
 
-                    ctx?.drawImage(getSnakeTail(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
+                    ctx.drawImage(getSnakeTail(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
 
                     // Reset the translation and rotation for next draw
-                    ctx?.resetTransform();
+                    ctx.resetTransform();
                 }
                 else {
-                    ctx!.fillStyle = snake.color;
-                    ctx!.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    ctx.fillStyle = snake.color;
+                    ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 }
                 
             });
@@ -101,11 +119,12 @@ function GameboardView({}: Props) {
 
 
     function Navigation() {
-        if(tournamentState === true)
+        if(tournamentState === true){
         return (
             <button className="primaryBtn" onClick={() => navigate('/tournament')}>View Bracket</button>
             //Next Game also?
         )
+        }
     }
 
   return (

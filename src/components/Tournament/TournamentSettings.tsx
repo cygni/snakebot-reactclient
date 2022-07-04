@@ -2,13 +2,14 @@ import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
 import api from '../../api';
 import { GameSettings } from '../../constants/messageTypes'
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
-import { createTournament, updateGameSettings } from '../../context/slices/tournamentSlice'
+import { updateGameSettings } from '../../context/slices/tournamentSlice'
 import PlayerList from '../PlayerList';
 
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
   const tournamentName = useAppSelector(state => state.tournament.tournamentName);
   const tournamentId = useAppSelector(state => state.tournament.tournamentId);
+  const isTournamentActive = useAppSelector(state => state.tournament.isTournamentActive);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
   const dispatch = useAppDispatch();
 

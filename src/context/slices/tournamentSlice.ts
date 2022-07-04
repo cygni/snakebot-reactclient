@@ -33,54 +33,12 @@ export type TournamentData = {
     players: Player[];
     tournamentLevels: TournamentLevel[];
     isTournamentActive: boolean;
+    isTournamentStarted: boolean;
 
     playedGameIds: string[];
 
     messages: Message[];
     counter: number;
-}
-
-const dummyPlayers: Player[] = [
-    {id: "test-id1", isMovedUpInTournament: true, name: "olli", points: 10, isWinner: true},
-    {id: "test-id2", isMovedUpInTournament: false, name: "danne", points: 30, isWinner: false},
-    {id: "test-id3", isMovedUpInTournament: false, name: "sebbe", points: 3, isWinner: false},
-    {id: "test-id4", isMovedUpInTournament: false, name: "slimey", points: 4, isWinner: false}]
-
-const testState: TournamentData = {
-    // Default game settings
-    gameSettings: placeholdGameSettings,
-    tournamentId: "",
-    tournamentName: "Tournament Not Created",
-    noofLevels: 0,
-    playedGameIds: [],
-
-    players: dummyPlayers,
-    tournamentLevels: [ // level same as round
-        {expectedNoofPlayers: 3, level: 2, players: [], tournamentGames: [
-            {expectedNoofPlayers: 3, gameId: "game-id3", gamePlayed: false, players: [dummyPlayers[0], dummyPlayers[2]]}],
-            tournamentName: "den stora turneringen"},
-
-        {expectedNoofPlayers: 3, level: 1, players: [], tournamentGames: [
-            {expectedNoofPlayers:2, gameId: "game-id1", gamePlayed: false, players: [dummyPlayers[0], dummyPlayers[1]]},
-            {expectedNoofPlayers:2, gameId: "game-id2", gamePlayed: false, players: [dummyPlayers[2], dummyPlayers[3]]}],
-            tournamentName: "den stora turneringen"},
-
-    ],
-
-    isTournamentActive: false,
-    messages: [],
-    counter: 0,
-}
-
-function isGamePlayed(tournamentData: TournamentData, gameId: string) {
-    tournamentData.tournamentLevels.forEach(level => {
-        level.tournamentGames.forEach(game => {
-            if (game.gameId === gameId) {
-                return true;
-            }
-        });
-    });
-    return false;
 }
 
 const initialState: TournamentData = {
@@ -95,6 +53,7 @@ const initialState: TournamentData = {
 
     playedGameIds: [],
     isTournamentActive: false,
+    isTournamentStarted: false,
 
     messages: [],
     counter: 0,
@@ -108,7 +67,7 @@ export const tournamentSlice = createSlice({
             state.messages.push(action.payload);
         },
 
-        createTournament: (state, action: PayloadAction<TournamentCreatedMessage>) => {
+        tournamentCreated: (state, action: PayloadAction<TournamentCreatedMessage>) => {
             // Clear out old data
             Object.assign(state, initialState);
 
@@ -133,6 +92,8 @@ export const tournamentSlice = createSlice({
             state.tournamentId = action.payload.tournamentId;
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
+
+            state.isTournamentStarted = true;
         },
 
         runActiveGames: (state, action: PayloadAction<ActiveGamesListMessage>) => {
@@ -147,11 +108,12 @@ export const tournamentSlice = createSlice({
                 }
             });
         },
+
     },
 
 
   });
   
-  export const { addMessage, createTournament, updateGameSettings, setGamePlan, runActiveGames} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, setGamePlan, runActiveGames} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

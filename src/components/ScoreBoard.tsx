@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 
 function ScoreBoard() {
-  const snakes = useSelector((state: RootState) => state.snakes.snakesData);
+  const snakes = useSelector((state: RootState) => state.currentFrame.snakesData);
 
   //SORT BY 1. ALIVE, 2. POINTS, 3.NAME IN THAT ORDER
   function sortSnakes(snakeID_one: string, snakeID_two: string){

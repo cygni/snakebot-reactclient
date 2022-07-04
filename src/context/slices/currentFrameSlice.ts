@@ -21,7 +21,7 @@ export type playerPoints = {
   points: number;
 }
 
-interface SnakesState {
+interface FrameState {
   IDs: string[];
   colorIndex: number;
   snakesData: {
@@ -29,15 +29,20 @@ interface SnakesState {
   };
   playerRanks: string[],
   playerPoints: number [],
+
+  obstaclePositions: TilePosition[];
+  foodPositions: TilePosition[];
   
 }
 
-const initialState: SnakesState = {
+const initialState: FrameState = {
   IDs: [],
   colorIndex: 0,
   snakesData: {},
   playerRanks: [],
   playerPoints: [],
+  obstaclePositions: [],
+  foodPositions: [],
 }
 
 export const snakesSlice = createSlice({
@@ -73,8 +78,13 @@ export const snakesSlice = createSlice({
             action.payload.map.snakeInfos.forEach(snake => {
               state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
               state.snakesData[snake.id].points = snake.points;
-              // state.snakesData[snake.id].points = Math.floor(Math.random() * 100);
             });
+
+            // Update food positions
+            state.foodPositions = action.payload.map.foodPositions.map(position => convertCoords(position));
+
+            // Update obstacle positions
+            state.obstaclePositions = action.payload.map.obstaclePositions.map(position => convertCoords(position));
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);

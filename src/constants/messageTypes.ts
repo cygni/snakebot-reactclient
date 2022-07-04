@@ -1,5 +1,3 @@
-import { playerPoints } from "../context/slices/snakesSlice";
-
 export default{
     GAME_HISTORY: "se.cygni.snake.eventapi.history.GameHistory",
     GAME_CREATED_EVENT: 'se.cygni.snake.api.event.GameCreatedEvent',

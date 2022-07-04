@@ -1,28 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import api from '../api';
-import { useAppDispatch, useAppSelector } from '../context/hooks';
-import { createTournament, updateGameSettings } from '../context/slices/tournamentSlice'
-import type { GameSettings } from '../constants/messageTypes';
+import { useAppSelector } from '../context/hooks';
 import TournamentSettings from '../components/Tournament/TournamentSettings';
 import TournamentSchedule from '../components/Tournament/TournamentSchedule';
 
-
-function startTournament(){
-  api.startTournament("tournamentID");
-}
-
-function onInputChange(){
-  //uppdatera i realtid utan knapptryck
-}
-
 function TournamentView() {
   const tournament = useAppSelector(state => state.tournament);
-  const dispatch = useAppDispatch();
 
   // Create tournament on mount
   useEffect(() => {
+    if (!tournament.isTournamentActive){
     api.createTournament("Tournament");
-  }, []);
+  }}, []);
 
   useEffect(() => {
     console.log("TournamentData changed:",tournament);
