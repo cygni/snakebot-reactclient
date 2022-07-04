@@ -19,6 +19,7 @@ import { store } from "../context/store";
 import { getRotation, getSnakeHead, getSnakeTail, getStar} from '../constants/Images'
 import colors from '../constants/Colors'
 import { useNavigate } from 'react-router-dom';
+import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 
 type Props = {
     
@@ -39,6 +40,7 @@ function GameboardView({}: Props) {
 
     // Initialize the game
     useEffect(() => {
+        dispatch(clearCurrentFrame());
         api.getGame(gameID!).then(game => {
             console.log("fetched game", game);
             dispatch(setGameData(game));

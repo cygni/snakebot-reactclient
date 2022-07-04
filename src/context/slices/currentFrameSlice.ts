@@ -48,7 +48,12 @@ const initialState: FrameState = {
 export const snakesSlice = createSlice({
     name: 'snakes',
     initialState,
-    reducers: {},
+    reducers: {
+      // Clear data
+      clearCurrentFrame: (state) => {
+        Object.assign(state, initialState);
+      }
+    },
 
     extraReducers: (builder) => {
         builder
@@ -57,34 +62,33 @@ export const snakesSlice = createSlice({
           Object.assign(state, initialState);
         })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
+          // Initialize snakes
+          if (action.payload.gameTick === 0) {
+              action.payload.map.snakeInfos.forEach(snake => {
+                state.IDs.push(snake.id);
+                state.snakesData = {...state.snakesData,
+                  [snake.id]:
+                    {name: snake.name,
+                    points: snake.points,
+                    color: colors.getSnakeColor(state.colorIndex),
+                    positions: [],
+                    alive: true}};
 
-            // Initialize snakes first iteration
-            if (action.payload.gameTick === 0) {
-                action.payload.map.snakeInfos.forEach(snake => {
-                  state.IDs.push(snake.id);
-                  state.snakesData = {...state.snakesData,
-                    [snake.id]:
-                      {name: snake.name,
-                      points: snake.points,
-                      color: colors.getSnakeColor(state.colorIndex),
-                      positions: [],
-                      alive: true}};
+                state.colorIndex++;
+              });
+          }
 
-                  state.colorIndex++;
-                });
-            }
+          // Update snake positions and points
+          action.payload.map.snakeInfos.forEach(snake => {
+            state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
+            state.snakesData[snake.id].points = snake.points;
+          });
 
-            // Update snake positions and points
-            action.payload.map.snakeInfos.forEach(snake => {
-              state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
-              state.snakesData[snake.id].points = snake.points;
-            });
+          // Update food positions
+          state.foodPositions = action.payload.map.foodPositions.map(position => convertCoords(position));
 
-            // Update food positions
-            state.foodPositions = action.payload.map.foodPositions.map(position => convertCoords(position));
-
-            // Update obstacle positions
-            state.obstaclePositions = action.payload.map.obstaclePositions.map(position => convertCoords(position));
+          // Update obstacle positions
+          state.obstaclePositions = action.payload.map.obstaclePositions.map(position => convertCoords(position));
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
@@ -104,7 +108,7 @@ export const snakesSlice = createSlice({
     }
   })
   
-  export const { } = snakesSlice.actions
+  export const { clearCurrentFrame } = snakesSlice.actions
   
   export default snakesSlice.reducer
 
