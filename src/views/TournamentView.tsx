@@ -16,17 +16,16 @@ function TournamentView() {
   useEffect(() => {
     console.log("TournamentData changed:",tournament);
   }, [tournament]);
+
+  function selectView(){
+    return tournament.isTournamentStarted ? (<TournamentSchedule />) : (<TournamentSettings />);
+  }
   
   return (
-    <>
     <section className="page clear-fix">
-      <TournamentSettings />
+      <button onClick={()=>api.createTournament("Tournament")}>Reset Tournament</button>
+      {selectView()}
     </section>
-    
-    <section className="page clear-fix">
-      <TournamentSchedule />
-    </section>
-    </>
   )
 }
 
