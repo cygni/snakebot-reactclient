@@ -94,7 +94,12 @@ export const snakesSlice = createSlice({
           console.log("Snake has died!", action.payload);
           state.snakesData[action.payload.playerId].color = '#999999'; // This as global ???
           state.snakesData[action.payload.playerId].alive = false;
-          
+
+          let msg = new SpeechSynthesisUtterance();
+
+          msg.text = state.snakesData[action.payload.playerId].name + ' died from ' + action.payload.deathReason;
+          speechSynthesis.speak(msg);
+
         })
         .addCase(Actions.gameResultEvent, (state, action) => {
          action.payload.playerRanks.forEach(player => {

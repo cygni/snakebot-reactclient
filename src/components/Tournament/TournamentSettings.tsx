@@ -2,7 +2,7 @@ import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
 import api from '../../api';
 import { GameSettings } from '../../constants/messageTypes'
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
-import { updateGameSettings } from '../../context/slices/tournamentSlice'
+import { startTournament, updateGameSettings } from '../../context/slices/tournamentSlice'
 import PlayerList from '../PlayerList';
 
 function TournamentSettings() {
@@ -33,6 +33,7 @@ function TournamentSettings() {
           <form role="form" onSubmit={(e) => {
               e.preventDefault();
               console.log("STARTING TOURNAMENT");
+              dispatch(startTournament());
               initTournament();
               //Dispatch action to start tournament and update game settings (which in turn sends socket message to server)
             }}>

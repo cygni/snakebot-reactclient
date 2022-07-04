@@ -86,14 +86,16 @@ export const tournamentSlice = createSlice({
             api.updateTournamentSettings(action.payload);
         },
 
+        startTournament: (state) => {
+            state.isTournamentStarted = true;
+        },
+
         setGamePlan: (state, action: PayloadAction<TournamentGamePlanMessage>) => {
             state.noofLevels = action.payload.noofLevels;
             state.players = action.payload.players;
             state.tournamentId = action.payload.tournamentId;
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
-
-            state.isTournamentStarted = true;
         },
 
         runActiveGames: (state, action: PayloadAction<ActiveGamesListMessage>) => {
@@ -114,6 +116,6 @@ export const tournamentSlice = createSlice({
 
   });
   
-  export const { addMessage, tournamentCreated, updateGameSettings, setGamePlan, runActiveGames} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, runActiveGames} = tournamentSlice.actions
   
   export default tournamentSlice.reducer
