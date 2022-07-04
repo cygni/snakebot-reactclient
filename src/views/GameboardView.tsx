@@ -35,11 +35,6 @@ function GameboardView({}: Props) {
         api.getGame(gameID!).then(game => {
             console.log("fetched game", game);
             dispatch(setGameData(game));
-
-            // Dispatch until the first snake positions are fetched
-            messageDispatch();
-            messageDispatch();
-            messageDispatch();
         });
     }, [gameID]);
 

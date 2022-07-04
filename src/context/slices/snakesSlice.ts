@@ -49,9 +49,7 @@ export const snakesSlice = createSlice({
         builder
         .addCase(Actions.gameCreatedEvent, (state, action) => {
           // Reset state
-          state.colorIndex = 0;
-          state.IDs = [];
-          state.snakesData = {};
+          Object.assign(state, initialState);
         })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
 

@@ -27,6 +27,9 @@ export const gameDataSlice = createSlice({
     reducers: {
         // Set entire data received from 
         setGameData: (state, action: PayloadAction<GameData>) => {
+            // Reset state
+            Object.assign(state, initialState);
+            
             state.gameDate = action.payload.gameDate;
             state.gameID = action.payload.gameID;
             state.messages = action.payload.messages;
