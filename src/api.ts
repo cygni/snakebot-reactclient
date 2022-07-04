@@ -2,6 +2,7 @@ import axios from "axios";
 import SockJS from "sockjs-client";
 import MessageTypes, { GameSettings } from "./constants/messageTypes"
 import { onSocketMessage } from "./context/messageDispatch";
+import { GameData } from "./context/slices/gameDataSlice";
 
 let socket = new SockJS("http://localhost:8080/events");; 
 let onConnectQueue: string[] = [];
@@ -64,7 +65,7 @@ export default {
         return resp ? resp.data.items: [];
     },
 
-    async getGame(gameId: string): Promise<any> {
+    async getGame(gameId: string): Promise<GameData> {
         const resp = await axios.get(`/history/${gameId}`).catch(err => {
             console.error(err);
         });

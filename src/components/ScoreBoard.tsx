@@ -40,7 +40,7 @@ function ScoreBoard() {
             <li key={index}>
               <>
                 <figure>
-                <img src={getSnakeHead(snakes[snakeID].color)} alt="snakehead" />
+                <img src={getSnakeHead(snakes[snakeID].color).src} alt="snakehead" />
                 </figure>
                 <strong>{snakes[snakeID].points}</strong>
                 {snakes[snakeID].name}
