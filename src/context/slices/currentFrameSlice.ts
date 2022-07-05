@@ -63,7 +63,7 @@ export const snakesSlice = createSlice({
         })
         .addCase(Actions.mapUpdateEvent, (state, action) => {
           // Initialize snakes
-          if (action.payload.gameTick === 0) {
+          if (Object.keys(state.snakesData).length === 0) {
               action.payload.map.snakeInfos.forEach(snake => {
                 state.IDs.push(snake.id);
                 state.snakesData = {...state.snakesData,
