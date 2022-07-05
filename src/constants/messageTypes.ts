@@ -163,3 +163,13 @@ type ActiveGame = {
 export interface ActiveGamesListMessage extends SocketMessage {
     games: ActiveGame[];
 }
+
+export interface TournamentEndedMessage extends SocketMessage {
+    gameId: string;
+    gameResult: {name: string, playerId: string, points: number}[];
+    playerWinnerId: string;
+    receivingPlayerId: null;
+    timestamp: number;
+    tournamentId: string;
+    tournamentName: string;
+}

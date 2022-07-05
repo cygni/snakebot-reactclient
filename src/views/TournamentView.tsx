@@ -3,9 +3,11 @@ import api from '../api';
 import { useAppSelector } from '../context/hooks';
 import TournamentSettings from '../components/Tournament/TournamentSettings';
 import TournamentSchedule from '../components/Tournament/TournamentSchedule';
+import LoadingPage from '../components/LoadingPage';
 
 function TournamentView() {
   const tournament = useAppSelector(state => state.tournament);
+  const allGamesPlayed = useAppSelector(state => state.tournament.allGamesPlayed);
 
   // Create tournament on mount
   useEffect(() => {
@@ -18,7 +20,14 @@ function TournamentView() {
   }, [tournament]);
 
   function selectView(){
-    return tournament.isTournamentStarted ? (<TournamentSchedule />) : (<TournamentSettings />);
+    if(!tournament.isTournamentStarted){
+    return <TournamentSettings />;
+    }
+    else if(allGamesPlayed){
+      return <TournamentSchedule />;
+    }
+    return <LoadingPage />;
+    
   }
   
   return (

@@ -3,7 +3,7 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
-import { tournamentCreated, setGamePlan } from './slices/tournamentSlice';
+import { tournamentCreated, setGamePlan, tournamentEnded } from './slices/tournamentSlice';
 import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
@@ -77,6 +77,11 @@ export function onSocketMessage(jsonData: string) {
         case messageTypes.TOURNAMENT_GAME_PLAN:
             console.log("TOURNAMENT_GAME_PLAN_EVENT");
             store.dispatch(setGamePlan(message as types.TournamentGamePlanMessage));
+            break;
+
+        case messageTypes.TOURNAMENT_ENDED_EVENT:
+            console.log("TOURNAMENT_ENDED_EVENT");
+            store.dispatch(tournamentEnded(message as types.TournamentEndedMessage));
             break;
             
 

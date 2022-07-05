@@ -1,7 +1,6 @@
-import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage, TournamentGame} from "../../constants/messageTypes";
-import { store } from '../store';
+import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage, TournamentGame, TournamentEndedMessage} from "../../constants/messageTypes";
 
 const placeholdGameSettings: GameSettings = {
     addFoodLikelihood: 0,
@@ -34,6 +33,7 @@ export type TournamentData = {
     tournamentLevels: TournamentLevel[];
     isTournamentActive: boolean;
     isTournamentStarted: boolean;
+    allGamesPlayed: boolean;
 
     messages: Message[];
     counter: number;
@@ -51,6 +51,7 @@ const initialState: TournamentData = {
 
     isTournamentActive: false,
     isTournamentStarted: false,
+    allGamesPlayed: false,
 
     messages: [],
     counter: 0,
@@ -101,20 +102,22 @@ export const tournamentSlice = createSlice({
                 });
             });
 
-            // Find and play first game that has not been played
-            let startedGame = false;
-            for (let level of state.tournamentLevels) {
-                for (let game of level.tournamentGames) {
-                    if (game.gameId !== null && !game.gamePlayed) {
-                        api.startTournamentGame(game.gameId);
-                        startedGame = true;
-                        break;
+            if (state.isTournamentStarted) {
+                // Find and play first game that has not been played
+                let startedGame = false;
+                for (let level of state.tournamentLevels) {
+                    for (let game of level.tournamentGames) {
+                        if (game.gameId !== null && !game.gamePlayed) {
+                            api.startTournamentGame(game.gameId);
+                            startedGame = true;
+                            break;
+                        }
                     }
+                    // If we started a game, we are done
+                    if (startedGame) break;
+    
                 }
 
-                if (startedGame) {
-                    break;
-                }
             }
         },
 
@@ -127,10 +130,14 @@ export const tournamentSlice = createSlice({
                     }
                 }
             }
+        },
+
+        tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
+            state.allGamesPlayed = true;
         }
 
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded} = tournamentSlice.actions
   
   export default tournamentSlice.reducer
