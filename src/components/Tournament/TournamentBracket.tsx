@@ -11,10 +11,9 @@ type Props = {
 function TournamentBracket({tournamentGame}: Props) {
   const star = <img src={Star} alt="Lived the longest" className="livedlongest" />
   const navigate = useNavigate();
-  const playedGameIds = useAppSelector(state => state.tournament.playedGameIds);
 
   function goToGame(tournamentGame: TournamentGame) {
-    if (playedGameIds.includes(tournamentGame.gameId!)) {
+    if (tournamentGame.gamePlayed) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);
       navigate(`/tournament/${tournamentGame.gameId}`);
     } else {

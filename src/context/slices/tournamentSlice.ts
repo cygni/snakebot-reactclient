@@ -35,8 +35,6 @@ export type TournamentData = {
     isTournamentActive: boolean;
     isTournamentStarted: boolean;
 
-    playedGameIds: string[];
-
     messages: Message[];
     counter: number;
 }
@@ -51,7 +49,6 @@ const initialState: TournamentData = {
     players: [],
     tournamentLevels: [],
 
-    playedGameIds: [],
     isTournamentActive: false,
     isTournamentStarted: false,
 
@@ -96,26 +93,26 @@ export const tournamentSlice = createSlice({
             state.tournamentId = action.payload.tournamentId;
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
-        },
 
-        runActiveGames: (state, action: PayloadAction<ActiveGamesListMessage>) => {
-            if (state.isTournamentActive === false) return;
-
-            const games = action.payload.games;
-            games.forEach(game => {
-                if (!state.playedGameIds.includes(game.gameId)) {
-                    const gameId = game.gameId;
-                    api.startTournamentGame(gameId);
-                    state.playedGameIds.push(gameId);
+            // Find and play first game that has not been played
+            let startedGame = false;
+            for (let level of state.tournamentLevels) {
+                for (let game of level.tournamentGames) {
+                    if (game.gameId !== null && !game.gamePlayed) {
+                        api.startTournamentGame(game.gameId);
+                        startedGame = true;
+                        break;
+                    }
                 }
-            });
+
+                if (startedGame) {
+                    break;
+                }
+            }
         },
 
-    },
-
-
-  });
+  }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, runActiveGames} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

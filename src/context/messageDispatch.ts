@@ -3,7 +3,7 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
-import { tournamentCreated, setGamePlan, runActiveGames } from './slices/tournamentSlice';
+import { tournamentCreated, setGamePlan } from './slices/tournamentSlice';
 import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
@@ -71,15 +71,7 @@ export function onSocketMessage(jsonData: string) {
         //     break;
 
         case messageTypes.ACTIVE_GAMES_LIST:
-            console.log("ACTIVE_GAMES_LIST_EVENT");
-            store.dispatch(runActiveGames(message as types.ActiveGamesListMessage));
-
-            // Run games when received
-            // const games = (message as types.ActiveGamesListMessage).games;
-            // games.forEach(game => {
-            //     const gameId = game.gameId;
-            //     api.startTournamentGame(gameId);
-            // });
+            console.log("UNUSED: ACTIVE_GAMES_LIST_EVENT");
             break;
 
         case messageTypes.TOURNAMENT_GAME_PLAN:
