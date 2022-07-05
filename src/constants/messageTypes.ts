@@ -132,6 +132,9 @@ export type TournamentGame = {
     gameId: string | null;
     gamePlayed: boolean;
     players: Player[]
+
+    // Extra variable not received from the server
+    isViewed: boolean;
 }
 
 export type TournamentLevel = {

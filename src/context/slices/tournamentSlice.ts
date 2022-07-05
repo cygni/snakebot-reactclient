@@ -1,6 +1,6 @@
 import { createSlice, createAction, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage} from "../../constants/messageTypes";
+import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage, TournamentGame} from "../../constants/messageTypes";
 import { store } from '../store';
 
 const placeholdGameSettings: GameSettings = {
@@ -94,6 +94,13 @@ export const tournamentSlice = createSlice({
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
 
+            // Initialize isViewed for all games
+            state.tournamentLevels.forEach(level => {
+                level.tournamentGames.forEach(game => {
+                    if (game.isViewed == undefined) game.isViewed = false;
+                });
+            });
+
             // Find and play first game that has not been played
             let startedGame = false;
             for (let level of state.tournamentLevels) {
@@ -111,8 +118,19 @@ export const tournamentSlice = createSlice({
             }
         },
 
+        viewedGame: (state, action: PayloadAction<string | null>) => {
+            if (action.payload == null) return;
+            for (let level of state.tournamentLevels) {
+                for (let game of level.tournamentGames) {
+                    if (game.gameId === action.payload) {
+                        game.isViewed = true;
+                    }
+                }
+            }
+        }
+
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

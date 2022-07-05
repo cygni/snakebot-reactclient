@@ -38,7 +38,7 @@ const tournamentName = useAppSelector(state => state.tournament.tournamentName);
                     {
                       level.tournamentGames.map((game, gameIndex) => (
                         <ul className="game" key={gameIndex}>
-                          <TournamentBracket tournamentGame={game}/>
+                          <TournamentBracket tournamentGame={game} levelIndex={levels.length-1-index}/>
                         </ul>
                       ))
                     }
