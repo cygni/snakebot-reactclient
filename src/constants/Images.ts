@@ -24,7 +24,7 @@ import deadSnakeTail100 from '../assets/snakes/999999/grey-dead-tail-100.svg';
 import deadSnakeHead100 from '../assets/snakes/999999/grey-dead-head-100.svg';
 import starPath from '../assets/images/star.svg';
 
-import type { TilePosition } from '../context/slices/currentFrameSlice';
+import type { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
 
 function createImg(src: string) {
   const img = new Image();
@@ -66,6 +66,16 @@ const snakeTails = [
 
 export function getStar() {
   return star;
+}
+
+export function getCurrentSnakeHead(snake: SnakeData) {
+  if (snake.alive) return getSnakeHead(snake.color);
+  return deadSnakeHead;
+}
+
+export function getCurrentSnakeTail(snake: SnakeData) {
+  if (snake.alive) return getSnakeTail(snake.color);
+  return deadSnakeTail;
 }
 
 export function getSnakeHead(color: string) {

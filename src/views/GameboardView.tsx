@@ -16,7 +16,7 @@ import messageDispatch from "../context/messageDispatch";
 import Modal from "../components/Modal";
 import { RootState } from "../context/store";
 import { store } from "../context/store";
-import { getRotation, getSnakeHead, getSnakeTail, getStar} from '../constants/Images'
+import { getRotation, getCurrentSnakeHead, getCurrentSnakeTail, getStar} from '../constants/Images'
 import colors from '../constants/Colors'
 import { useNavigate } from 'react-router-dom';
 import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
@@ -92,7 +92,7 @@ function GameboardView({}: Props) {
                     ctx.rotate(getRotation(snake.positions[0], snake.positions[1]));
                     ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
 
-                    ctx.drawImage(getSnakeHead(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
+                    ctx.drawImage(getCurrentSnakeHead(snake), 0, 0, TILE_SIZE, TILE_SIZE);
 
                     // Reset the translation and rotation for next draw
                     ctx.resetTransform();
@@ -105,13 +105,13 @@ function GameboardView({}: Props) {
                     ctx.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
                     ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
 
-                    ctx.drawImage(getSnakeTail(snake.color), 0, 0, TILE_SIZE, TILE_SIZE);
+                    ctx.drawImage(getCurrentSnakeTail(snake), 0, 0, TILE_SIZE, TILE_SIZE);
 
                     // Reset the translation and rotation for next draw
                     ctx.resetTransform();
                 }
                 else {
-                    ctx.fillStyle = snake.color;
+                    ctx.fillStyle = snake.alive ? snake.color : colors.DEAD_SNAKE;
                     ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 }
                 

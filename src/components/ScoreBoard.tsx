@@ -1,4 +1,4 @@
-import { getSnakeHead } from '../constants/Images'
+import { getCurrentSnakeHead } from '../constants/Images'
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 
@@ -40,7 +40,7 @@ function ScoreBoard() {
             <li key={index}>
               <>
                 <figure>
-                <img src={getSnakeHead(snakes[snakeID].color).src} alt="snakehead" />
+                <img src={getCurrentSnakeHead(snakes[snakeID]).src} alt="snakehead" />
                 </figure>
                 <strong>{snakes[snakeID].points}</strong>
                 {snakes[snakeID].name}

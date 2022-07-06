@@ -78,10 +78,15 @@ export const snakesSlice = createSlice({
               });
           }
 
-          // Update snake positions and points
+          // Update snake positions, points and alive status
           action.payload.map.snakeInfos.forEach(snake => {
             state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
             state.snakesData[snake.id].points = snake.points;
+            if (snake.positions.length === 0) {
+              state.snakesData[snake.id].alive = false;
+            } else {
+              state.snakesData[snake.id].alive = true;
+            }
           });
 
           // Update food positions
@@ -92,7 +97,6 @@ export const snakesSlice = createSlice({
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
-          state.snakesData[action.payload.playerId].color = '#999999'; // This as global ???
           state.snakesData[action.payload.playerId].alive = false;
 
           let msg = new SpeechSynthesisUtterance();
