@@ -96,7 +96,7 @@ export function getSnakeHead(color: string) {
     case '#999999' :
       return deadSnakeHead;
     default:
-      return snakeHeads[11];
+      return snakeHeads[10];
   }
 }
 
@@ -128,7 +128,7 @@ export function getSnakeTail(color: string) {
     case '#999999' :
       return deadSnakeTail;
     default:
-      return snakeTails[11];
+      return snakeTails[10];
   }
 }
 
