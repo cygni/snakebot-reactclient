@@ -289,10 +289,8 @@ function TournamentSettings() {
 
 
               <button type="submit" className="btn btn-primary">Start</button>
-              <button onClick={()=>setLocalGameSettings(gameSettings)} className="btn btn-primary">Reset to Default Settings</button>
-
-
           </form>
+              <button onClick={()=>setLocalGameSettings(gameSettings)} className="btn btn-primary">Reset to Default Settings</button>
         </article>
       </div>
   )
