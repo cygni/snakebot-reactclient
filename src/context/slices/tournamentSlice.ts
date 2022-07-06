@@ -31,6 +31,8 @@ export type TournamentData = {
 
     players: Player[];
     tournamentLevels: TournamentLevel[];
+
+    isLoggedIn: boolean;
     isTournamentActive: boolean;
     isTournamentStarted: boolean;
     allGamesPlayed: boolean;
@@ -49,6 +51,7 @@ const initialState: TournamentData = {
     players: [],
     tournamentLevels: [],
 
+    isLoggedIn: localStorage.getItem("token") !== null,
     isTournamentActive: false,
     isTournamentStarted: false,
     allGamesPlayed: false,
@@ -134,10 +137,18 @@ export const tournamentSlice = createSlice({
 
         tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
             state.allGamesPlayed = true;
+        },
+
+        setLoggedIn: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload;
+            // if (state.isLoggedIn === false) {
+            //     // Navigate to loginView
+            //     window.location.href = "/login";
+            // }
         }
 
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

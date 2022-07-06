@@ -3,7 +3,7 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
-import { tournamentCreated, setGamePlan, tournamentEnded } from './slices/tournamentSlice';
+import { tournamentCreated, setGamePlan, tournamentEnded, setLoggedIn } from './slices/tournamentSlice';
 import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
@@ -61,6 +61,14 @@ export function onSocketMessage(jsonData: string) {
     console.log("SOCKET: Message received:", message);
 
     switch (message.type) {
+        case messageTypes.UNAUTHORIZED:
+            console.log("UNAUTHORIZED");
+            localStorage.removeItem("token");
+            store.dispatch(setLoggedIn(false));
+            // Navigate to loginView
+            window.location.href = "/login";
+            break;
+
         case messageTypes.TOURNAMENT_CREATED:
             console.log("TOURNAMENT_CREATED_EVENT");
             store.dispatch(tournamentCreated(message as types.TournamentCreatedMessage));

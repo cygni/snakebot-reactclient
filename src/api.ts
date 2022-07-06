@@ -1,27 +1,43 @@
 import axios from "axios";
+import { Console } from "console";
 import SockJS from "sockjs-client";
 import MessageTypes, { GameSettings } from "./constants/messageTypes"
 import { onSocketMessage } from "./context/messageDispatch";
 import { GameData } from "./context/slices/gameDataSlice";
 
-let socket = new SockJS("http://localhost:8080/events");; 
+const socket = new SockJS("http://localhost:8080/events");; 
 let onConnectQueue: string[] = [];
-export let myToken = "NO_TOKEN";
 
 function sendWhenConnected(msg: string) {
     console.log("Queuing/sending socket message:", JSON.parse(msg));
-    if (socket.readyState === 1 && myToken !== "NO_TOKEN") {
+    if (socket.readyState === 1 && localStorage.getItem("token") !== null) {
         socket.send(msg);
     } else {
         onConnectQueue.push(msg); // if no connection is established, save message in queue
     }
 }
 
-axios.get("http://localhost:8080/login?login=emil&password=lime").then(response => {
-    myToken = response.data;
-    console.log("Got token:", response.data);
-    console.log("Token is:", myToken);
-});
+export async function getToken(username: string, password: string): Promise<{success: boolean, data: string}> {
+    try {
+        let resp = await axios.get(`http://localhost:8080/login?login=${username}&password=${password}`)
+        // console.log("response:", resp);
+        return {success: true, data: resp.data};
+    } catch (error: any) {
+        console.error("Error getting token:", error);
+        return {success: false, data: typeof(error.response.data)==="string" ? error.response.data : error.message};
+    }
+    // // Handle success
+    // .then((response: any) => {
+    //     console.log("Got token:", response.data);
+    //     localStorage.setItem("token", response.data);
+    //     return true;
+    // })
+    // // Handle error
+    // .catch(error => {
+    //     console.error("Error getting token:", error.response.data, error.response.status, error);
+    //     return false;
+    // })
+}
 
 
 socket.onopen = () => {
@@ -46,11 +62,11 @@ export type game = {
     players: string[],
 }
 
-function logIfNoToken() {
-    if (myToken === "NO_TOKEN") {
-        console.error("No token, cannot make request");
-    }
-}
+// function logIfNoToken() {
+//     if (localStorage.getItem("token") === null) {
+//         console.error("No token, cannot make request");
+//     }
+// }
 
 export default {
 
@@ -81,55 +97,55 @@ export default {
     // },
 
     async createTournament(tournamentName: string): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.CreateTournament',
-            token: myToken,
+            token: localStorage.getItem("token"),
             tournamentName: tournamentName,
         }));
     },
 
     async killTournament(): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.KillTournament',
-            token: myToken,
+            token: localStorage.getItem("token"),
             tournamentId: 'NOT_IMPLEMENTED',
         }));
     },
 
     async getActiveTournament(): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.GetActiveTournament',
-            token: myToken,
+            token: localStorage.getItem("token"),
         }));
     },
 
     async startTournament(tournamentId: string): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.StartTournament',
-            token: myToken,
+            token: localStorage.getItem("token"),
             tournamentId: tournamentId,
         }));
     },
 
     async startTournamentGame(gameId: string): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             // type: 'se.cygni.snake.eventapi.request.StartTournamentGame',
-            // token: myToken,
+            // token: localStorage.getItem("token"),
             type: 'se.cygni.snake.eventapi.request.StartGame',
             gameId: gameId,
         }));
     },
 
     async updateTournamentSettings(gameSettings: GameSettings): Promise<void> {
-        logIfNoToken();
+        //logIfNoToken();
         sendWhenConnected(JSON.stringify({
             type: 'se.cygni.snake.eventapi.request.UpdateTournamentSettings',
-            token: myToken,
+            token: localStorage.getItem("token"),
             gameSettings: gameSettings,
         }));
     },
@@ -140,6 +156,6 @@ export default {
     //     const resp = await axios.get("http://localhost:8080/login?login=emil&password=lime").catch(err => {
     //         console.error(err);
     //     });
-    //     myToken = resp ? resp.data.token: "NO_TOKEN";
+    //     localStorage.getItem("token") = resp ? resp.data.token: "NO_TOKEN";
     // },
 };

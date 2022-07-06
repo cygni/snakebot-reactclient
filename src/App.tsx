@@ -1,4 +1,5 @@
 import './stylesheet.scss';
+import { store } from './context/store';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import PageHeader from './components/PageHeader';
 import PageFooter from './components/PageFooter';
@@ -10,9 +11,9 @@ import axios from 'axios';
 import Constants from './constants/constants';
 import GameboardView from './views/GameboardView';
 import { Provider } from 'react-redux';
-import { store } from './context/store';
 import TestView from './views/TestView';
 import TournamentView from './views/TournamentView';
+import LoginView from './views/LoginView'
 
 
 // Start socket connection
@@ -34,6 +35,7 @@ function App() {
         <Route path="/test" element={<TestView />}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
         <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
+        <Route path="/login" element={<LoginView/>}></Route>
       </Routes>
     </BrowserRouter>
     <PageFooter/>
