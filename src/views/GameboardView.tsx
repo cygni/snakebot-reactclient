@@ -21,6 +21,10 @@ import colors from '../constants/Colors'
 import { useNavigate } from 'react-router-dom';
 import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 
+import { Layer, Stage } from "react-konva";
+import SnakePart from "../canvasComponents/SnakePart";
+import { url } from "inspector";
+
 type Props = {
     
 }
@@ -28,12 +32,11 @@ type Props = {
 function GameboardView({}: Props) {
     const navigate = useNavigate();
     
-    const [isOpen, setIsOpen] = useState(false);
     const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX};
     const dispatch = useDispatch();
     const currentFrameState = useSelector((state: RootState) => state.currentFrame);
     const tournamentState = useSelector((state: RootState) => state.tournament.isTournamentStarted);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    // const canvasRef = useRef<HTMLCanvasElement>(null);
     const imagesRef = useRef<{[key: string]: HTMLImageElement}>({});
 
     let { gameID } = useParams();
@@ -49,76 +52,8 @@ function GameboardView({}: Props) {
 
     // Redraw on snakeState change
     useEffect(() => {
-        draw();
+        // draw();
     }, [currentFrameState]);
-
-    function draw() {
-        const ctx = canvasRef.current!.getContext("2d");
-
-        // Clear canvas
-        ctx!.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
-        drawFood(ctx!);
-        drawSnakes(ctx!);
-        drawObstacles(ctx!);
-    }
-
-
-    function drawFood(ctx: CanvasRenderingContext2D) {
-        currentFrameState.foodPositions.forEach(food => {
-            ctx.drawImage(getStar(), food.x * TILE_SIZE, food.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        });
-
-    }
-
-    function drawObstacles(ctx: CanvasRenderingContext2D) {
-        currentFrameState.obstaclePositions.forEach(obstacle => {
-            ctx.fillStyle = "black";
-            ctx.fillRect(obstacle.x * TILE_SIZE, obstacle.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        });
-    }
-
-    function drawSnakes(ctx: CanvasRenderingContext2D) {
-        currentFrameState.IDs.forEach(snakeID => {
-            const snake = currentFrameState.snakesData[snakeID];
-            snake.positions.forEach((position, index) => {
-                const { x, y } = position;
-                
-                if (index === 0) {
-                    // Move to the the given tile
-                    ctx.translate(x * TILE_SIZE, y * TILE_SIZE);
-
-                    // Rotate around the center of the image
-                    ctx.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                    ctx.rotate(getRotation(snake.positions[0], snake.positions[1]));
-                    ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
-
-                    ctx.drawImage(getCurrentSnakeHead(snake), 0, 0, TILE_SIZE, TILE_SIZE);
-
-                    // Reset the translation and rotation for next draw
-                    ctx.resetTransform();
-                } else if (index === snake.positions.length - 1) {
-                    // Move to the the given tile
-                    ctx.translate(x * TILE_SIZE, y * TILE_SIZE);
-
-                    // Rotate around the center of the image
-                    ctx.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                    ctx.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
-                    ctx.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
-
-                    ctx.drawImage(getCurrentSnakeTail(snake), 0, 0, TILE_SIZE, TILE_SIZE);
-
-                    // Reset the translation and rotation for next draw
-                    ctx.resetTransform();
-                }
-                else {
-                    ctx.fillStyle = snake.alive ? snake.color : colors.DEAD_SNAKE;
-                    ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                }
-                
-            });
-        });
-    }
-
 
     function Navigation() {
         if(tournamentState === true){
@@ -132,28 +67,25 @@ function GameboardView({}: Props) {
   return (
     <section className="page clear-fix">
         {Navigation()}
-        <button onClick={()=>{
-            messageDispatch();
-            // drawSnakes();
-            }}>Dispatch next message</button>
-
-            <button className="primaryBtn" onClick={() => setIsOpen(true)}>Open Modal</button>
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
-            
-
+        
         <div className="thegame clear-fix">
         <ScoreBoard />
             <div className="gameboard">
-                <canvas
-                id="canvas"
-                width={size.width + 0}
-                height={size.height + 0}
-                // ref={(c) => {
-                //     this.canvas = c;
-                //   }}
-                ref={canvasRef}
-                />
-                {/* <GameControl /> */}
+                <Stage className="canvas" width={size.width + 0} height={size.height + 0}>
+                    <Layer>
+                        {/* <SnakePart x={2} y={2}/> */}
+                        {/* <SnakePart x={2} y={3}/>
+                        <SnakePart x={3} y={3}/> */}
+
+                        {currentFrameState.IDs.map((snakeID, i) => {
+                            const snake = currentFrameState.snakesData[snakeID];
+                            return (<SnakePart key={i} snake={snake}/>)
+                        })}
+
+                    </Layer>
+
+                </Stage>
+
                 <ControllBar/>
                 
                 
