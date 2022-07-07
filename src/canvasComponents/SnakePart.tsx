@@ -1,4 +1,4 @@
-import { Group, Rect } from 'react-konva';
+import { Group, Line, Rect } from 'react-konva';
 import Konva from 'konva';
 import { useState } from 'react';
 
@@ -78,20 +78,89 @@ function SnakePart({snake}: Props) {
     return lines.map((line, lineIndex) => {
       const lastTile = line[line.length-1];
 
+      // const lastLine = lines[lineIndex-1];
+      // const fromTile = line.length > 1 ? line[line.length-2] : lastLine[lastLine.length-1];
+
+      // const nextLine = lines[lineIndex+1];
+      // const toTile = nextLine ? nextLine[0] : lastTile;
+
       // Draw line
       return (
         <Group key={lineIndex}>
           {drawLine(line)}
-          <Rect // last tile
+          {drawRoundedRect(lastTile, lines, lineIndex)}
+          {/* <Rect // last tile
             x={lastTile!.x * TILE_SIZE}
             y={lastTile!.y * TILE_SIZE}
             width={TILE_SIZE/2}
             height={TILE_SIZE/2}
             fill={"green"}
-          />
+          /> */}
+          {/* { lineIndex<lines.length-1 && drawRoundedRect(lastTile!) } */}
+
+          {/* <Line // Quarter donut
+            x={lastTile.x * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_X}
+            y={lastTile.y * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_Y}
+            points={
+              [
+                // 0, 0,
+                // 0 + TILE_SIZE/2, 0,
+                // 0 + TILE_SIZE/2, 0 + TILE_SIZE/2,
+                // 0, 0 + TILE_SIZE/2,
+                // 0, 0
+                TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
+                TILE_SIZE - TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
+                TILE_SIZE + TILE_OFFSET_X, TILE_MARGIN/2 + TILE_OFFSET_Y,
+                TILE_SIZE + TILE_OFFSET_X, TILE_SIZE - TILE_MARGIN/2,
+              ]
+            }
+            rotation={0}
+            tension={0}
+            closed
+            stroke="black"
+            strokeWidth={1}
+            fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+            fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+            fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+            offset={{x: TILE_SIZE/2 + TILE_OFFSET_X, y: TILE_SIZE/2 + TILE_OFFSET_Y}}
+        /> */}
         </Group>
       );
     });
+  }
+
+  function drawRoundedRect(tile: TilePosition, lines: TilePosition[][], lineIndex: number, rotation: number = 0) {
+    const nextLine = lines[lineIndex+1];
+
+
+    return (
+      <Line // Quarter donut
+        x={tile.x * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_X}
+        y={tile.y * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_Y}
+        points={
+          [
+            // 0, 0,
+            // 0 + TILE_SIZE/2, 0,
+            // 0 + TILE_SIZE/2, 0 + TILE_SIZE/2,
+            // 0, 0 + TILE_SIZE/2,
+            // 0, 0
+            TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
+            TILE_SIZE - TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
+            TILE_SIZE + TILE_OFFSET_X, TILE_MARGIN/2 + TILE_OFFSET_Y,
+            TILE_SIZE + TILE_OFFSET_X, TILE_SIZE - TILE_MARGIN/2,
+          ]
+        }
+        rotation={rotation}
+        tension={0}
+        closed
+        stroke="black"
+        strokeWidth={1}
+        fillLinearGradientStartPoint={{ x: -50, y: -50 }}
+        fillLinearGradientEndPoint={{ x: 50, y: 50 }}
+        fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+        offset={{x: TILE_SIZE/2 + TILE_OFFSET_X, y: TILE_SIZE/2 + TILE_OFFSET_Y}}
+      />
+    );
   }
 
   return (
