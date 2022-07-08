@@ -26,7 +26,7 @@ import type { game } from "../api";
       } else {
         return (
         <ul className="searchresults"> {
-          searchResults.map((game: game, index: number) => (
+          [...searchResults].reverse().map((game: game, index: number) => (
             <li key={index}>
               <h3 className="searchheadline">
                 <Link to={{ pathname: '/viewgame/' + game.gameId }}>
@@ -43,6 +43,7 @@ import type { game } from "../api";
             </li>
           ))}
         </ul>);
+        
       }
     }
 
@@ -66,9 +67,7 @@ import type { game } from "../api";
               <input className="searchbtn" type="submit" value="Search" />
             </form>
             <h2 className="searchresultsheadline">Results</h2>
-
             { Results() }
-
           </div>
         </article>
       </section>
