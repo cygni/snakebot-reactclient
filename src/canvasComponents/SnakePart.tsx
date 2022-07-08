@@ -3,7 +3,7 @@ import { Group, Line, Rect, Image } from 'react-konva';
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from '../constants/BoardUtils';
 import { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
 import Colors from '../constants/Colors';
-import { getCurrentSnakeHead } from '../constants/Images';
+import { getCurrentSnakeHead, getCurrentSnakeTail } from '../constants/Images';
 
 type Props = {
   snake: SnakeData;
@@ -11,6 +11,7 @@ type Props = {
 
 function SnakePart({snake}: Props) {
   const headImage = getCurrentSnakeHead(snake);
+  const tailImage = getCurrentSnakeTail(snake);
   const color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
 
   function drawLine(line: TilePosition[]) {
@@ -124,16 +125,11 @@ function SnakePart({snake}: Props) {
     }
 
     return (
-      <Line // Quarter donut
+      <Line
         x={tile.x * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_X}
         y={tile.y * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_Y}
         points={
           [
-            // 0, 0,
-            // 0 + TILE_SIZE/2, 0,
-            // 0 + TILE_SIZE/2, 0 + TILE_SIZE/2,
-            // 0, 0 + TILE_SIZE/2,
-            // 0, 0
             TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
             TILE_SIZE - TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
             TILE_SIZE + TILE_OFFSET_X, TILE_MARGIN/2 + TILE_OFFSET_Y,
@@ -151,13 +147,11 @@ function SnakePart({snake}: Props) {
     );
   }
 
-  function renderHead() {
-    const head = snake.positions[0];
-    if (head === undefined) return null; // snake is dead
-    const neck = snake.positions[1];
+  function renderImage(tile: TilePosition, toTile: TilePosition, image: HTMLImageElement, rotationOffset=0) {
+    if (tile === undefined) return null;
 
-    const dx = head.x - neck?.x;
-    const dy = head.y - neck?.y;
+    const dx = tile.x - toTile?.x;
+    const dy = tile.y - toTile?.y;
 
     let marginOffsetX = TILE_MARGIN/2;
     let marginOffsetY = TILE_MARGIN/2;
@@ -185,12 +179,12 @@ function SnakePart({snake}: Props) {
     const offset = (TILE_SIZE - TILE_MARGIN)/2;
     return (
       <Image
-        x={head.x * TILE_SIZE + marginOffsetX + offset + TILE_OFFSET_X}
-        y={head.y * TILE_SIZE + marginOffsetY + offset + TILE_OFFSET_Y}
+        x={tile.x * TILE_SIZE + marginOffsetX + offset + TILE_OFFSET_X}
+        y={tile.y * TILE_SIZE + marginOffsetY + offset + TILE_OFFSET_Y}
         width={TILE_SIZE - TILE_MARGIN}
         height={TILE_SIZE - TILE_MARGIN}
-        image={headImage}
-        rotation={rotation}
+        image={image}
+        rotation={rotation+rotationOffset}
         offset={{x: offset, y: offset}}
       />
     )
@@ -199,21 +193,9 @@ function SnakePart({snake}: Props) {
 
   return (
     <>
-    {/* {snake.positions.map((tile, index) => {
-      return (
-        <Rect
-          key={index}
-          x={tile.x * TILE_SIZE + TILE_OFFSET_X}
-          y={tile.y * TILE_SIZE + TILE_OFFSET_Y}
-          width={TILE_SIZE}
-          height={TILE_SIZE}
-          fill={color}
-          // stroke={"black"}
-          // strokeWidth={1}
-        />
-      );})} */}
     {renderRect()}
-    {renderHead()}
+    {renderImage(snake.positions[0], snake.positions[1], headImage)}
+    {renderImage(snake.positions[snake.positions.length - 1], snake.positions[snake.positions.length - 2], tailImage, 180)}
     </>
   )
 }
