@@ -1,6 +1,4 @@
 import { Group, Line, Rect } from 'react-konva';
-import Konva from 'konva';
-import { useState } from 'react';
 
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from '../constants/BoardUtils';
 import { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
@@ -12,6 +10,8 @@ type Props = {
 
 function SnakePart({snake}: Props) {
 
+  const color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
+
   function drawLine(line: TilePosition[]) {
     if (line.length <= 1) return null;
 
@@ -19,7 +19,8 @@ function SnakePart({snake}: Props) {
     const horizontal = line[0].y === line[1].y;
 
     // Temporary for not drawing the last tile and not getting it as left/topMost tile
-    line.pop();
+    // line.pop();
+    line = line.slice(0, line.length - 1);
 
     if (horizontal) {
       const leftMostTile = line.reduce((prev, curr) => prev.x < curr.x ? prev : curr);
@@ -30,9 +31,9 @@ function SnakePart({snake}: Props) {
           y={leftMostTile.y * TILE_SIZE + TILE_MARGIN/2 + TILE_OFFSET_Y}
           width={line.length * TILE_SIZE}
           height={TILE_SIZE - TILE_MARGIN}
-          fill={"red"}
-          stroke={"black"}
-          strokeWidth={1}
+          fill={color}
+          // stroke={"black"}
+          // strokeWidth={1}
         />)
     } else {
       const topMostTile = line.reduce((prev, curr) => prev.y < curr.y ? prev : curr);
@@ -43,9 +44,9 @@ function SnakePart({snake}: Props) {
           y={topMostTile.y * TILE_SIZE + TILE_OFFSET_Y}
           width={TILE_SIZE - TILE_MARGIN}
           height={line.length * TILE_SIZE}
-          fill={"yellow"}
-          stroke={"black"}
-          strokeWidth={1}
+          fill={color}
+          // stroke={"black"}
+          // strokeWidth={1}
         />)
     }
   }
@@ -64,7 +65,7 @@ function SnakePart({snake}: Props) {
       if (currentMovementHorizontal !== lastMovementHorizontal) { // new line
         // lines.push([currentLine.pop()] as TilePosition[]) // Last tile in new line
         if (currentLine.length > 0) lines.push(currentLine);
-        console.log(snake.name, "new line", lines, dy, i, snake.positions[i], snake.positions[i-1],currentMovementHorizontal, lastMovementHorizontal);
+        // console.log(snake.name, "new line", lines, dy, i, snake.positions[i], snake.positions[i-1],currentMovementHorizontal, lastMovementHorizontal);
         currentLine = [snake.positions[i]];
       } else {
         currentLine.push(snake.positions[i]);
@@ -78,60 +79,42 @@ function SnakePart({snake}: Props) {
     return lines.map((line, lineIndex) => {
       const lastTile = line[line.length-1];
 
-      // const lastLine = lines[lineIndex-1];
-      // const fromTile = line.length > 1 ? line[line.length-2] : lastLine[lastLine.length-1];
-
-      // const nextLine = lines[lineIndex+1];
-      // const toTile = nextLine ? nextLine[0] : lastTile;
-
       // Draw line
       return (
         <Group key={lineIndex}>
           {drawLine(line)}
           {drawRoundedRect(lastTile, lines, lineIndex)}
-          {/* <Rect // last tile
-            x={lastTile!.x * TILE_SIZE}
-            y={lastTile!.y * TILE_SIZE}
-            width={TILE_SIZE/2}
-            height={TILE_SIZE/2}
-            fill={"green"}
-          /> */}
-          {/* { lineIndex<lines.length-1 && drawRoundedRect(lastTile!) } */}
-
-          {/* <Line // Quarter donut
-            x={lastTile.x * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_X}
-            y={lastTile.y * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_Y}
-            points={
-              [
-                // 0, 0,
-                // 0 + TILE_SIZE/2, 0,
-                // 0 + TILE_SIZE/2, 0 + TILE_SIZE/2,
-                // 0, 0 + TILE_SIZE/2,
-                // 0, 0
-                TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
-                TILE_SIZE - TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
-                TILE_SIZE + TILE_OFFSET_X, TILE_MARGIN/2 + TILE_OFFSET_Y,
-                TILE_SIZE + TILE_OFFSET_X, TILE_SIZE - TILE_MARGIN/2,
-              ]
-            }
-            rotation={0}
-            tension={0}
-            closed
-            stroke="black"
-            strokeWidth={1}
-            fillLinearGradientStartPoint={{ x: -50, y: -50 }}
-            fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-            fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
-            offset={{x: TILE_SIZE/2 + TILE_OFFSET_X, y: TILE_SIZE/2 + TILE_OFFSET_Y}}
-        /> */}
         </Group>
       );
     });
   }
 
-  function drawRoundedRect(tile: TilePosition, lines: TilePosition[][], lineIndex: number, rotation: number = 0) {
+  function drawRoundedRect(tile: TilePosition, lines: TilePosition[][], lineIndex: number) {
+    const currLine = lines[lineIndex];
     const nextLine = lines[lineIndex+1];
+    const prevLine = lines[lineIndex-1];
+    if (nextLine === undefined) return null; // tail of snake
+    const toTile = nextLine[0];
+    let fromTile = currLine[currLine.length - 2]; // second last tile of current line
+    if (fromTile === undefined && prevLine === undefined) return null;
+    if (fromTile === undefined) {
+      console.log(snake.name, "fromTile undefined", lineIndex, lines);
+      fromTile = prevLine[prevLine.length - 1];
+    }
 
+    const tileToRight = (toTile.x - tile.x === 1) || (fromTile.x - tile.x === 1);
+    const tileToUp = (toTile.y - tile.y === 1) || (fromTile.y - tile.y === 1);
+    const tileToLeft = (toTile.x - tile.x === -1) || (fromTile.x - tile.x === -1);
+    const tileToDown = (toTile.y - tile.y === -1) || (fromTile.y - tile.y === -1);
+
+    let rotation = 0;
+    if (tileToRight) {
+      rotation = tileToUp ? 90 : 0;
+    } else if (tileToLeft) {
+      rotation = tileToDown ? 270 : 180; 
+    } else {
+      console.error("Could not determine rotation", tile, toTile, fromTile);
+    }
 
     return (
       <Line // Quarter donut
@@ -153,11 +136,9 @@ function SnakePart({snake}: Props) {
         rotation={rotation}
         tension={0}
         closed
-        stroke="black"
-        strokeWidth={1}
-        fillLinearGradientStartPoint={{ x: -50, y: -50 }}
-        fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-        fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
+        // stroke="black"
+        // strokeWidth={1}
+        fill={color}
         offset={{x: TILE_SIZE/2 + TILE_OFFSET_X, y: TILE_SIZE/2 + TILE_OFFSET_Y}}
       />
     );
@@ -165,18 +146,6 @@ function SnakePart({snake}: Props) {
 
   return (
     <>
-    {snake.positions.map((position, index) => {
-      return (
-        <Rect
-        key={index}
-        fill={snake.alive ? snake.color : Colors.DEAD_SNAKE}
-        width={TILE_SIZE}
-        height={TILE_SIZE}
-        x={position.x * TILE_SIZE + 1} // +1 to center the tile (Might be a better way to do this)
-        y={position.y * TILE_SIZE }
-        shadowBlur={5}/>
-        );
-      })}
     {renderRect()}
     </>
   )
