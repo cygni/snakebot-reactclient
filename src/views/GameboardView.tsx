@@ -25,6 +25,7 @@ import { Layer, Stage } from "react-konva";
 import SnakePart from "../canvasComponents/SnakePart";
 import { url } from "inspector";
 import Obstacles from "../canvasComponents/Obstacles";
+import Stars from "../canvasComponents/Stars";
 
 type Props = {
     
@@ -84,6 +85,8 @@ function GameboardView({}: Props) {
                         })}
 
                         <Obstacles obstacles={currentFrameState.obstaclePositions}/>
+
+                        <Stars stars={currentFrameState.foodPositions}/>
 
                     </Layer>
 

@@ -29,7 +29,6 @@ function Obstacles({obstacles}: Props) {
     }
 
     function findCluster(obstacle: TilePosition) {
-        console.warn("FINDING CLUSTER")
         const cluster: TilePosition[] = [];
         if (obstacle === undefined) return cluster;
         const visited: TilePosition[] = [];

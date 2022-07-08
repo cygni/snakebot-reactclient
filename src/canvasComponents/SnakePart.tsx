@@ -82,7 +82,6 @@ function SnakePart({snake}: Props) {
 
     }
     lines.push(currentLine); // add last line
-    console.log(snake.name,"lines", lines);
 
     return lines.map((line, lineIndex) => {
       const lastTile = line[line.length-1];
@@ -106,7 +105,6 @@ function SnakePart({snake}: Props) {
     let fromTile = currLine[currLine.length - 2]; // second last tile of current line
     if (fromTile === undefined && prevLine === undefined) return null;
     if (fromTile === undefined) {
-      console.log(snake.name, "fromTile undefined", lineIndex, lines);
       fromTile = prevLine[prevLine.length - 1];
     }
 
