@@ -1,15 +1,16 @@
-import { Group, Line, Rect } from 'react-konva';
+import { Group, Line, Rect, Image } from 'react-konva';
 
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from '../constants/BoardUtils';
 import { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
 import Colors from '../constants/Colors';
+import { getCurrentSnakeHead } from '../constants/Images';
 
 type Props = {
   snake: SnakeData;
 }
 
 function SnakePart({snake}: Props) {
-
+  const headImage = getCurrentSnakeHead(snake);
   const color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
 
   function drawLine(line: TilePosition[]) {
@@ -19,8 +20,14 @@ function SnakePart({snake}: Props) {
     const horizontal = line[0].y === line[1].y;
 
     // Temporary for not drawing the last tile and not getting it as left/topMost tile
-    // line.pop();
     line = line.slice(0, line.length - 1);
+
+    // Temporary for not drawing head
+    if (JSON.stringify(line[0]) === JSON.stringify(snake.positions[0])) {
+      // console.log(snake.name,"head?",line[0]);
+      line = line.slice(1);
+      if (line.length === 0) return null;
+    };
 
     if (horizontal) {
       const leftMostTile = line.reduce((prev, curr) => prev.x < curr.x ? prev : curr);
@@ -144,9 +151,69 @@ function SnakePart({snake}: Props) {
     );
   }
 
+  function renderHead() {
+    const head = snake.positions[0];
+    if (head === undefined) return null; // snake is dead
+    const neck = snake.positions[1];
+
+    const dx = head.x - neck?.x;
+    const dy = head.y - neck?.y;
+
+    let marginOffsetX = TILE_MARGIN/2;
+    let marginOffsetY = TILE_MARGIN/2;
+    let rotation = 0;
+    if (dx === 0) { // Vertical
+      if (dy === 1) {
+        marginOffsetY -= TILE_MARGIN/2;
+        rotation = 180;
+      }
+      else {
+        marginOffsetY += TILE_MARGIN/2;
+        rotation = 0;
+      }
+    } else if (dy === 0) { // Horizontal
+      if (dx === 1) {
+        marginOffsetX -= TILE_MARGIN/2;
+        rotation = 90;
+      }
+      else {
+        marginOffsetX += TILE_MARGIN/2;
+        rotation = 270;
+      }
+    }
+    
+    const offset = (TILE_SIZE - TILE_MARGIN)/2;
+    return (
+      <Image
+        x={head.x * TILE_SIZE + marginOffsetX + offset + TILE_OFFSET_X}
+        y={head.y * TILE_SIZE + marginOffsetY + offset + TILE_OFFSET_Y}
+        width={TILE_SIZE - TILE_MARGIN}
+        height={TILE_SIZE - TILE_MARGIN}
+        image={headImage}
+        rotation={rotation}
+        offset={{x: offset, y: offset}}
+      />
+    )
+
+  }
+
   return (
     <>
+    {/* {snake.positions.map((tile, index) => {
+      return (
+        <Rect
+          key={index}
+          x={tile.x * TILE_SIZE + TILE_OFFSET_X}
+          y={tile.y * TILE_SIZE + TILE_OFFSET_Y}
+          width={TILE_SIZE}
+          height={TILE_SIZE}
+          fill={color}
+          // stroke={"black"}
+          // strokeWidth={1}
+        />
+      );})} */}
     {renderRect()}
+    {renderHead()}
     </>
   )
 }
