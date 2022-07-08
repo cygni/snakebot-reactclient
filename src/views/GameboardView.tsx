@@ -24,6 +24,7 @@ import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 import { Layer, Stage } from "react-konva";
 import SnakePart from "../canvasComponents/SnakePart";
 import { url } from "inspector";
+import Obstacles from "../canvasComponents/Obstacles";
 
 type Props = {
     
@@ -81,6 +82,8 @@ function GameboardView({}: Props) {
                             const snake = currentFrameState.snakesData[snakeID];
                             return (<SnakePart key={i} snake={snake}/>)
                         })}
+
+                        <Obstacles obstacles={currentFrameState.obstaclePositions}/>
 
                     </Layer>
 

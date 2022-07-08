@@ -23,6 +23,7 @@ import snake9BF3F0Tail from '../assets/snakes/9BF3F0/9BF3F0_TAIL.png';
 import deadSnakeTail100 from '../assets/snakes/999999/grey-dead-tail-100.svg';
 import deadSnakeHead100 from '../assets/snakes/999999/grey-dead-head-100.svg';
 import starPath from '../assets/images/star.svg';
+import blackholePath from '../assets/images/blackhole.webp';
 
 import type { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
 
@@ -33,6 +34,7 @@ function createImg(src: string) {
 }
 
 const star = createImg(starPath);
+const blackhole = createImg(blackholePath);
 
 const deadSnakeHead = createImg(deadSnakeHead100);
 const snakeHeads = [
@@ -66,6 +68,10 @@ const snakeTails = [
 
 export function getStar() {
   return star;
+}
+
+export function getBlackhole() {
+  return blackhole;
 }
 
 export function getCurrentSnakeHead(snake: SnakeData) {
