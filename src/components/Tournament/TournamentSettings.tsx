@@ -10,6 +10,7 @@ function TournamentSettings() {
   const tournamentName = useAppSelector(state => state.tournament.tournamentName);
   const tournamentId = useAppSelector(state => state.tournament.tournamentId);
   const isTournamentActive = useAppSelector(state => state.tournament.isTournamentActive);
+  const noofPlayerrs = useAppSelector(state => state.tournament.players);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
   const dispatch = useAppDispatch();
 
@@ -32,9 +33,13 @@ function TournamentSettings() {
 
           <form role="form" onSubmit={(e) => {
               e.preventDefault();
+              if(noofPlayerrs.length >= 2 ){
               console.log("STARTING TOURNAMENT");
               dispatch(startTournament());
               initTournament();
+              }else{
+                alert('A minimum of 2 players is required to start Tournament');
+              }
               //Dispatch action to start tournament and update game settings (which in turn sends socket message to server)
             }}>
 
