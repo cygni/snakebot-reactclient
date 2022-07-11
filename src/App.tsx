@@ -15,10 +15,6 @@ import TestView from './views/TestView';
 import TournamentView from './views/TournamentView';
 import LoginView from './views/LoginView'
 
-
-// Start socket connection
-import api from './api';
-
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;
 
