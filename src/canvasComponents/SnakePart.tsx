@@ -1,4 +1,4 @@
-import { Group, Line, Rect, Image } from 'react-konva';
+import { Group, Rect, Image, Arc } from 'react-konva';
 
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from '../constants/BoardUtils';
 import { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
@@ -115,32 +115,26 @@ function SnakePart({snake}: Props) {
 
     let rotation = 0;
     if (tileToRight) {
-      rotation = tileToUp ? 90 : 0;
+      rotation = tileToUp ? 180 : 90;
     } else if (tileToLeft) {
-      rotation = tileToDown ? 270 : 180; 
+      rotation = tileToDown ? 0 : 270; 
     } else {
       console.error("Could not determine rotation", tile, toTile, fromTile);
     }
 
+    const offset = (TILE_SIZE)/2;
     return (
-      <Line
-        x={tile.x * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_X}
-        y={tile.y * TILE_SIZE + TILE_SIZE/2 + TILE_OFFSET_Y}
-        points={
-          [
-            TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
-            TILE_SIZE - TILE_MARGIN/2 + TILE_OFFSET_X, 0 + TILE_OFFSET_Y,
-            TILE_SIZE + TILE_OFFSET_X, TILE_MARGIN/2 + TILE_OFFSET_Y,
-            TILE_SIZE + TILE_OFFSET_X, TILE_SIZE - TILE_MARGIN/2,
-          ]
-        }
-        rotation={rotation}
-        tension={0}
-        closed
-        // stroke="black"
-        // strokeWidth={1}
+      <Arc
+        x={tile.x * TILE_SIZE + offset + TILE_OFFSET_X }
+        y={tile.y * TILE_SIZE + offset + TILE_OFFSET_Y}
+        innerRadius={0 + TILE_MARGIN/2}
+        outerRadius={TILE_SIZE - TILE_MARGIN/2}
+        angle={90}
         fill={color}
-        offset={{x: TILE_SIZE/2 + TILE_OFFSET_X, y: TILE_SIZE/2 + TILE_OFFSET_Y}}
+        rotation={rotation}
+        offset={{x: offset, y: offset}}
+        // stroke={"black"}
+        // strokeWidth={1}
       />
     );
   }
