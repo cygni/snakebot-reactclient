@@ -49,13 +49,14 @@ function GameboardView({}: Props) {
         api.getGame(gameID!).then(game => {
             console.log("fetched game", game);
             dispatch(setGameData(game));
+
+            // dispatch until first map update
+            messageDispatch();
+            messageDispatch();
+            messageDispatch();
         });
     }, [gameID]);
 
-    // Redraw on snakeState change
-    useEffect(() => {
-        // draw();
-    }, [currentFrameState]);
 
     function Navigation() {
         if(tournamentState === true){
