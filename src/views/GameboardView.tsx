@@ -10,131 +10,91 @@ import { useRef, useEffect, useState } from "react";
 import { GameContext } from "../context/GameProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setGameData } from "../context/slices/gameDataSlice";
+import { TournamentData } from "../context/slices/tournamentSlice";
+import { TournamentGame } from '../constants/messageTypes';
 import messageDispatch from "../context/messageDispatch";
 import Modal from "../components/Modal";
 import { RootState } from "../context/store";
 import { store } from "../context/store";
-import { getRotation, getSnakeHead, getSnakeTail} from '../constants/Images'
+import { getRotation, getCurrentSnakeHead, getCurrentSnakeTail, getStar} from '../constants/Images'
+import colors from '../constants/Colors'
+import { useNavigate } from 'react-router-dom';
+import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 
+import { Layer, Stage } from "react-konva";
+import Snake from "../canvasComponents/Snake";
+import { url } from "inspector";
+import Obstacles from "../canvasComponents/Obstacles";
+import Stars from "../canvasComponents/Stars";
 
-
-type Props = {}
+type Props = {
+    
+}
 
 function GameboardView({}: Props) {
+    const navigate = useNavigate();
     
-    const [isOpen, setIsOpen] = useState(false);
     const size = {height: MAP_HEIGHT_PX, width: MAP_WIDTH_PX};
     const dispatch = useDispatch();
-    const snakesState = useSelector((state: RootState) => state.snakes);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const currentFrameState = useSelector((state: RootState) => state.currentFrame);
+    const tournamentState = useSelector((state: RootState) => state.tournament.isTournamentStarted);
+    // const canvasRef = useRef<HTMLCanvasElement>(null);
+    const imagesRef = useRef<{[key: string]: HTMLImageElement}>({});
 
     let { gameID } = useParams();
 
     // Initialize the game
     useEffect(() => {
+        dispatch(clearCurrentFrame());
         api.getGame(gameID!).then(game => {
             console.log("fetched game", game);
             dispatch(setGameData(game));
 
-            // Dispatch until the first snake positions are fetched
+            // dispatch until first map update
             messageDispatch();
             messageDispatch();
             messageDispatch();
         });
     }, [gameID]);
 
-    // Redraw on snakeState change
-    useEffect(() => {
-        drawSnakes();
-    }, [snakesState]);
-
-    function drawSnakes() {
-        const ctx = canvasRef.current!.getContext("2d");
-
-        // Clear canvas
-        ctx?.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
-
-        const snakes = store.getState().snakes;
-        snakes.IDs.forEach(snakeID => {
-            const snake = snakes.snakesData[snakeID];
-            snake.positions.forEach((position, index) => {
-                const { x, y } = position;
-                
-                if (index === 0) {
-                    let img = new Image;
-                    img.onload = () => {
-                        // Move to the the given tile
-                        ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
-
-                        // Rotate around the center of the image
-                        ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                        ctx?.rotate(getRotation(snake.positions[0], snake.positions[1]));
-                        ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
-
-                        ctx?.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE);
-
-                        // Reset the translation and rotation for next draw
-                        ctx?.resetTransform();
-                    }
-                    img.src = getSnakeHead(snake.color);
-                } else if (index === snake.positions.length - 1) {
-                    let img = new Image;
-                    img.onload = () => {
-                        // Move to the the given tile
-                        ctx?.translate(x * TILE_SIZE, y * TILE_SIZE);
-
-                        // Rotate around the center of the image
-                        ctx?.translate(TILE_SIZE / 2, TILE_SIZE / 2);
-                        ctx?.rotate(getRotation(snake.positions[index - 1], snake.positions[index]));
-                        ctx?.translate(-TILE_SIZE / 2, -TILE_SIZE / 2);
-
-                        ctx?.drawImage(img, 0, 0, TILE_SIZE, TILE_SIZE);
-
-                        // Reset the translation and rotation for next draw
-                        ctx?.resetTransform();
-                    }
-                    img.src = getSnakeTail(snake.color);
-                }
-                else {
-                    ctx!.fillStyle = snake.color;
-                    ctx!.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                }
-                
-            });
-        });
-    }
-
 
     function Navigation() {
+        if(tournamentState === true){
         return (
-            <p>TODO: NAVIGATION</p>
+            <button className="primaryBtn" onClick={() => navigate('/tournament')}>View Bracket</button>
+            //Next Game also?
         )
+        }
     }
 
   return (
     <section className="page clear-fix">
         {Navigation()}
-        <button onClick={()=>{
-            messageDispatch();
-            // drawSnakes();
-            }}>Dispatch next message</button>
-
-            <button className="primaryBtn" onClick={() => setIsOpen(true)}>Open Modal</button>
-            {isOpen && <Modal setIsOpen={setIsOpen} />}
-
+        
         <div className="thegame clear-fix">
         <ScoreBoard />
             <div className="gameboard">
-                <canvas
-                id="canvas"
-                width={size.width + 0}
-                height={size.height + 0}
-                // ref={(c) => {
-                //     this.canvas = c;
-                //   }}
-                ref={canvasRef}
-                />
-                {/* <GameControl /> */}
+                <Stage className="canvas" width={size.width + 0} height={size.height + 0}>
+                    <Layer>
+                        {/* <SnakePart x={2} y={2}/> */}
+                        {/* <SnakePart x={2} y={3}/>
+                        <SnakePart x={3} y={3}/> */}
+
+                        {currentFrameState.IDs.map((snakeID, i) => {
+                            const snake = currentFrameState.snakesData[snakeID];
+                            return (
+                                <Snake key={i} snake={snake}/>
+                            );
+                        })}
+
+                        <Obstacles obstacles={currentFrameState.obstaclePositions}/>
+
+                        <Stars stars={currentFrameState.foodPositions}/>
+
+                    </Layer>
+
+                </Stage>
+
                 <ControllBar/>
                 
                 

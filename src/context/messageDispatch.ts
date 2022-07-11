@@ -3,6 +3,8 @@ import * as types from '../constants/messageTypes'
 import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
+import { tournamentCreated, setGamePlan, tournamentEnded, setLoggedIn } from './slices/tournamentSlice';
+import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
@@ -52,4 +54,47 @@ export default function dataDispatch(increaseCounter: boolean = true) {
     }
 
     if (increaseCounter) store.dispatch(nextMessage());
+}
+
+export function onSocketMessage(jsonData: string) {
+    const message: types.SocketMessage = JSON.parse(jsonData);
+    console.log("SOCKET: Message received:", message);
+
+    switch (message.type) {
+        case messageTypes.UNAUTHORIZED:
+            console.log("UNAUTHORIZED");
+            localStorage.removeItem("token");
+            store.dispatch(setLoggedIn(false));
+            // Navigate to loginView
+            window.location.href = "/login";
+            break;
+
+        case messageTypes.TOURNAMENT_CREATED:
+            console.log("TOURNAMENT_CREATED_EVENT");
+            store.dispatch(tournamentCreated(message as types.TournamentCreatedMessage));
+            break;
+
+        // case messageTypes.UPDATE_TOURNAMENT_SETTINGS:
+        //     console.log("UPDATE_TOURNAMENT_SETTINGS_EVENT");
+        //     break;
+
+        case messageTypes.ACTIVE_GAMES_LIST:
+            console.log("UNUSED: ACTIVE_GAMES_LIST_EVENT");
+            break;
+
+        case messageTypes.TOURNAMENT_GAME_PLAN:
+            console.log("TOURNAMENT_GAME_PLAN_EVENT");
+            store.dispatch(setGamePlan(message as types.TournamentGamePlanMessage));
+            break;
+
+        case messageTypes.TOURNAMENT_ENDED_EVENT:
+            console.log("TOURNAMENT_ENDED_EVENT");
+            store.dispatch(tournamentEnded(message as types.TournamentEndedMessage));
+            break;
+            
+
+        default:
+            console.error("Unknown message type:", message.type);
+            break;
+    }
 }

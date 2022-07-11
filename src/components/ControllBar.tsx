@@ -79,7 +79,7 @@ function ControllBar(){
           className="playButton"
           onClick={()=>{
             setRunning(!running);
-            if (gameEnded()) dispatch(setCounter(3)); // 3 is the first frame with snake positions
+            if (gameEnded()) dispatch(setCounter(0));
           }}
         />
         <input

@@ -3,19 +3,21 @@ import { Link } from 'react-router-dom';
 import api from "../api";
 import type { game } from "../api";
 
-function GamesearchView() {
+ function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
   const [searchResults, setSearchResults] = useState<game []>([]);
 
   async function searchGames(event: React.FormEvent) {
     event.preventDefault();
     let games = await api.searchForGames(snakeName);
     console.log(games);
+    setHasSearched(true);
     setSearchResults(games);
   }
 
   function Results() {
-    if (searchResults.length === 0) {
+    if (searchResults.length === 0 && hasSearched) {
       return (
         <p
           className={true ? 'show' : 'hidden'}
@@ -24,7 +26,7 @@ function GamesearchView() {
       } else {
         return (
         <ul className="searchresults"> {
-          searchResults.map((game: game, index: number) => (
+          [...searchResults].reverse().map((game: game, index: number) => (
             <li key={index}>
               <h3 className="searchheadline">
                 <Link to={{ pathname: '/viewgame/' + game.gameId }}>
@@ -41,6 +43,7 @@ function GamesearchView() {
             </li>
           ))}
         </ul>);
+        
       }
     }
 
@@ -64,9 +67,7 @@ function GamesearchView() {
               <input className="searchbtn" type="submit" value="Search" />
             </form>
             <h2 className="searchresultsheadline">Results</h2>
-
             { Results() }
-
           </div>
         </article>
       </section>
