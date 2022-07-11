@@ -5,8 +5,8 @@ import Replay from '../assets/icons/icon-replay.svg';
 import Forwards from '../assets/icons/icon-forward.svg';
 
 import messageDispatch from '../context/messageDispatch';
-import { useEffect, useRef, useState } from 'react';
-import constants from '../constants/constants';
+import { useEffect, useState } from 'react';
+import Constants from '../constants/Constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../context/store';
 import { setCounter } from '../context/slices/gameDataSlice';
@@ -18,7 +18,7 @@ function ControllBar(){
   const dispatch = useDispatch();
 
   const [running, setRunning] = useState(false);
-  const [frequency, setFrequency] = useState(constants.STARTING_FREQUENCY);
+  const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);
   let intervalID: NodeJS.Timer;
   const gameEnded = () => currentFrame >= frameCount-1;
 
@@ -70,7 +70,7 @@ function ControllBar(){
           src={Backwards}
           name="ButtonBackwards"
           className="backwardsButton"
-          onClick={() => setFrequency(frequency + constants.FREQUENCY_STEP)}
+          onClick={() => setFrequency(frequency + Constants.FREQUENCY_STEP)}
         />
         <input
           type="image"
@@ -87,7 +87,7 @@ function ControllBar(){
           src={Forwards}
           name="ButtonForward"
           className="forwardButton"
-          onClick={()=> setFrequency(Math.max(frequency - constants.FREQUENCY_STEP, constants.MIN_FREQUENCY))}
+          onClick={()=> setFrequency(Math.max(frequency - Constants.FREQUENCY_STEP, Constants.MIN_FREQUENCY))}
         />
       </div>
     </div>

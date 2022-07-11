@@ -13,21 +13,8 @@ export const TILE_OFFSET_Y = 0; // To center the tile on the y-axis (Might be a 
 export const MAP_HEIGHT_PX = MAP_HEIGHT * TILE_SIZE;
 export const MAP_WIDTH_PX = MAP_WIDTH * TILE_SIZE; // 966px close to 1000 px
 
-// export default {
-//   getTileSize() {
-//     return TILE_SIZE;
-//   },
-
-//   calculateSize() {
-//     return { width: MAP_WIDTH_PX, height: MAP_HEIGHT_PX };
-//   },
-// };
-
-
 export function convertCoords(absoluteTile: number) {
-  // console.log(size);
   const x = absoluteTile % MAP_WIDTH;
   const y = Math.floor(absoluteTile / MAP_WIDTH);
-  // console.log(x,y);
   return { x, y };
 }

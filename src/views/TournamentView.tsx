@@ -11,13 +11,10 @@ function TournamentView() {
 
   // Create tournament on mount
   useEffect(() => {
-    if (!tournament.isTournamentActive){
-    api.createTournament("Tournament");
-  }}, []);
-
-  useEffect(() => {
-    console.log("TournamentData changed:",tournament);
-  }, [tournament]);
+    if (!tournament.isTournamentActive) {
+      api.createTournament("Tournament");
+    }
+  }, []);
 
   function selectView(){
     if(!tournament.isTournamentStarted){
@@ -27,7 +24,6 @@ function TournamentView() {
       return <TournamentSchedule />;
     }
     return <LoadingPage />;
-    
   }
   
   return (

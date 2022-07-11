@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Rect, Image, Layer, Group } from "react-konva"
+import { useEffect, useRef } from "react";
+import { Image, Group } from "react-konva"
 import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../constants/BoardUtils";
 import { getBlackhole } from "../constants/Images";
 import { TilePosition } from "../context/slices/currentFrameSlice";

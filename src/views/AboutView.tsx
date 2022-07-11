@@ -1,9 +1,5 @@
-import {Link} from 'react-router-dom';
-type Props = {
-  
-}
 
-function AboutView({}: Props) {
+function AboutView() {
   return (
     <>
       <section className="page clear-fix">

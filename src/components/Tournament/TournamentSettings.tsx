@@ -1,6 +1,5 @@
-import { FormEventHandler, ReactEventHandler, useState, useEffect } from 'react'
+import {useState, useEffect } from 'react'
 import api from '../../api';
-import { GameSettings } from '../../constants/messageTypes'
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
 import { startTournament, updateGameSettings } from '../../context/slices/tournamentSlice'
 import PlayerList from '../PlayerList';
@@ -9,7 +8,6 @@ function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
   const tournamentName = useAppSelector(state => state.tournament.tournamentName);
   const tournamentId = useAppSelector(state => state.tournament.tournamentId);
-  const isTournamentActive = useAppSelector(state => state.tournament.isTournamentActive);
   const noofPlayerrs = useAppSelector(state => state.tournament.players);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
   const dispatch = useAppDispatch();
@@ -20,7 +18,7 @@ function TournamentSettings() {
   }
 
   useEffect(() => {
-    console.log("UPDATING GAME SETTINGS FROM SOCKET:",gameSettings);
+    console.log("Got default tournament settings from socket:",gameSettings);
     setLocalGameSettings(gameSettings);
   }, [gameSettings]);
 
@@ -34,13 +32,12 @@ function TournamentSettings() {
           <form role="form" onSubmit={(e) => {
               e.preventDefault();
               if(noofPlayerrs.length >= 2 ){
-              console.log("STARTING TOURNAMENT");
+              console.log("Starting tournament...");
               dispatch(startTournament());
               initTournament();
               }else{
                 alert('A minimum of 2 players is required to start Tournament');
               }
-              //Dispatch action to start tournament and update game settings (which in turn sends socket message to server)
             }}>
 
             <div>

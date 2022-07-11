@@ -1,17 +1,11 @@
 
 import { RiCloseLine } from "react-icons/ri";
-import  snakeHead  from "./ScoreBoard";
 import { useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 
 
 function Modal({setIsOpen} :any){
-    // console.log(setIsOpen);
     const snakes = useSelector((state: RootState) => state.currentFrame);
-    
-    console.log(snakes.playerRanks);
-
-
     return (
     <>
         <div className="darkBG" onClick={() => setIsOpen(false)}/>

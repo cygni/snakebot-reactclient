@@ -1,17 +1,17 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { Link } from 'react-router-dom';
 import api from "../api";
-import type { game } from "../api";
+import type { Game } from "../api";
 
  function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
-  const [searchResults, setSearchResults] = useState<game []>([]);
+  const [searchResults, setSearchResults] = useState<Game[]>([]);
 
   async function searchGames(event: React.FormEvent) {
     event.preventDefault();
     let games = await api.searchForGames(snakeName);
-    console.log(games);
+    console.log("Got games:", games);
     setHasSearched(true);
     setSearchResults(games);
   }
@@ -26,7 +26,7 @@ import type { game } from "../api";
       } else {
         return (
         <ul className="searchresults"> {
-          [...searchResults].reverse().map((game: game, index: number) => (
+          [...searchResults].reverse().map((game: Game, index: number) => (
             <li key={index}>
               <h3 className="searchheadline">
                 <Link to={{ pathname: '/viewgame/' + game.gameId }}>

@@ -8,12 +8,11 @@ import AboutView from './views/AboutView';
 import GettingStartedView from './views/GettingStartedView';
 import GamesearchView from './views/GamesearchView';
 import axios from 'axios';
-import Constants from './constants/constants';
 import GameboardView from './views/GameboardView';
 import { Provider } from 'react-redux';
-import TestView from './views/TestView';
 import TournamentView from './views/TournamentView';
 import LoginView from './views/LoginView'
+import Constants from './constants/Constants';
 
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;
@@ -28,7 +27,6 @@ function App() {
         <Route path="/getting-started" element={<GettingStartedView />}></Route>
         <Route path="/viewgame" element={<GamesearchView />}></Route>
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
-        <Route path="/test" element={<TestView />}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
         <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
         <Route path="/login" element={<LoginView/>}></Route>

@@ -1,11 +1,9 @@
-
+import { useEffect, useRef } from "react";
 import { TilePosition } from "../context/slices/currentFrameSlice";
-import { Rect, Image, Layer, Group, KonvaNodeComponent } from "react-konva"
+import konva from "konva";
+import { Image, Group } from "react-konva"
 import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../constants/BoardUtils";
 import { getStar } from "../constants/Images";
-import { RefObject, useEffect, useRef, useState } from "react";
-import konva from "konva";
-
 
 type Props = {
     stars: TilePosition[];
@@ -19,7 +17,6 @@ function Stars({stars}: Props) {
     let anim = new konva.Animation((frame)=>{
         groupRef?.current?.children.forEach((child: any, index: number) => {
             if (frame!.time > lastTime.current + 1000) {
-
                 if (child.opacity() < 0.5) {
                     child.to({
                         opacity: 1,

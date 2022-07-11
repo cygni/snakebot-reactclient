@@ -16,8 +16,7 @@ export default{
     UPDATE_TOURNAMENT_SETTINGS : 'se.cygni.snake.event.UpdateTournamentSettings',
     CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
     START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
-    START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame'
-    
+    START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame',
 }
 
 export type Message = {

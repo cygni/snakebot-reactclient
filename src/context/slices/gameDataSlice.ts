@@ -40,7 +40,7 @@ export const gameDataSlice = createSlice({
 
         nextMessage: (state) => {
             state.counter += 1;
-          },
+        },
 
         setCounter: (state, action: PayloadAction<number>) => {
             state.counter = action.payload;

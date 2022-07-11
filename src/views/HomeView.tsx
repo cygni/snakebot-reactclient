@@ -1,9 +1,5 @@
-import {Link} from 'react-router-dom';
-type Props = {
-    
-}
 
-function HomeView({}: Props) {
+function HomeView() {
   return (
     <>
      <section className="page clear-fix">

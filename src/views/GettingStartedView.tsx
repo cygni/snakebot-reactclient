@@ -1,9 +1,5 @@
-import {Link} from 'react-router-dom';
-type Props = {
-    
-}
 
-function GettingStartedView({}: Props) {
+function GettingStartedView() {
   return (
     <>
        <section className="page clear-fix">

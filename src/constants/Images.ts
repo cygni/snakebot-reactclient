@@ -148,25 +148,25 @@ export function getSnakeTail(color: string) {
   }
 }
 
-export function getRotation(firstPosition: TilePosition, secondPosition: TilePosition | undefined) {
-  if (secondPosition === undefined) return 0;
+// export function getRotation(firstPosition: TilePosition, secondPosition: TilePosition | undefined) {
+//   if (secondPosition === undefined) return 0;
   
-  const xDiff = secondPosition.x - firstPosition.x;
-  const yDiff = secondPosition.y - firstPosition.y;
-  if(xDiff === 0 && yDiff === 0) return 0;
-  else if(xDiff === 0 && yDiff === 1){
-    return 0;
-  } else if(xDiff === 1 && yDiff === 1){
-    return Math.PI/4;
-  } else if(xDiff === 1 && yDiff === 0){
-    return Math.PI*3/2;
-  } else if(xDiff === 0 && yDiff === -1){
-    return Math.PI;
-  } else if(xDiff === -1 && yDiff === 0){
-    return Math.PI/2;
-  } else {
-    console.error('Error in getRotation');
-    return 0;
-  }
-}
+//   const xDiff = secondPosition.x - firstPosition.x;
+//   const yDiff = secondPosition.y - firstPosition.y;
+//   if(xDiff === 0 && yDiff === 0) return 0;
+//   else if(xDiff === 0 && yDiff === 1){
+//     return 0;
+//   } else if(xDiff === 1 && yDiff === 1){
+//     return Math.PI/4;
+//   } else if(xDiff === 1 && yDiff === 0){
+//     return Math.PI*3/2;
+//   } else if(xDiff === 0 && yDiff === -1){
+//     return Math.PI;
+//   } else if(xDiff === -1 && yDiff === 0){
+//     return Math.PI/2;
+//   } else {
+//     console.error('Error in getRotation');
+//     return 0;
+//   }
+// }
 

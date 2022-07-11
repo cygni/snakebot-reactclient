@@ -1,5 +1,4 @@
 import { Group, Rect, Image, Arc } from 'react-konva';
-
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from '../constants/BoardUtils';
 import { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
 import Colors from '../constants/Colors';
@@ -25,7 +24,6 @@ function Snake({snake}: Props) {
 
     // Temporary for not drawing head
     if (JSON.stringify(line[0]) === JSON.stringify(snake.positions[0])) {
-      // console.log(snake.name,"head?",line[0]);
       line = line.slice(1);
       if (line.length === 0) return null;
     };
@@ -65,15 +63,12 @@ function Snake({snake}: Props) {
     let currentLine = [snake.positions[0]];
     let lastMovementHorizontal = true;
     for(let i = 1; i < snake.positions.length; i++) {
-      // const dx = snake.positions[i].x - snake.positions[i-1].x;
       const dy = snake.positions[i].y - snake.positions[i-1].y;
       const currentMovementHorizontal = (dy === 0);
       if (i === 1) lastMovementHorizontal = currentMovementHorizontal; // first movement is same direction
 
       if (currentMovementHorizontal !== lastMovementHorizontal) { // new line
-        // lines.push([currentLine.pop()] as TilePosition[]) // Last tile in new line
         if (currentLine.length > 0) lines.push(currentLine);
-        // console.log(snake.name, "new line", lines, dy, i, snake.positions[i], snake.positions[i-1],currentMovementHorizontal, lastMovementHorizontal);
         currentLine = [snake.positions[i]];
       } else {
         currentLine.push(snake.positions[i]);

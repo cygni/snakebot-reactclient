@@ -107,7 +107,6 @@ export const snakesSlice = createSlice({
         })
         .addCase(Actions.gameResultEvent, (state, action) => {
          action.payload.playerRanks.forEach(player => {
-          console.log(player.playerName);
            state.playerRanks.push(player.playerName);
            state.playerPoints.push(player.points);
          });
