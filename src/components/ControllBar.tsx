@@ -6,7 +6,7 @@ import Forwards from '../assets/icons/icon-forward.svg';
 
 import messageDispatch from '../context/messageDispatch';
 import { useEffect, useState } from 'react';
-import Constants from '../constants/Constants';
+import Constants from '../constants/Arbitraryconstants';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../context/store';
 import { setCounter } from '../context/slices/gameDataSlice';

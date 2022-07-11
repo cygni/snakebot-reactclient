@@ -12,7 +12,7 @@ import GameboardView from './views/GameboardView';
 import { Provider } from 'react-redux';
 import TournamentView from './views/TournamentView';
 import LoginView from './views/LoginView'
-import Constants from './constants/Constants';
+import Constants from './constants/Arbitraryconstants';
 
 function App() {
   axios.defaults.baseURL = Constants.SERVER_URL;
