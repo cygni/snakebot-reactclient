@@ -9,7 +9,7 @@ type Props = {
   snake: SnakeData;
 }
 
-function SnakePart({snake}: Props) {
+function Snake({snake}: Props) {
   const headImage = getCurrentSnakeHead(snake);
   const tailImage = getCurrentSnakeTail(snake);
   const color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
@@ -192,4 +192,4 @@ function SnakePart({snake}: Props) {
   )
 }
 
-export default SnakePart
+export default Snake

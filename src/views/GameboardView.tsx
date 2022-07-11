@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 
 import { Layer, Stage } from "react-konva";
-import SnakePart from "../canvasComponents/SnakePart";
+import Snake from "../canvasComponents/Snake";
 import { url } from "inspector";
 import Obstacles from "../canvasComponents/Obstacles";
 import Stars from "../canvasComponents/Stars";
@@ -81,7 +81,9 @@ function GameboardView({}: Props) {
 
                         {currentFrameState.IDs.map((snakeID, i) => {
                             const snake = currentFrameState.snakesData[snakeID];
-                            return (<SnakePart key={i} snake={snake}/>)
+                            return (
+                                <Snake key={i} snake={snake}/>
+                            );
                         })}
 
                         <Obstacles obstacles={currentFrameState.obstaclePositions}/>
