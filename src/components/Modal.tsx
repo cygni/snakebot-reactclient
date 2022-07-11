@@ -7,7 +7,7 @@ import type { RootState } from '../context/store';
 
 function Modal({setIsOpen} :any){
     // console.log(setIsOpen);
-    const snakes = useSelector((state: RootState) => state.snakes);
+    const snakes = useSelector((state: RootState) => state.currentFrame);
     
     console.log(snakes.playerRanks);
 

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import snakesReducer from './slices/snakesSlice';
+import currentFrameReducer from './slices/currentFrameSlice';
 import gameDataReducer from './slices/gameDataSlice';
+import tournamentReducer from './slices/tournamentSlice';
 
 export const store = configureStore({
   reducer: {
-    snakes: snakesReducer,
+    currentFrame: currentFrameReducer,
     gameData: gameDataReducer,
+    tournament: tournamentReducer,
   },
 })
 

@@ -1,7 +1,17 @@
 import snakelogo from '../assets/logos/snakelogo.png';
 import { Link, NavLink } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../context/hooks';
+import { setLoggedIn } from '../context/slices/tournamentSlice';
 
-function PageFooter() {
+function PageHeader() {
+  const isLoggedIn = useAppSelector(state => state.tournament.isLoggedIn);
+  const dispatch = useAppDispatch();
+
+  function handleLogout() {
+    localStorage.removeItem('token');
+    dispatch(setLoggedIn(false));
+  }
+
   return (
     <header>
     <Link to="/">
@@ -13,22 +23,16 @@ function PageFooter() {
         <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'selected' : '')}>About</NavLink></li>
         <li><NavLink to="/viewgame" className={({ isActive }) => (isActive ? 'selected' : '')}>Game</NavLink></li>
         <li><NavLink to="/getting-started" className={({ isActive }) => (isActive ? 'selected' : '')}>Getting started</NavLink></li>
-        {/*
-          <li><NavLink to="arena" activeClassName="selected">Arena</NavLink></li>
-        */}
-        {/* <li><NavLink to="viewgame" activeClassName="selected">Games</NavLink></li>
-        {loggedIn ?
-          <li><NavLink to="tournament" activeClassName="selected">Tournament</NavLink></li>
-          : null
-        }
-        {loggedIn ?
-          <li><a href="" onClick={tryLogout}>Log out</a></li> :
-          <li><NavLink to="auth" activeClassName="selected">Log in</NavLink></li>
-        } */}
+        
+        {isLoggedIn ? (<li><NavLink to="/tournament" className={({ isActive }) => (isActive ? 'selected' : '')}>Tournament</NavLink></li>) 
+        : null}
+
+        {isLoggedIn ? (<NavLink to="/" onClick={handleLogout} >Logout</NavLink>)
+        : (<li><NavLink to="/login" className={({ isActive }) => (isActive ? 'selected' : '')}>Login</NavLink></li>)}
       </ul>
     </nav>
   </header>
   );
 }
 
-export default PageFooter;
+export default PageHeader;

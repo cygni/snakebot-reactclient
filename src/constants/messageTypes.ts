@@ -1,4 +1,3 @@
-
 export default{
     GAME_HISTORY: "se.cygni.snake.eventapi.history.GameHistory",
     GAME_CREATED_EVENT: 'se.cygni.snake.api.event.GameCreatedEvent',
@@ -14,6 +13,10 @@ export default{
     SNAKE_DEAD_EVENT : 'se.cygni.snake.api.event.SnakeDeadEvent',
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
     GAME_RESULT_EVENT : 'se.cygni.snake.api.event.GameResultEvent',
+    UPDATE_TOURNAMENT_SETTINGS : 'se.cygni.snake.event.UpdateTournamentSettings',
+    CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
+    START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
+    START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame'
     
 }
 
@@ -100,4 +103,73 @@ export interface GameEndedMessage extends Message {
     map: GameMap;
     playerWinnerId: string;
     playerWinnerName: string;
+}
+
+// ##################################################
+// ########## Tournament related messages ###########
+// ##################################################
+
+export type SocketMessage = {
+    type: string;
+}
+
+export interface TournamentCreatedMessage extends SocketMessage {
+    gameSettings: GameSettings;
+    tournamentId: string;
+    tournamentName: string;
+}
+
+export type Player = {
+    name: string;
+    id: string;
+    points: number;
+    isWinner: boolean;
+    isMovedUpInTournament: boolean;
+}
+
+export type TournamentGame = {
+    expectedNoofPlayers: number;
+    gameId: string | null;
+    gamePlayed: boolean;
+    players: Player[]
+
+    // Extra variable not received from the server
+    isViewed: boolean;
+}
+
+export type TournamentLevel = {
+    expectedNoofPlayers: number;
+    level: number;
+    players: Player[];
+    tournamentGames: TournamentGame[];
+    tournamentName: string;
+}
+
+export interface TournamentGamePlanMessage extends SocketMessage {
+    noofLevels: number;
+    players: Player[];
+    tournamentId: string;
+    tournamentLevels: TournamentLevel[];
+    tournamentName: string;
+}
+
+type ActiveGame = {
+    gameFeatures: GameSettings;
+    gameId: string;
+    players: Player[];
+    subscribing: boolean;
+}
+
+export interface ActiveGamesListMessage extends SocketMessage {
+    games: ActiveGame[];
+}
+
+export interface TournamentEndedMessage extends SocketMessage {
+    gameId: string;
+    gameResult: {name: string, playerId: string, points: number}[];
+    playerWinnerId: string;
+    receivingPlayerId: null;
+    timestamp: number;
+    tournamentId: string;
+    tournamentName: string;
 }

@@ -6,7 +6,7 @@ function PageFooter() {
       <a href="https://www.cygni.se">
         <img src={cygnilogo} alt="Cygni-logo" />
       </a>
-      <p>Insert adress?</p>
+      <p></p>
     </footer>
   );
 }
