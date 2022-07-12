@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v3
@@ -41,8 +41,8 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Checkout code
-      uses: actions/checkout@v2
+    # - name: Checkout code
+    #   uses: actions/checkout@v2
 
     - name: Build and push Docker image
       id:   docker_build
@@ -51,8 +51,8 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
 
-    - name: Image digest
-      run: echo ${{ steps.docker_build.outputs.digest }}
+    # - name: Image digest
+    #   run: echo ${{ steps.docker_build.outputs.digest }}
 
 
     # TODO: Deploy to site
