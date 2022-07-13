@@ -34,10 +34,8 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
-      # - name: Echo metadata
-      #   run : |
-      #     echo ${{ steps.meta.outputs.tags }}
-      #     echo ${{ steps.meta.outputs.labels }}
+      - name: Echo branch name
+        run : echo running on branch ${GITHUB_REF##*/}
 
       - name: Build and push Docker image
         id:   docker_build
@@ -45,7 +43,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:0.0.3 , ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest , ${{ steps.meta.outputs.tags }}
           # labels: ${{ steps.meta.outputs.labels }}
           # tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:0.0.1
 
