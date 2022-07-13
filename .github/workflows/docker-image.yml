@@ -24,8 +24,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          # set latest tag for main branch
           tags: |
-            # set latest tag for master branch
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'docker_tags') }}
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
@@ -35,5 +35,6 @@ jobs:
         with:
           context: .
           push: true
+          # push main -> tag:latest, release x.x.x main -> tag:latest AND tag:x.x.x
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
