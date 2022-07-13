@@ -37,13 +37,21 @@ jobs:
       - name: Echo branch name
         run : echo running on branch ${GITHUB_REF##*/}
 
-      - name: Build and push Docker image
-        id:   docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest , ${{ steps.meta.outputs.tags }}
+      - name: Try if condition
+        if: ${GITHUB_REF##*/} == ${{ steps.meta.outputs.tags }}
+        run: echo Same tag as branch name, ${{ steps.meta.outputs.tags }}
+
+      - name: Try if condition
+        if: ${GITHUB_REF##*/} != ${{ steps.meta.outputs.tags }}
+        run: echo Not same tag as branch name, ${{ steps.meta.outputs.tags }}
+
+      # - name: Build and push Docker image
+      #   id:   docker_build
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest , ${{ steps.meta.outputs.tags }}
           # labels: ${{ steps.meta.outputs.labels }}
           # tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:0.0.1
 
