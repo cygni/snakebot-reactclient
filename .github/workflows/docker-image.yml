@@ -39,6 +39,8 @@ jobs:
 
       - name: Testing some if statements
         run: echo ${{ true == true, 'yes', 'no'}}
+
+      - name: Another if test
         run: echo ${{ true == false, 'yes', 'no'}}
 
       - name: Try if condition
