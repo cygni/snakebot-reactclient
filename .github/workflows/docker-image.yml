@@ -34,10 +34,10 @@ jobs:
         with:
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
-      - name: Echo metadata
-        run : |
-          echo ${{ steps.meta.outputs.tags }}
-          echo ${{ steps.meta.outputs.labels }}
+      # - name: Echo metadata
+      #   run : |
+      #     echo ${{ steps.meta.outputs.tags }}
+      #     echo ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Docker image
         id:   docker_build
