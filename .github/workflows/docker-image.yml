@@ -24,8 +24,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          # set latest tag for default branch (https://github.com/docker/metadata-action#latest-tag)
-          # Effect: main push -> tag:latest, tag release x.x.x -> tag:x.x.x AND tag:latest
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
@@ -39,3 +37,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
         
+# set latest tag for default branch (https://github.com/docker/metadata-action#latest-tag)
+# Effect: main push -> tag:latest, tag release x.x.x -> tag:x.x.x AND tag:latest
