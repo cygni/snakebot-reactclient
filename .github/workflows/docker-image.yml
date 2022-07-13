@@ -23,10 +23,10 @@ jobs:
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v4
-        tags: |
-          # set latest tag for master branch
-          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'docker_tags') }}
         with:
+          tags: |
+            # set latest tag for master branch
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'docker_tags') }}
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
       - name: Build and push Docker image
