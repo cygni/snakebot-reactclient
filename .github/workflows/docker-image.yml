@@ -57,7 +57,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: {{tag}}
+          tags: |
+            type=raw,value=mytag-{{branch}}-{{sha}}
           # tags: {${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest , ${{ steps.meta.outputs.tags }}}
           # labels: ${{ steps.meta.outputs.labels }}
           # tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:0.0.1
