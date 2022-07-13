@@ -37,11 +37,15 @@ jobs:
       - name: Echo branch name
         run : echo running on branch ${GITHUB_REF##*/}
 
+      - name: Testing some if statements
+        run: echo ${{ true == true, 'yes', 'no'}}
+        run: echo ${{ true == false, 'yes', 'no'}}
+
       - name: Try if condition
         if: ${GITHUB_REF##*/} == ${{ steps.meta.outputs.tags }}
         run: echo Same tag as branch name, ${{ steps.meta.outputs.tags }}
 
-      - name: Try if condition
+      - name: Try else if condition
         if: ${GITHUB_REF##*/} != ${{ steps.meta.outputs.tags }}
         run: echo Not same tag as branch name, ${{ steps.meta.outputs.tags }}
 
