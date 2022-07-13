@@ -27,6 +27,7 @@ jobs:
           # set latest tag for main branch
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'docker_tags') }}
+            type=ref,event=tag
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
       - name: Build and push Docker image
