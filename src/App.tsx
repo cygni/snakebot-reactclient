@@ -15,6 +15,7 @@ import LoginView from './views/LoginView'
 import Constants from './constants/Arbitraryconstants';
 
 function App() {
+  console.log("%cUsing server url: " + Constants.SERVER_URL, 'background: #222; color: #bada55');
   axios.defaults.baseURL = Constants.SERVER_URL;
 
   return (
