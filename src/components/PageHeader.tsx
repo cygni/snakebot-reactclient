@@ -1,19 +1,23 @@
 import snakelogo from '../assets/logos/snakelogo.png';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
 import { setLoggedIn } from '../context/slices/tournamentSlice';
+
 
 function PageHeader() {
   const isLoggedIn = useAppSelector(state => state.tournament.isLoggedIn);
   const dispatch = useAppDispatch();
+  const { pathname } = useLocation();
 
   function handleLogout() {
     localStorage.removeItem('token');
     dispatch(setLoggedIn(false));
   }
 
+  console.log("pathname is", pathname, "statement true?:", pathname==="/");
+
   return (
-    <header>
+    <header className={pathname==="/" ? "navbar-startpage" : ""}>
     <Link to="/">
       <img src={snakelogo} alt="Snakebot-logo" />
     </Link>

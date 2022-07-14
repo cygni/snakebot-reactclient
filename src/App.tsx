@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import PageHeader from './components/PageHeader';
 import PageFooter from './components/PageFooter';
 import HomeView from './views/HomeView';
+import StartView from './views/StartView';
 import AboutView from './views/AboutView';
 import GettingStartedView from './views/GettingStartedView';
 import GamesearchView from './views/GamesearchView';
@@ -22,7 +23,7 @@ function App() {
     <BrowserRouter>
     <PageHeader/>
       <Routes>
-        <Route path="/" element={<HomeView />}></Route>
+        <Route path="/" element={<StartView />}></Route>
         <Route path="/about" element={<AboutView />}></Route>
         <Route path="/getting-started" element={<GettingStartedView />}></Route>
         <Route path="/viewgame" element={<GamesearchView />}></Route>
@@ -31,8 +32,8 @@ function App() {
         <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
         <Route path="/login" element={<LoginView/>}></Route>
       </Routes>
+      <PageFooter/>
     </BrowserRouter>
-    <PageFooter/>
   </Provider>
   );
 }

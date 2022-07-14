@@ -1,12 +1,20 @@
-import cygnilogo from '../assets/logos/cygni-logo.svg';
+import cygnilogo from '../assets/logos/cygni-logo-black.svg';
+import instagramCygni from '../assets/images/cygni-instagram.png';
+import { useLocation } from 'react-router-dom';
+
+
 
 function PageFooter() {
+
+  const { pathname } = useLocation();
+
   return (
-    <footer className="clear-fix">
+    <footer>
       <a href="https://www.cygni.se">
         <img src={cygnilogo} alt="Cygni-logo" />
+
       </a>
-      <p></p>
+      
     </footer>
   );
 }
