@@ -63,4 +63,4 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Update digitalocean app with new yml spec
-        run: doctl apps update {{ secrets.DIGITALOCEAN_APP_ID }} --spec digitalocean-spec.yaml
+        run: doctl apps update ${{ secrets.DIGITALOCEAN_APP_ID }} --spec digitalocean-spec.yaml
