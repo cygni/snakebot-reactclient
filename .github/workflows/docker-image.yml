@@ -42,7 +42,7 @@ jobs:
       #     labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo sha code attempt
-        run: echo raw is {{raw}} or ${{raw}}, sha is {{sha}}
+        run: echo raw is {{raw}}, sha is {{sha}}
 
       - name: Tag digitalocean yml name with commit
         uses: fjogeleit/yaml-update-action@v0.10.0
