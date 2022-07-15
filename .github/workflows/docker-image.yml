@@ -44,8 +44,6 @@ jobs:
       - name: Sha code env
         env:
           GITHUB_SHA: ${GITHUB_SHA::7}
-
-      - name: Echo sha code attempt
         run: echo sha is "$GITHUB_CONTEXT"
 
       - name: Tag digitalocean yml name with commit
