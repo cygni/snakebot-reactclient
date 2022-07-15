@@ -34,9 +34,10 @@ function LoginView() {
     }
 
   return (
-    <section className="page clear-fix">
+    <section className="loginview">
         <article>
             <h1>Log In</h1>
+            <p>Log in with username and password to access additional functions.</p>
             <div className="text-content">
                 <div className="box">
                     <form onSubmit={handleSubmit} > 

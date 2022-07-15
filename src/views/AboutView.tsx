@@ -4,7 +4,7 @@
 function AboutView() {
   return (
     <>
-      <section className="page clear-fix">
+      <div className="aboutview">
       <article>
         <h1>About</h1>
         <div className="text-content">
@@ -39,7 +39,7 @@ function AboutView() {
           </ul>
         </div>
       </article>
-    </section>
+    </div>
     </>
    
   )
