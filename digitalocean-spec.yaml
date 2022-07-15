@@ -1,0 +1,26 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+domains:
+- domain: game.snake.cygni.se
+  type: PRIMARY
+name: snakebot-web-commit#####
+region: ams
+services:
+- envs:
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  - key: API_URL
+    scope: RUN_AND_BUILD_TIME
+    value: https://snake.cygni.se
+  http_port: 80
+  image:
+    registry: cygni
+    registry_type: DOCKER_HUB
+    repository: snakebot-reactclient
+    tag: latest
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: cygni-snakebot-reactclient
+  routes:
+  - path: /

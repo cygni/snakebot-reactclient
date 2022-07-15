@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - '*.*.*'
-    branches: [ "main" ]
+    branches: [ "main", "CD-production" ]
 
 jobs:
   build:
@@ -39,3 +39,20 @@ jobs:
           # push main -> tag:latest, release x.x.x main -> tag:latest AND tag:x.x.x
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Tag digitalocean yml name with commit
+        uses: fjogeleit/yaml-update-action@v0.10.0
+        with:
+          valueFile: 'digitalocean-spec.yaml'
+          propertyPath: 'name'
+          value: snakebot-web-commitXXXXXX
+          commitChange: false
+          updateFile: false
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Update digitalocean production docker image
+        run: doctl apps update 1133b332-913d-437a-892c-27f4692e95ba --spec digitalocean-spec.yaml
