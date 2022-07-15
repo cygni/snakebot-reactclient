@@ -29,10 +29,12 @@ import type { Game } from "../api";
           [...searchResults].reverse().map((game: Game, index: number) => (
             <li key={index}>
               <h3 className="searchheadline">
-                <Link to={{ pathname: '/viewgame/' + game.gameId }}>
-                  <span className="date">Date: {game.gameDate}</span>
-                </Link>
               </h3>
+              <p className="game-played">Game Played: </p>
+              <span className="date">{game.gameDate}</span>
+              <Link to={{ pathname: '/viewgame/' + game.gameId }}>
+                  <p className="viewgame">View Game</p>
+                </Link>
               <ul className="players"> {
                 game.players.map((player: string, i: number) => (
                   <li key={i} className={(snakeName === player ? 'match' : '')}>
@@ -41,14 +43,16 @@ import type { Game } from "../api";
                 ))}
               </ul>
             </li>
+            
           ))}
         </ul>);
+        
         
       }
     }
 
   return (
-    <section className="page clear-fix">
+    <section className="gameView">
         <article>
           <h1>Search for old games</h1>
           <p className="searchintro">
@@ -66,7 +70,7 @@ import type { Game } from "../api";
               />
               <input className="searchbtn" type="submit" value="Search" />
             </form>
-            <h2 className="searchresultsheadline">Results</h2>
+            {/* <h2 className="searchresultsheadline">Results</h2> */}
             { Results() }
           </div>
         </article>

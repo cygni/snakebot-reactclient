@@ -16,6 +16,7 @@ h1{
   font-family: 'Barlow Condensed';
   font-size: 2.7em;
   font-weight: 600;
+  margin-bottom: 0;
 }
 
 h2{
@@ -63,7 +64,6 @@ iframe{
     line-height: 1em;
     text-align: center;
     font-weight: 600;
-    margin-bottom: 0;
     padding-bottom: 2rem;
   }
 }
@@ -201,7 +201,104 @@ footer {
   background-color: aquamarine;
   height: 70rem; // Temp to get some space
 
-  h1{
-    margin-bottom: 0;
+}
+
+.gameView {
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  text-align: center;
+
+  input {
+    width: 20vw;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #DCDCDC;
   }
+
+  .searchbtn {
+    width: 5vw;
+    margin-left: 1rem;
+    color: white;
+    background-color: #00BFFF;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .searchintro {
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .searchresults {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .searchresults li {
+    margin-bottom: 1.2rem;
+  }
+  
+  .searchheadline {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .searchheadline a {
+    text-decoration: none;
+  }
+  
+  .time {
+    margin-left: 0.5rem;
+  }
+  
+  .players {
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .players li {
+    display: inline-block;
+    margin: 0 0 0 1rem;
+  
+  }
+  
+  .players li:first-child {
+    margin: 0;
+  }
+  
+  .match {
+    font-style: italic;
+    color: #439335;
+  }
+  
+  .searchresultsheadline {
+    margin-top: 1rem;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .searchintro {
+    margin-bottom: 1rem;
+  }
+
+  .viewgame {
+    color: #000735;
+    display: inline-block;
+    text-decoration-line: underline;
+  }
+
+  .date {
+    margin-right: 1rem;
+  }
+
+  .game-played{
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
 }

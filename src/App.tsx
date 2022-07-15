@@ -24,8 +24,6 @@ function App() {
     <PageHeader/>
       <Routes>
         <Route path="/" element={<StartView />}></Route>
-        <Route path="/about" element={<AboutView />}></Route>
-        {/* <Route path="/getting-started" element={<GettingStartedView />}></Route> */}
         <Route path="/viewgame" element={<GamesearchView />}></Route>
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
