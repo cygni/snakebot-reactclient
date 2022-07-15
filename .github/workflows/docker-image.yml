@@ -49,7 +49,7 @@ jobs:
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: snakebot-web-${GITHUB_SHA::7}
+          value: snakebot-web-030c1b7
           commitChange: false
           updateFile: true
 
