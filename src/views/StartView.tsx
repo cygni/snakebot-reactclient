@@ -45,7 +45,7 @@ const { pathname } = useLocation();
     <div className="cygni-at-campus">
         <h1>Cygni at your campus?</h1>
         <p>Follow @cygniatcampus at Instagram to find out more about the Cygni activities at your Campus and to get info about our next Snakebot event. </p>
-        <img className={pathname==="/" ? "footer-startpage" : ""} src={instagramCygni} alt="Cygni-instagram" />
+        <img className={pathname==="/" ? "phone-cygni" : ""} src={instagramCygni} alt="Cygni-instagram" />
 
     </div>
 

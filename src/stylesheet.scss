@@ -2,6 +2,7 @@
 
 body {
   overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
   margin: 0;
 }
 
@@ -167,7 +168,6 @@ footer {
   height: 7rem;  
   position: relative;
   bottom: 0;
-  width: 100%;
   
   img {
     width: 150px;
@@ -186,10 +186,13 @@ footer {
   background-color: transparent;
 }
 
-.footer-startpage{
+.phone-cygni{
+  z-index: 1;
   width: 500px;
-  margin-left: 100%;
-  bottom: 0;
+  margin-left: 50%;
+  bottom: -11rem;
+  position: absolute;
+  overflow-y: visible;
 }
 
 

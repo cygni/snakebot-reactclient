@@ -12,7 +12,6 @@ function PageFooter() {
     <footer>
       <a href="https://www.cygni.se">
         <img src={cygnilogo} alt="Cygni-logo" />
-
       </a>
       
     </footer>
