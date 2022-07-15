@@ -28,7 +28,6 @@ jobs:
           tags: |
             type=raw,value=latest
             type=ref,event=tag
-            type=sha
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
       # - name: Build and push Docker image
@@ -41,11 +40,15 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Set outputs
+      - name: Get commit sha
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Check outputs
         run: echo ${{ steps.vars.outputs.sha_short }}
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       # - name: Sha code env
       #   env:
@@ -57,7 +60,7 @@ jobs:
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: snakebot-web-${{ steps.vars.outputs.sha_short }}
+          value: snakebot-web-${{steps.date.outputs.date}}-${{ steps.vars.outputs.sha_short }}
           commitChange: false
           updateFile: true
 
