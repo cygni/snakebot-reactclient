@@ -41,17 +41,23 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Sha code env
-        env:
-          GITHUB_SHA: ${GITHUB_SHA::7}
-        run: echo sha is "$GITHUB_CONTEXT"
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
+      # - name: Sha code env
+      #   env:
+      #     GITHUB_SHA: ${GITHUB_SHA::7}
+      #   run: echo sha is "$GITHUB_CONTEXT"
 
       - name: Tag digitalocean yml name with commit
         uses: fjogeleit/yaml-update-action@v0.10.0
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: "$GITHUB_CONTEXT"
+          value: snakebot-web-${{ steps.vars.outputs.sha_short }}
           commitChange: false
           updateFile: true
 
