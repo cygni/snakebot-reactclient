@@ -41,15 +41,19 @@ jobs:
       #     tags: ${{ steps.meta.outputs.tags }}
       #     labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Sha code env
+        env:
+          GITHUB_SHA: ${GITHUB_SHA::7}
+
       - name: Echo sha code attempt
-        run: echo sha is ${GITHUB_SHA::7}
+        run: echo sha is "$GITHUB_CONTEXT"
 
       - name: Tag digitalocean yml name with commit
         uses: fjogeleit/yaml-update-action@v0.10.0
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: ${GITHUB_SHA::7}
+          value: "$GITHUB_CONTEXT"
           commitChange: false
           updateFile: true
 
