@@ -45,7 +45,7 @@ jobs:
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: snakebot-web-commitXXXXXX
+          value: snakebot-web-commitxxxxx
           commitChange: false
           updateFile: false
 

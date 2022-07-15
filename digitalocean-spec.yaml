@@ -3,7 +3,7 @@ alerts:
 domains:
 - domain: game.snake.cygni.se
   type: PRIMARY
-name: snakebot-web-commit#####
+name: snakebot-web-commitzzzzz
 region: ams
 services:
 - envs:
