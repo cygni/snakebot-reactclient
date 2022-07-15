@@ -42,14 +42,14 @@ jobs:
       #     labels: ${{ steps.meta.outputs.labels }}
 
       - name: Echo sha code attempt
-        run: echo raw is {{raw}}, sha is {{sha}}
+        run: echo raw is ${{steps.meta.outputs.raw}}, sha is ${{steps.meta.outputs.sha}}
 
       - name: Tag digitalocean yml name with commit
         uses: fjogeleit/yaml-update-action@v0.10.0
         with:
           valueFile: 'digitalocean-spec.yaml'
           propertyPath: 'name'
-          value: snakebot-web-commit{{sha}}
+          value: snakebot-web-commit${{steps.meta.outputs.sha}}
           commitChange: false
           updateFile: true
 
