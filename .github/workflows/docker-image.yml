@@ -30,15 +30,15 @@ jobs:
             type=ref,event=tag
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
 
-      - name: Build and push Docker image
-        id:   docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          # push main -> tag:latest, release x.x.x main -> tag:latest AND tag:x.x.x
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      # - name: Build and push Docker image
+      #   id:   docker_build
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: .
+      #     push: true
+      #     # push main -> tag:latest, release x.x.x main -> tag:latest AND tag:x.x.x
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     labels: ${{ steps.meta.outputs.labels }}
 
       - name: Tag digitalocean yml name with commit
         uses: fjogeleit/yaml-update-action@v0.10.0
@@ -47,7 +47,7 @@ jobs:
           propertyPath: 'name'
           value: snakebot-web-commitxxxxx
           commitChange: false
-          updateFile: false
+          updateFile: true
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
