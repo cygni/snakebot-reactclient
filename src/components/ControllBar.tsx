@@ -50,7 +50,7 @@ function ControllBar(){
   }
 
   return (
-      <div className="box controlpanel">
+      <div className="controlpanel">
       <input
         type="range"
         step="1"

@@ -2,6 +2,7 @@ import cygnilogo from '../assets/logos/cygni-logo.svg';
 import phone from '../assets/images/cygni-instagram.png';
 import instagramCygni from '../assets/images/cygni-instagram.png';
 import { useLocation } from 'react-router-dom';
+import Modal from '../components/Modal'
 
 function StartView() {
 
@@ -10,10 +11,14 @@ function StartView() {
 
     <div className="header-image">
         <div className="header-content">
-            <h1 >Some short slogan maybe</h1>
+            <h1 >Welcome to Snakebot!</h1>
             <img src={cygnilogo} alt='cygni-logo'/>
         </div>
     </div>
+
+    <button onClick={() => Modal(true)}>TEST
+    </button>
+
     <div className='welcome'>
         <h1>Welcome!</h1>
         <p>Remember the old game of Snake? One of the first common implementations was available on the phone Nokia 3310. Snake Record - Nokia 3310</p>

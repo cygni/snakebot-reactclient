@@ -5,11 +5,23 @@ body {
   overscroll-behavior-x: none;
   min-height: 100vh;
   margin: 0;
+  
+}
+
+section {
+  background-color: #ebebeb;
 }
 
 p{
   font-family: Barlow;
   font-size: 1em;
+}
+
+label {
+  font-family: 'Barlow Condensed';
+  font-size: 1.0em;
+  text-align: left;
+  font-weight: 600;
 }
 
 h1{
@@ -189,10 +201,72 @@ footer {
 }
 
 .loginview {
-  background-color: aquamarine;
-  height: 70rem; // Temp to get some space
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-top: 2rem; //avstånd mellan formulär och rubrik
+  padding-bottom: 5rem;
 
+  h1{
+    text-align: center;
+  }
+
+  .logintext {
+    text-align: center;
+  }
+
+  .usernameInput, .passwordInput{
+    
+  }
+
+  input{
+    width: 20vw;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    display: block;
+    box-sizing: border-box;
+
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #DCDCDC;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .signInBtn {
+    width: 200px;
+    height: auto;
+    margin-top: 2rem;
+    color: white;
+    background-color: #00BFFF;
+    border-radius: 6px;
+    border: none;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+
+    padding: 12px 20px;
+    
+  }
+
+  .error{
+    border-color: red !important;
+  }
+  
+  .error-text{
+    color: red;
+    font-size: 12px;
+  }
+  
+  span{
+    font-size: 10px;
+    vertical-align: middle;
+    margin-right: 3px;
+  }
 }
+
+
 
 .gameView {
   margin-left: 20%;
@@ -200,16 +274,23 @@ footer {
   padding-top: 5rem;
   padding-bottom: 5rem;
   text-align: center;
+  min-height: 70vh;
+  min-height: -webkit-calc(100vh - 25rem);
+  min-height: -moz-calc(100vh - 25rem);
+  min-height: calc(100vh - 25rem);
+
+
 
   input {
     width: 20vw;
     padding: 12px 20px;
     border-radius: 6px;
+    margin-top: 30px;
     border: 1px solid #DCDCDC;
   }
 
   .searchbtn {
-    width: 5vw;
+    width: 100px;
     margin-left: 1rem;
     color: white;
     background-color: #00BFFF;
@@ -280,6 +361,7 @@ footer {
     color: #000735;
     display: inline-block;
     text-decoration-line: underline;
+    margin-left: 10px;
   }
 
   .date {
@@ -313,3 +395,243 @@ footer {
   position: absolute;
   bottom: 0;
 }
+
+.hide{
+  display: none;
+}
+
+.no-results{
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+
+  h2{
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+
+  p{
+    margin-top: 10px;
+  }
+}
+
+.tournamentsettings {
+  margin-left: 20%;
+  margin-right: 20%;
+  padding-top: 2rem; //avstånd mellan formulär och rubrik
+  padding-bottom: 5rem;
+
+  input{
+    width: 20vw;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    display: block;
+    box-sizing: border-box;
+
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #DCDCDC;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .tournament-name {
+    padding-bottom: 1em;
+  }
+
+  .maxnoofplayers {
+    display: block;
+  }
+
+  .addfood {
+    display: inline-block;
+    margin-bottom: 4.5em;
+    width: 49%;
+    margin-right: 0.5em;
+  }
+
+  .removefood {
+    display: inline-block;
+    margin-bottom: 4.5em;
+    width: 49%;
+    margin-left: 0.5em;
+  } 
+
+  .resetDefault {
+    height: 50px;
+    width: 200px;
+    margin-right: 1rem;
+    color: white;
+    background-color: #000735;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .createTournamentBtn {
+    height: 50px;
+    width: 200px;
+    margin-left: 1rem;
+    color: white;
+    background-color: #00BFFF;
+    border-radius: 6px;
+    border: none;
+  }
+
+  .tournamentButtons {
+    margin-top: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.checkboxes {
+
+  .obstacleLabel, .foodLabel, .headLabel, .tailLabel {
+    float: left;
+  }
+
+  .obstacles, .food, .head {
+    margin-bottom: 1em;
+  }
+
+  .switch {
+    position: relative;
+    display: block;
+    margin-left: 10em;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #000735;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #000735;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+
+/* The game */
+.thegame {
+  // width: 1264px;
+  // margin: auto;
+  // width: 70vw;
+
+  /* Gameboard with controls */
+  .gameboard {
+    background-image: url('./assets/images/space.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 2rem; //TEMP
+    // padding: 1rem; // Border around canvas
+    display: inline-block;
+    border-radius: 20px;
+  }
+
+  .canvas {
+    background: url('./assets/images/game.svg');
+    background-repeat: no-repeat;
+    background-size: cover 100%;
+    display: block;
+    margin: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Controls */
+  .controlpanel {
+    background-color: #fff;
+    // border-radius: 4px;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px 0rgba(0,0,0,.3);
+    padding: 2px 1rem;
+
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    // padding: 2px;
+  }
+  
+  .playButton, .forwardButton, .backwardsButton {
+    background-color: #141631;
+    // border: 1px solid #333;
+    border-radius: 4px;
+    height: 26px;
+    margin: 10px 2px 3px;
+    padding: 6px;
+    box-sizing: border-box;
+    transition: all 0.1s;
+    width: 26px;
+  }
+  
+  .playButton:hover, .forwardButton:hover, .backwardsButton:hover {
+    background-color: #06b6ee;
+    transition: all 0.2s;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 870px;
+    height: 16px;
+    margin: 14px 0px;
+    float: right;
+    border-radius: 20px;
+    background: #ccc;
+
+    outline: none;
+  }
+
+}
+

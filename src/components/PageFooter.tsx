@@ -15,7 +15,7 @@ function PageFooter() {
           <img src={cygnilogo} alt="Cygni-logo" />
         </a>
 
-        <div className={pathname==="/" ? "hidden-wrapper" : ""}>
+        <div className={pathname==="/" ? "hidden-wrapper" : "hide"}>
           <img className="phone-cygni" src={instagramCygni} alt="Cygni-instagram" />
         </div>
         

@@ -10,7 +10,7 @@ import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 import { useAppDispatch, useAppSelector } from "../context/hooks";
 
 // For drawing the gameboard
-import {MAP_HEIGHT_PX, MAP_WIDTH_PX } from "../constants/BoardUtils";
+import {MAP_HEIGHT_PX, MAP_WIDTH_PX, TILE_SIZE } from "../constants/BoardUtils";
 import { Layer, Stage } from "react-konva";
 import Snake from "../canvasComponents/Snake";
 import Obstacles from "../canvasComponents/Obstacles";
@@ -53,9 +53,9 @@ function GameboardView() {
     <section className="page clear-fix">
         {BracketNavigation()}
         
-        <div className="thegame clear-fix">
-        <ScoreBoard />
-            <div className="gameboard">
+        <div className="thegame">
+        {/* <ScoreBoard /> */}
+            <div className="gameboard" >
                 <Stage className="canvas" width={MAP_WIDTH_PX} height={MAP_HEIGHT_PX}>
                     <Layer>
                         {currentFrameState.IDs.map((snakeID, i) => {

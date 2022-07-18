@@ -7,7 +7,7 @@ const WANTED_SIZE_PX = 1000;
 export const TILE_SIZE = Math.floor(WANTED_SIZE_PX / MAP_WIDTH); // TILE_SIZE = 21;
 export const TILE_MARGIN = 2;
 
-export const TILE_OFFSET_X = 1; // To center the tile on the x-axis (Might be a better way to do this)
+export const TILE_OFFSET_X = 0; // To center the tile on the x-axis (Might be a better way to do this)
 export const TILE_OFFSET_Y = 0; // To center the tile on the y-axis (Might be a better way to do this)
 
 export const MAP_HEIGHT_PX = MAP_HEIGHT * TILE_SIZE;

@@ -17,13 +17,18 @@ function TournamentSettings() {
     api.startTournament(tournamentId);
   }
 
+  function getPlayersPage() {
+    console.log("test")
+    return <PlayerList/>
+  }
+
   useEffect(() => {
     console.log("Got default tournament settings from socket:",gameSettings);
     setLocalGameSettings(gameSettings);
   }, [gameSettings]);
 
   return (
-    <div>
+    <div className='tournamentsettings'>
         <article className='half'>
           <div className="center-block">
             <h1 className='tournament-name'>{tournamentName}</h1>
@@ -40,7 +45,7 @@ function TournamentSettings() {
               }
             }}>
 
-            <div>
+            <div className='maxnoofplayers'>
                 <label htmlFor="maxNoofPlayers">
                   MaxPlayers
                 </label>
@@ -154,145 +159,93 @@ function TournamentSettings() {
               </div>
 
 
-              <div>
+              <div className='addfood'>
                 <div>
                   <label htmlFor="addFoodLikelihood">
-                    AddFoodLikelihood: {localGameSettings.addFoodLikelihood}%
+                    AddFoodLikelihood
                   </label>
                 </div>
                 <input
-                  style={{ float: 'left', width: '440px' }}
                   name="addFoodLikelihood"
                   id="addFoodLikelihood"
-                  type="range"
                   min="0" max="100"
-                  step="5"
-                  value={localGameSettings.addFoodLikelihood}
+                  value={localGameSettings.addFoodLikelihood + "%"}
                   onChange={(e) => {setLocalGameSettings({...localGameSettings, addFoodLikelihood: parseInt(e.target.value)})}}
                 />
               </div>
-
-              <div>
+  
+              <div className='removefood'>
                 <div>
                   <label htmlFor="removeFoodLikelihood">
-                    RemoveFoodLikelihood: {localGameSettings.removeFoodLikelihood}%
+                    RemoveFoodLikelihood
                   </label>
                 </div>
                 <div>
                   <input
-                    style={{ float: 'left', width: '440px' }}
                     name="removeFoodLikelihood"
                     id="removeFoodLikelihood"
-                    type="range"
                     min="0" max="100"
-                    step="5"
-                    value={localGameSettings.removeFoodLikelihood}
+                    value={localGameSettings.removeFoodLikelihood + "%"}
                     onChange={(e) => {setLocalGameSettings({...localGameSettings, removeFoodLikelihood: parseInt(e.target.value)})}}
                     
                   />
                 </div>
               </div>
               
-              <div style={{ width: '440px' }}>
-                <div>
-                  <label>
-                      ObstaclesEnabled: {localGameSettings.obstaclesEnabled ? "Yes" : "No"}
-                  </label>
+            <div className='checkboxes'>
+                <div className='obstacles'>
+                  <label className='obstacleLabel'>ObstaclesEnabled</label>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: true})}}
+                       />
+                      <span className="slider round"></span>
+                    </label>
                 </div>
-                
-                <div>
-                  <input
-                    type="radio"
-                    checked={localGameSettings.obstaclesEnabled}
-                    onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: true})}}
-                  /> True
-
-                  <label style={{ marginLeft: '20px' }}>
-                    <input
-                      type="radio"
-                      checked={!localGameSettings.obstaclesEnabled}
-                      onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: false})}}
-                    /> False
-                  </label>
-                </div>
+                <div className='food'>
+                  <label className='foodLabel'>FoodEnabled</label>
+                <label className="switch">
+                <input
+                 type="checkbox"
+                 onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: true})}}
+                />
+                <span className="slider round"></span>
+              </label>
               </div>
+              <div className='head'>
+              <label className='headLabel'>HeadToTailConsumes</label>
+                <label className="switch">
+                <input
+                 type="checkbox"
+                 onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: true})}}
+                />
+                <span className="slider round"></span>
+              </label>
+              </div>
+
+
+              <label className='tailLabel'>TailConsumeGrows</label>
+                <label className="switch">
+                <input
+                 type="checkbox"
+                 onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: true})}}
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
               
-              <div style={{ width: '440px' }}>
-                <div>
-                  <label>
-                    FoodEnabled:
-                  </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    checked={localGameSettings.foodEnabled === true}
-                    onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: true})}}
-                  /> True
-
-                  <label style={{ marginLeft: '20px' }}>
-                    <input
-                      type="radio"
-                      checked={localGameSettings.foodEnabled === false}
-                      onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: false})}}
-                    /> False
-                  </label>
-                </div>
-              </div>
-
-              <div style={{ width: '440px' }}>
-                <div>
-                  <label style={{ marginRight: '20px' }}>
-                    HeadToTailConsumes:
-                  </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    checked={localGameSettings.headToTailConsumes === true}
-                    onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: true})}}
-                  /> True
-                  <label style={{ marginLeft: '20px' }}>
-                    <input
-                      type="radio"
-                      checked={localGameSettings.headToTailConsumes === false}
-                      onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: false})}}
-                    /> False
-                  </label>
-                </div>
-              </div>
-
-              <div style={{ width: '440px' }}>
-                <div>
-                  <label style={{ marginRight: '20px' }}>
-                    TailConsumeGrows:
-                  </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    checked={localGameSettings.tailConsumeGrows === true}
-                    onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: true})}}
-                  /> True
-
-                  <label style={{ marginLeft: '20px' }}>
-                    <input
-                      type="radio"
-                      checked={localGameSettings.tailConsumeGrows === false}
-                      onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: false})}}
-                    /> False
-                  </label>
-                </div>
-              </div>
-
-              <div>
+              {/* <div>
                 <PlayerList/>
-              </div>
+              </div> */}
 
 
-              <button type="submit" className="btn btn-primary">Start</button>
+              {/* <button type="submit" className="btn btn-primary">Create Tournament</button> */}
           </form>
-              <button onClick={()=>setLocalGameSettings(gameSettings)} className="btn btn-primary">Reset to Default Settings</button>
+              <div className='tournamentButtons'>
+                <button onClick={()=>setLocalGameSettings(gameSettings)} className="resetDefault">Reset to default</button>
+                <button onClick={()=>getPlayersPage()} className="createTournamentBtn">Continue</button>
+              </div>
         </article>
       </div>
   )
