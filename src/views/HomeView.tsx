@@ -7,8 +7,7 @@ function HomeView() {
         <h1>Welcome!</h1>
         <div className="text-content">
           <p>
-            Remember the old game of Snake? One of the first common
-            implementations was available on the phone Nokia 3310.<br />
+            THIS SHOULD WORK NOW I THINK?<br />
             <a
               href="https://www.youtube.com/watch?v=wjEdCd4t1m8"
               target="_blank"

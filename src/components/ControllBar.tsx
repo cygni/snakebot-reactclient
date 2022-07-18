@@ -7,15 +7,14 @@ import Forwards from '../assets/icons/icon-forward.svg';
 import messageDispatch from '../context/messageDispatch';
 import { useEffect, useState } from 'react';
 import Constants from '../constants/Arbitraryconstants';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../context/store';
 import { setCounter } from '../context/slices/gameDataSlice';
+import { useAppDispatch, useAppSelector } from '../context/hooks';
 
 function ControllBar(){
 
-  const frameCount = useSelector((state: RootState) => state.gameData.messages.length);
-  const currentFrame = useSelector((state: RootState) => state.gameData.counter);
-  const dispatch = useDispatch();
+  const frameCount = useAppSelector(state => state.gameData.messages.length);
+  const currentFrame = useAppSelector(state => state.gameData.counter);
+  const dispatch = useAppDispatch();
 
   const [running, setRunning] = useState(false);
   const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);
