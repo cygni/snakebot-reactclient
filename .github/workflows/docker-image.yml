@@ -40,6 +40,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+        # Pushing to production
+      - name: Pull latest in digitalocean
+        run: doctl apps create-deployment ${{secrets.DIGITALOCEAN_APP_ID}} --force-rebuild --wait
+
       - name: Get commit sha
         id: vars
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
@@ -62,6 +66,5 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      # Pushing to production
       - name: Update digitalocean app with new yml spec
         run: doctl apps update ${{ secrets.DIGITALOCEAN_APP_ID }} --spec digitalocean-spec.yaml

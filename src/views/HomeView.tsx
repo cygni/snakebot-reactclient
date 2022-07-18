@@ -7,7 +7,7 @@ function HomeView() {
         <h1>Welcome!</h1>
         <div className="text-content">
           <p>
-            THIS DO BE A TRIGGER BTW<br />
+            THIS SHOULD WORK NOW I THINK?<br />
             <a
               href="https://www.youtube.com/watch?v=wjEdCd4t1m8"
               target="_blank"
