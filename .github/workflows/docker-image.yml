@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - '*.*.*'
-    branches: [ "main", "wait-until-game-finished" ]
+    branches: [ "main" ]
 
 jobs:
   build:
