@@ -1,11 +1,12 @@
 import axios from "axios";
 import { Console } from "console";
 import SockJS from "sockjs-client";
+import Arbitraryconstants from "./constants/Arbitraryconstants";
 import MessageTypes, { GameSettings } from "./constants/messageTypes"
 import { onSocketMessage } from "./context/messageDispatch";
 import { GameData } from "./context/slices/gameDataSlice";
 
-const socket = new SockJS("http://localhost:8080/events");; 
+const socket = new SockJS(Arbitraryconstants.SERVER_URL + "/events");
 let onConnectQueue: string[] = [];
 
 function sendWhenConnected(msg: string) {
@@ -19,7 +20,7 @@ function sendWhenConnected(msg: string) {
 
 export async function getToken(username: string, password: string): Promise<{success: boolean, data: string}> {
     try {
-        let resp = await axios.get(`http://localhost:8080/login?login=${username}&password=${password}`)
+        let resp = await axios.get(`/login?login=${username}&password=${password}`)
         return {success: true, data: resp.data};
     } catch (error: any) {
         console.error("Error getting token:", error);
