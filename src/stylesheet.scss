@@ -188,15 +188,6 @@ footer {
   background-color: transparent;
 }
 
-.phone-cygni{
-  z-index: 1;
-  width: 500px;
-  margin-left: 50%;
-  bottom: -11rem;
-  position: absolute;
-  overflow-y: visible;
-}
-
 .loginview {
   background-color: aquamarine;
   height: 70rem; // Temp to get some space
@@ -301,4 +292,24 @@ footer {
     margin-right: 1rem;
   }
 
+}
+
+.hidden-wrapper{
+  background-color: transparent;
+  width: 50vw;
+  height: 80vh;
+  position: absolute;
+  overflow: hidden;
+  bottom: 0;
+  z-index: 2;
+  right: 20%;
+}
+
+.phone-cygni{
+  z-index: 3;
+  width: 400px;
+  height: auto;
+  right: 0;
+  position: absolute;
+  bottom: 0;
 }

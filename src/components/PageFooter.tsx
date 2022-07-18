@@ -9,12 +9,20 @@ function PageFooter() {
   const { pathname } = useLocation();
 
   return (
-    <footer>
-      <a href="https://www.cygni.se">
-        <img src={cygnilogo} alt="Cygni-logo" />
-      </a>
+    <>
+      <footer>
+        <a href="https://www.cygni.se">
+          <img src={cygnilogo} alt="Cygni-logo" />
+        </a>
+
+        <div className={pathname==="/" ? "hidden-wrapper" : ""}>
+          <img className="phone-cygni" src={instagramCygni} alt="Cygni-instagram" />
+        </div>
+        
+      </footer>
+
       
-    </footer>
+    </>
   );
 }
 
