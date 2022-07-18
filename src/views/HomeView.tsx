@@ -8,7 +8,7 @@ function HomeView() {
         <div className="text-content">
           <p>
             WOW THIS IS A TEST TO SEE IF IT HAS LATEST IMAGE!. Remember the old game of Snake? One of the first common
-            implementations was available on the phone Nokia 3310.<br />
+            implementations was available on the phone Nokia 3310. NEW TRIGGER!!###<br />
             <a
               href="https://www.youtube.com/watch?v=wjEdCd4t1m8"
               target="_blank"
