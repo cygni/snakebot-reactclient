@@ -29,6 +29,11 @@ jobs:
             type=raw,value=latest
             type=ref,event=tag
           images: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
+        
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Build and push Docker image
         id:   docker_build
@@ -41,7 +46,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
         # Pushing to production
-      - name: Pull latest in digitalocean
+      - name: Force rebuild in digitalocean
         run: doctl apps create-deployment ${{secrets.DIGITALOCEAN_APP_ID}} --force-rebuild --wait
 
       - name: Get commit sha
@@ -60,11 +65,6 @@ jobs:
           value: snakebot-web-${{steps.date.outputs.date}}-${{steps.vars.outputs.sha_short}}
           commitChange: false
           updateFile: true
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Update digitalocean app with new yml spec
         run: doctl apps update ${{ secrets.DIGITALOCEAN_APP_ID }} --spec digitalocean-spec.yaml
