@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
+import TournamentEnums from '../../constants/TournamentEnums';
 import { TournamentCreatedMessage, GameSettings, Message, GameCreatedMessage, TournamentGamePlanMessage, Player, TournamentLevel, ActiveGamesListMessage, TournamentGame, TournamentEndedMessage} from "../../constants/messageTypes";
 
 const placeholdGameSettings: GameSettings = {
@@ -38,6 +39,8 @@ export type TournamentData = {
     isSettingsDone: boolean;
     allGamesPlayed: boolean;
 
+    tournamentViewState: TournamentEnums;
+
     messages: Message[];
     counter: number;
 }
@@ -57,6 +60,8 @@ const initialState: TournamentData = {
     isTournamentStarted: false,
     isSettingsDone: false,
     allGamesPlayed: false,
+
+    tournamentViewState: TournamentEnums.LOADINGPAGE,
 
     messages: [],
     counter: 0,
@@ -89,12 +94,18 @@ export const tournamentSlice = createSlice({
             api.updateTournamentSettings(action.payload);
         },
 
+        setTournamentName: (state, action) => {
+            state.tournamentName = action.payload;
+        },
+
         startTournament: (state) => {
             state.isTournamentStarted = true;
+            state.tournamentViewState = TournamentEnums.LOADINGPAGE;
         },
 
         settingsAreDone: (state) => {
             state.isSettingsDone = true;
+            state.tournamentViewState = TournamentEnums.PLAYERLIST;
         },
 
         setGamePlan: (state, action: PayloadAction<TournamentGamePlanMessage>) => {
@@ -143,6 +154,7 @@ export const tournamentSlice = createSlice({
 
         tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
             state.allGamesPlayed = true;
+            state.tournamentViewState = TournamentEnums.SCHEDULE;
         },
 
         setLoggedIn: (state, action: PayloadAction<boolean>) => {
@@ -155,6 +167,6 @@ export const tournamentSlice = createSlice({
 
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn, settingsAreDone} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn, settingsAreDone, setTournamentName} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

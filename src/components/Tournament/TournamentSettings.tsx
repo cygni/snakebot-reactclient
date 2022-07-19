@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react'
 import api from '../../api';
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
-import { startTournament, updateGameSettings, settingsAreDone } from '../../context/slices/tournamentSlice'
+import { startTournament, updateGameSettings, settingsAreDone, setTournamentName } from '../../context/slices/tournamentSlice'
 
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
@@ -31,6 +31,7 @@ function TournamentSettings() {
     const { id, checked } = e.target;
     setLocalGameSettings({ ...localGameSettings, [id]: checked });
   }
+
 
   return (
     <div className='tournamentsettings'>
@@ -255,11 +256,11 @@ function TournamentSettings() {
               </div> */}
 
 
-          <button type="submit" className="createTournamentBtn">Continue</button>
-          </form>
               <div className='tournamentButtons'>
                 <button onClick={()=>setLocalGameSettings(gameSettings)} className="resetDefault">Reset to default</button>
+                <button type="submit" className="createTournamentBtn">Continue</button>
               </div>
+          </form>
         </article>
       </div>
   )
