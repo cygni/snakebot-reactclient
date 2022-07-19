@@ -6,7 +6,7 @@ function HomeView() {
       <article>
         <h1>Welcome!</h1>
         <div className="text-content">
-          <p>
+        <p>
             Remember the old game of Snake? One of the first common
             implementations was available on the phone Nokia 3310.<br />
             <a

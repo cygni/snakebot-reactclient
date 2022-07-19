@@ -1,5 +1,5 @@
 export default {
-    SERVER_URL: 'http://localhost:8080',
+    SERVER_URL: window.__RUNTIME_CONFIG__.API_URL,
     STARTING_FREQUENCY: 200,
     FREQUENCY_STEP: 50,
     MIN_FREQUENCY: 50,
