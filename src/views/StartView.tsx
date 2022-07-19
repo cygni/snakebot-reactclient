@@ -16,8 +16,6 @@ function StartView() {
         </div>
     </div>
 
-    <Modal />
-
     <div className='welcome'>
         <h1>Welcome!</h1>
         <p>Remember the old game of Snake? One of the first common implementations was available on the phone Nokia 3310. Snake Record - Nokia 3310</p>

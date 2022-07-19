@@ -3,7 +3,7 @@ import ControllBar from '../components/ControllBar';
 import ScoreBoard from "../components/ScoreBoard";
 
 import api from "../api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
 import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
@@ -16,12 +16,16 @@ import Snake from "../canvasComponents/Snake";
 import Obstacles from "../canvasComponents/Obstacles";
 import Stars from "../canvasComponents/Stars";
 
+import Modal from "../components/Modal"
+
 function GameboardView() {
     let { gameID } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const currentFrameState = useAppSelector(state => state.currentFrame);
     const tournamentStarted = useAppSelector(state => state.tournament.isTournamentStarted);
+    const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
+    const [modalOpen, setModalOpen] = useState(false);
 
     // Initialize the game
     useEffect(() => {
@@ -49,10 +53,22 @@ function GameboardView() {
         }
     }
 
+    useEffect(() => {
+        console.log("här ska det hända något")
+        if(gameEnded){
+            setModalOpen(true);
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible'; //denna behöver lyssna på när modalen stängs och inte när gameEnded uppdateras, bör ändras!!!
+        }
+    }, [gameEnded])
+
+
   return (
     <section className="page clear-fix">
         {BracketNavigation()}
         
+        {modalOpen && <Modal setIsOpen={setModalOpen} />}
         <div className="thegame">
         <ScoreBoard />
             <div className="gameboard" >

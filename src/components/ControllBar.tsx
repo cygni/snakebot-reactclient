@@ -19,7 +19,8 @@ function ControllBar(){
   const [running, setRunning] = useState(false);
   const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);
   let intervalID: NodeJS.Timer;
-  const gameEnded = () => currentFrame >= frameCount-1;
+  // const gameEnded = () => currentFrame >= frameCount-1;
+  const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
 
   useEffect(() => {
     if (running) {
@@ -33,13 +34,13 @@ function ControllBar(){
   }, [running, frequency]);
 
   useEffect(() => {
-    if (gameEnded()) {
+    if (gameEnded) {
       setRunning(false);
     }
   }, [gameEnded]);
 
   function getPlayIcon() {
-    if (gameEnded()) {
+    if (gameEnded) {
       return Replay;
     }
     if (!running) {
@@ -78,7 +79,7 @@ function ControllBar(){
           className="playButton"
           onClick={()=>{
             setRunning(!running);
-            if (gameEnded()) dispatch(setCounter(0));
+            if (gameEnded) dispatch(setCounter(0));
           }}
         />
         <input

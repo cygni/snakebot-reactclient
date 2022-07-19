@@ -32,6 +32,7 @@ interface FrameState {
 
   obstaclePositions: TilePosition[];
   foodPositions: TilePosition[];
+  gameEnded: boolean;
   
 }
 
@@ -43,6 +44,7 @@ const initialState: FrameState = {
   playerPoints: [],
   obstaclePositions: [],
   foodPositions: [],
+  gameEnded: false,
 }
 
 export const snakesSlice = createSlice({
@@ -94,6 +96,7 @@ export const snakesSlice = createSlice({
 
           // Update obstacle positions
           state.obstaclePositions = action.payload.map.obstaclePositions.map(position => convertCoords(position));
+          state.gameEnded = false;
         })
         .addCase(Actions.snakeDiedEvent, (state, action) => {
           console.log("Snake has died!", action.payload);
@@ -103,6 +106,7 @@ export const snakesSlice = createSlice({
 
           msg.text = state.snakesData[action.payload.playerId].name + ' died from ' + action.payload.deathReason;
           speechSynthesis.speak(msg);
+          state.gameEnded = false;
 
         })
         .addCase(Actions.gameResultEvent, (state, action) => {
@@ -110,6 +114,8 @@ export const snakesSlice = createSlice({
            state.playerRanks.push(player.playerName);
            state.playerPoints.push(player.points);
          });
+
+         state.gameEnded = true;
           
         })
         
