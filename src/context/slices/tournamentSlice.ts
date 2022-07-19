@@ -35,6 +35,7 @@ export type TournamentData = {
     isLoggedIn: boolean;
     isTournamentActive: boolean;
     isTournamentStarted: boolean;
+    isSettingsDone: boolean;
     allGamesPlayed: boolean;
 
     messages: Message[];
@@ -54,6 +55,7 @@ const initialState: TournamentData = {
     isLoggedIn: localStorage.getItem("token") !== null,
     isTournamentActive: false,
     isTournamentStarted: false,
+    isSettingsDone: false,
     allGamesPlayed: false,
 
     messages: [],
@@ -89,6 +91,10 @@ export const tournamentSlice = createSlice({
 
         startTournament: (state) => {
             state.isTournamentStarted = true;
+        },
+
+        settingsAreDone: (state) => {
+            state.isSettingsDone = true;
         },
 
         setGamePlan: (state, action: PayloadAction<TournamentGamePlanMessage>) => {
@@ -149,6 +155,6 @@ export const tournamentSlice = createSlice({
 
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn, settingsAreDone} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

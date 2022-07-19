@@ -16,8 +16,7 @@ function StartView() {
         </div>
     </div>
 
-    <button onClick={() => Modal(true)}>TEST
-    </button>
+    <Modal />
 
     <div className='welcome'>
         <h1>Welcome!</h1>

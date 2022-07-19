@@ -4,12 +4,14 @@ function PlayerList() {
 const playerList = useAppSelector(state => state.tournament.players);
   return (
     <>
-      <br/>
-      <h3>Players</h3>
+      <h1 className='playerListH1'>Players</h1>
+      <div className='playersList'>
       {playerList.map((player, index) => (
         <p key={index}>Player {index+1}: {player.name}</p>
         )) 
       }
+    </div>
+    <button type="submit" className="createTournamentButton">Start Tournament</button>
     </>
   )
 }

@@ -6,6 +6,7 @@ import type { RootState } from '../context/store';
 
 function Modal({setIsOpen} :any){
     const snakes = useSelector((state: RootState) => state.currentFrame);
+    console.log("test")
     return (
     <>
         <div className="darkBG" onClick={() => setIsOpen(false)}/>

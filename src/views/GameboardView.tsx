@@ -54,7 +54,7 @@ function GameboardView() {
         {BracketNavigation()}
         
         <div className="thegame">
-        {/* <ScoreBoard /> */}
+        <ScoreBoard />
             <div className="gameboard" >
                 <Stage className="canvas" width={MAP_WIDTH_PX} height={MAP_HEIGHT_PX}>
                     <Layer>

@@ -8,9 +8,9 @@ body {
   
 }
 
-section {
-  background-color: #ebebeb;
-}
+// section {
+//   // background-color: #ebebeb;
+// }
 
 p{
   font-family: Barlow;
@@ -212,10 +212,6 @@ footer {
 
   .logintext {
     text-align: center;
-  }
-
-  .usernameInput, .passwordInput{
-    
   }
 
   input{
@@ -422,15 +418,15 @@ footer {
   padding-top: 2rem; //avstånd mellan formulär och rubrik
   padding-bottom: 5rem;
 
-  input{
-    width: 20vw;
+  input {
+    width: 30vw;
     margin-left: auto;
     padding-right: auto;
     margin-right: auto;
     display: block;
     box-sizing: border-box;
 
-    width: 100%;
+   // width: 100%;
     padding: 12px 20px;
     border-radius: 6px;
     border: 1px solid #DCDCDC;
@@ -438,9 +434,22 @@ footer {
     margin-top: 0.5rem;
   }
 
+  label {
+    width: 30vw;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    display: block;
+    box-sizing: border-box;
+
+   // width: 100%;
+  }
+
   h1 {
     text-align: center;
   }
+
+  
 
   .tournament-name {
     padding-bottom: 1em;
@@ -450,19 +459,6 @@ footer {
     display: block;
   }
 
-  .addfood {
-    display: inline-block;
-    margin-bottom: 4.5em;
-    width: 49%;
-    margin-right: 0.5em;
-  }
-
-  .removefood {
-    display: inline-block;
-    margin-bottom: 4.5em;
-    width: 49%;
-    margin-left: 0.5em;
-  } 
 
   .resetDefault {
     height: 50px;
@@ -488,13 +484,25 @@ footer {
     margin-top: 4rem;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
   }
 }
 
 .checkboxes {
 
-  .obstacleLabel, .foodLabel, .headLabel, .tailLabel {
-    float: left;
+  .obstacleLabel{
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    margin-top: 4vh;
+  }
+  
+  .foodLabel, .headLabel, .tailLabel {
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    box-sizing: border-box;
   }
 
   .obstacles, .food, .head {
@@ -504,7 +512,7 @@ footer {
   .switch {
     position: relative;
     display: block;
-    margin-left: 10em;
+    
     width: 60px;
     height: 34px;
   }
@@ -565,18 +573,54 @@ footer {
   }
 }
 
+/*Player List Page*/
+
+.playersList {
+
+    width: 30vw;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    display: block;
+    box-sizing: border-box;
+
+   // width: 100%;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 4rem;
+    margin-top: 0.5rem;    
+}
+
+.playerListH1 {
+  text-align: center;
+}
+
+.createTournamentButton {
+    width: 15vw;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    display: block;
+    box-sizing: border-box;
+    color: white;
+    background-color: #00BFFF;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #DCDCDC;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+
+
 /* The game */
 .thegame {
-  // width: 1264px;
-  // margin: auto;
-  // width: 70vw;
+  margin: 2rem;
 
   /* Gameboard with controls */
   .gameboard {
     background-image: url('./assets/images/space.png');
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 2rem; //TEMP
     // padding: 1rem; // Border around canvas
     display: inline-block;
     border-radius: 20px;
@@ -596,7 +640,6 @@ footer {
     background-color: #fff;
     // border-radius: 4px;
     border-radius: 10px;
-    box-shadow: 0 1px 2px 0rgba(0,0,0,.3);
     padding: 2px 1rem;
 
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -632,6 +675,81 @@ footer {
 
     outline: none;
   }
-
 }
 
+/**
+* Scoreboard
+*/
+.activePlayers {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  margin-right: 2rem;
+  float: left;
+  font-size: 14px;
+  width: 220px;
+  
+  h2 {
+    margin: 0 0.5rem 0.25rem;
+  }
+
+
+  // figure {
+  //   display: inline-block;
+  //   margin: 0;
+  //   padding: 4px 0 0 4px;
+  //   width: 24px;
+  //   height: 24px;
+  //   // background-color: #141631;
+  //   margin: 5px 5px 0 0;
+  //   border-radius: 3px;
+
+  // }
+  
+  ul {
+    padding: 0;
+    margin: 0;
+    border: 2px solid rgb(223,223,223);
+    border-radius: 10px;
+    // line-height: 60px;
+
+    li {
+      border-top: 2px solid rgb(223,223,223);
+      margin: 1rem;
+      overflow: hidden;
+      // text-align: center;
+      // vertical-align: middle;
+
+      // padding: 0.5rem;
+      // white-space: nowrap;
+      // text-overflow: ellipsis;
+
+      // padding-top: auto;
+      // padding-bottom: auto;
+      
+
+      &:first-child {
+        border-top: none;
+      }
+
+      p {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      img {
+        float: left;
+        width: 1.25rem;
+        border-radius: 1.25rem;
+        padding: 1rem;
+      }
+
+      .name {
+        // float: left;
+      }
+
+      .points {
+        float: right;
+        color: rgb(223,223,223);
+      }
+    }
+  }
+}

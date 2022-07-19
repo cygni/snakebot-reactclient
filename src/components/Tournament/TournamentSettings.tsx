@@ -1,7 +1,7 @@
-import {useState, useEffect } from 'react'
+import React, {useState, useEffect } from 'react'
 import api from '../../api';
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
-import { startTournament, updateGameSettings } from '../../context/slices/tournamentSlice'
+import { startTournament, updateGameSettings, settingsAreDone } from '../../context/slices/tournamentSlice'
 import PlayerList from '../PlayerList';
 
 function TournamentSettings() {
@@ -18,8 +18,8 @@ function TournamentSettings() {
   }
 
   function getPlayersPage() {
-    console.log("test")
-    return <PlayerList/>
+    console.log("continue pressed");
+    dispatch(settingsAreDone());
   }
 
   useEffect(() => {
@@ -27,11 +27,26 @@ function TournamentSettings() {
     setLocalGameSettings(gameSettings);
   }, [gameSettings]);
 
+  //TEMP LOG FOR TESTING
+  useEffect(() => {
+    console.log("localGameSettings:",localGameSettings);
+  }, [localGameSettings]);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+    setLocalGameSettings({ ...localGameSettings, [id]: parseInt(value) });
+  }
+
+  function handleSwitchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { id, checked } = e.target;
+    setLocalGameSettings({ ...localGameSettings, [id]: checked });
+  }
+
   return (
     <div className='tournamentsettings'>
         <article className='half'>
           <div className="center-block">
-            <h1 className='tournament-name'>{tournamentName}</h1>
+            <h1 className='tournament-name'>Tournament Settings</h1>
           </div>
 
           <form role="form" onSubmit={(e) => {
@@ -45,6 +60,17 @@ function TournamentSettings() {
               }
             }}>
 
+            <div className='tournamentname'>
+                <label htmlFor="tournamentnameLbl">
+                  TournamentName
+                </label>
+                <input 
+                  name='MyTournament'
+                  type='String'
+                  value=''
+                />
+              </div>
+
             <div className='maxnoofplayers'>
                 <label htmlFor="maxNoofPlayers">
                   MaxPlayers
@@ -55,7 +81,8 @@ function TournamentSettings() {
                   type="number"
                   min="2" max="100"
                   value={localGameSettings.maxNoofPlayers}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
+                  // onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
                 />
                 
             </div>
@@ -70,7 +97,7 @@ function TournamentSettings() {
                   type="number"
                   min="1" max="10"
                   value={localGameSettings.startSnakeLength}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, startSnakeLength: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
             </div>
 
@@ -85,7 +112,7 @@ function TournamentSettings() {
                   step="250"
                   min="250" max="1500"
                   value={localGameSettings.timeInMsPerTick}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, timeInMsPerTick: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
             </div>
 
@@ -99,7 +126,7 @@ function TournamentSettings() {
                   type="number"
                   min="0" max="25"
                   value={localGameSettings.pointsPerLength}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerLength: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
             </div>
 
@@ -113,7 +140,7 @@ function TournamentSettings() {
                   type="number"
                   min="0" max="25"
                   value={localGameSettings.pointsPerFood}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerFood: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -127,7 +154,7 @@ function TournamentSettings() {
                   type="number"
                   min="0" max="25"
                   value={localGameSettings.pointsPerCausedDeath}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerCausedDeath: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -141,7 +168,7 @@ function TournamentSettings() {
                   type="number"
                   min="0" max="25"
                   value={localGameSettings.pointsPerNibble}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, pointsPerNibble: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
               </div>
 
@@ -154,74 +181,74 @@ function TournamentSettings() {
                   id="noofRoundsTailProtectedAfterNibble" type="number" min="0"
                   max="10"
                   value={localGameSettings.noofRoundsTailProtectedAfterNibble}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, noofRoundsTailProtectedAfterNibble: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
               </div>
 
-
               <div className='addfood'>
-                <div>
                   <label htmlFor="addFoodLikelihood">
                     AddFoodLikelihood
                   </label>
-                </div>
                 <input
                   name="addFoodLikelihood"
                   id="addFoodLikelihood"
                   min="0" max="100"
                   value={localGameSettings.addFoodLikelihood + "%"}
-                  onChange={(e) => {setLocalGameSettings({...localGameSettings, addFoodLikelihood: parseInt(e.target.value)})}}
+                  onChange={handleInputChange}
                 />
               </div>
   
               <div className='removefood'>
-                <div>
                   <label htmlFor="removeFoodLikelihood">
                     RemoveFoodLikelihood
                   </label>
-                </div>
-                <div>
                   <input
                     name="removeFoodLikelihood"
                     id="removeFoodLikelihood"
                     min="0" max="100"
                     value={localGameSettings.removeFoodLikelihood + "%"}
-                    onChange={(e) => {setLocalGameSettings({...localGameSettings, removeFoodLikelihood: parseInt(e.target.value)})}}
-                    
+                    onChange={handleInputChange}
                   />
-                </div>
               </div>
               
-            <div className='checkboxes'>
+              <div className='checkboxes'>
                 <div className='obstacles'>
                   <label className='obstacleLabel'>ObstaclesEnabled</label>
                     <label className="switch">
                       <input
                         type="checkbox"
-                        onChange={(e) => {setLocalGameSettings({...localGameSettings, obstaclesEnabled: true})}}
+                        id="obstaclesEnabled"
+                        checked={localGameSettings.obstaclesEnabled}
+                        onChange={handleSwitchChange}
                        />
                       <span className="slider round"></span>
                     </label>
-                </div>
-                <div className='food'>
-                  <label className='foodLabel'>FoodEnabled</label>
-                <label className="switch">
-                <input
-                 type="checkbox"
-                 onChange={(e) => {setLocalGameSettings({...localGameSettings, foodEnabled: true})}}
-                />
-                <span className="slider round"></span>
-              </label>
               </div>
+
+              <div className='food'>
+                  <label className='foodLabel'>FoodEnabled</label>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        id="foodEnabled"
+                        checked={localGameSettings.foodEnabled}
+                        onChange={handleSwitchChange}
+                      />
+                      <span className="slider round"></span>
+                    </label>
+              </div>
+
               <div className='head'>
-              <label className='headLabel'>HeadToTailConsumes</label>
-                <label className="switch">
-                <input
-                 type="checkbox"
-                 onChange={(e) => {setLocalGameSettings({...localGameSettings, headToTailConsumes: true})}}
-                />
-                <span className="slider round"></span>
-              </label>
+                <label className='headLabel'>HeadToTailConsumes</label>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      id="headToTailConsumes"
+                      checked={localGameSettings.headToTailConsumes}
+                      onChange={handleSwitchChange}
+                    />
+                    <span className="slider round"></span>
+                </label>
               </div>
 
 
@@ -229,7 +256,9 @@ function TournamentSettings() {
                 <label className="switch">
                 <input
                  type="checkbox"
-                 onChange={(e) => {setLocalGameSettings({...localGameSettings, tailConsumeGrows: true})}}
+                 id="tailConsumeGrows"
+                 checked={localGameSettings.tailConsumeGrows}
+                 onChange={handleSwitchChange}
                 />
                 <span className="slider round"></span>
               </label>
@@ -244,7 +273,7 @@ function TournamentSettings() {
           </form>
               <div className='tournamentButtons'>
                 <button onClick={()=>setLocalGameSettings(gameSettings)} className="resetDefault">Reset to default</button>
-                <button onClick={()=>getPlayersPage()} className="createTournamentBtn">Continue</button>
+                <button onClick={getPlayersPage} className="createTournamentBtn">Continue</button>
               </div>
         </article>
       </div>
