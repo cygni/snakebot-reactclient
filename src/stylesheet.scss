@@ -203,11 +203,11 @@ footer {
 .loginview {
   margin-left: 20%;
   margin-right: 20%;
-  padding-top: 2rem; //avstånd mellan formulär och rubrik
   padding-bottom: 5rem;
 
   h1{
     text-align: center;
+    padding-top: 5rem;
   }
 
   .logintext {
@@ -605,7 +605,7 @@ footer {
 }
 
 .playerListH1 {
-  margin-top: 10vw;
+  padding-top: 5rem;
   text-align: center;
 }
 
