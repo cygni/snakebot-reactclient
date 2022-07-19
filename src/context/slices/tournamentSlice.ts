@@ -108,6 +108,10 @@ export const tournamentSlice = createSlice({
             state.tournamentViewState = TournamentEnums.PLAYERLIST;
         },
 
+        editSettings: (state) => {
+            state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
+        },
+
         setGamePlan: (state, action: PayloadAction<TournamentGamePlanMessage>) => {
             state.noofLevels = action.payload.noofLevels;
             state.players = action.payload.players;
@@ -167,6 +171,6 @@ export const tournamentSlice = createSlice({
 
   }});
   
-  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn, settingsAreDone, setTournamentName} = tournamentSlice.actions
+  export const { addMessage, tournamentCreated, updateGameSettings, startTournament, setGamePlan, viewedGame, tournamentEnded, setLoggedIn, settingsAreDone, setTournamentName, editSettings} = tournamentSlice.actions
   
   export default tournamentSlice.reducer

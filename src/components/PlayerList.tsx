@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../context/hooks';
-import { startTournament } from '../context/slices/tournamentSlice'
+import { editSettings, startTournament } from '../context/slices/tournamentSlice'
 import api from '../api';
 
 function PlayerList() {
@@ -17,6 +17,10 @@ function initTournament() {
       alert('A minimum of 2 players is required to start Tournament');
     }
 }
+
+function backToSettings() {
+  dispatch(editSettings());
+}
   return (
     <>
       <h1 className='playerListH1'>Connect to game</h1>
@@ -27,7 +31,10 @@ function initTournament() {
         )) 
       }
     </div>
+    <div className='playerlistBtns'>
+    <button onClick={backToSettings} className="editSettingsButton">Settings</button>
     <button onClick={initTournament} className="createTournamentButton">Start Tournament</button>
+    </div>
     </>
   )
 }

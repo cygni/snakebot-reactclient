@@ -604,6 +604,13 @@ footer {
     }
 }
 
+.playerlistBtns {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  text-align: center;
+}
+
 .playerListH1 {
   padding-top: 5rem;
   text-align: center;
@@ -618,8 +625,6 @@ footer {
     margin-left: auto;
     padding-right: auto;
     margin-right: auto;
-    display: block;
-    box-sizing: border-box;
     color: white;
     background-color: #0EBDE7;
     padding: 12px 20px;
@@ -627,6 +632,22 @@ footer {
     border: 1px solid #DCDCDC;
     margin-bottom: 7rem;
     margin-top: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.editSettingsButton {
+  width: 15vw;
+  margin-left: auto;
+  padding-right: auto;
+  margin-right: auto;
+  color: white;
+  background-color: #000735;
+  padding: 12px 20px;
+  border-radius: 6px;
+  border: 1px solid #DCDCDC;
+  margin-bottom: 7rem;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 
