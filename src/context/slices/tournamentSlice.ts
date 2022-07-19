@@ -61,7 +61,7 @@ const initialState: TournamentData = {
     isSettingsDone: false,
     allGamesPlayed: false,
 
-    tournamentViewState: TournamentEnums.LOADINGPAGE,
+    tournamentViewState: TournamentEnums.SETTINGSPAGE,
 
     messages: [],
     counter: 0,
