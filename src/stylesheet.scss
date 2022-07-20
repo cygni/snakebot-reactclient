@@ -1153,3 +1153,28 @@ margin-top: 3px;
     cursor: pointer;
   }
 }
+
+
+
+@media only screen and (min-width: 2500px) {
+  .welcome{
+    margin-left: 30%;
+  margin-right: 30%;
+  }
+
+  .getting-started{
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+
+  .cygni-at-campus{
+    margin-left: 30%;
+    margin-right: 30%;
+    padding-right: 20vw;
+  }
+
+  .hidden-wrapper{
+    right: 30%;
+  }
+
+}
