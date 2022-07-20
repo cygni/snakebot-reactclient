@@ -31,17 +31,22 @@ function ScoreBoard() {
   return (
     <div className="activePlayers">
       <h2>Leaderboard</h2>
+      <div className="leaderboard">
         <ul>
             {
             Object.keys(snakes).sort(sortSnakes).map((snakeID, index) => (
-            <li key={index}>
-              <img src={getCurrentSnakeHead(snakes[snakeID]).src} alt="snakehead" />
-              <p className='name'>{snakes[snakeID].name}</p>
-              <p className='points'>{snakes[snakeID].points} points</p>
-            </li>
+              <li key={index}>
+                <img src={getCurrentSnakeHead(snakes[snakeID]).src} alt="snakehead" />
+                <div className="list-content">
+                  <p className='name'>{snakes[snakeID].name}</p>
+                  {/* <p className='points'>{snakes[snakeID].points} points</p> */}
+                  <p className="points">12 points</p>
+                </div>
+              </li>
             ))
             }
         </ul>
+      </div>
     </div>
   )
 }

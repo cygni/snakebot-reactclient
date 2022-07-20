@@ -57,18 +57,23 @@ function GameboardView() {
         console.log("här ska det hända något")
         if(gameEnded){
             setModalOpen(true);
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'visible'; //denna behöver lyssna på när modalen stängs och inte när gameEnded uppdateras, bör ändras!!!
         }
     }, [gameEnded])
+
+    useEffect(() => {
+        if(modalOpen){
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible';
+        }
+
+    },[modalOpen])
 
 
   return (
     <section className="page clear-fix">
         {BracketNavigation()}
         
-        {modalOpen && <Modal setIsOpen={setModalOpen} />}
         <div className="thegame">
         <ScoreBoard />
             <div className="gameboard" >
@@ -87,6 +92,7 @@ function GameboardView() {
                 <ControllBar/>
             </div>
         </div>
+        {modalOpen && <Modal setIsOpen={setModalOpen} />}
     </section>
   )
 }

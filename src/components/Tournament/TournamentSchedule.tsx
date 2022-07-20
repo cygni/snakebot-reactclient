@@ -25,7 +25,7 @@ function TournamentSchedule() {
           <article style={{ textAlign: 'center' }}>
             <h1>{tournamentName}</h1>
           </article>
-          <div className="tournament">
+          <div className="tournamentschedule">
             {levels.slice(0).reverse().map((level, index) => (
                 <div key={index}>
                   <div className={roundClassName(level) + ' round-box'}>

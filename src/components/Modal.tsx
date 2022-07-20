@@ -4,11 +4,13 @@ import { useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 import Podium from '../assets/images/Podium.svg';
 import { BsX } from 'react-icons/bs'
+import { useEffect } from "react";
 
 
 function Modal({setIsOpen} :any){
     const snakes = useSelector((state: RootState) => state.currentFrame);
     console.log("test")
+
     return (
     <>
         <div className="darkBG" onClick={() => setIsOpen(false)}/>

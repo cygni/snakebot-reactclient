@@ -124,6 +124,8 @@ iframe{
   padding-top: 8rem;
   padding-bottom: 8rem;
   position: relative;
+
+
 }
 
 
@@ -175,13 +177,21 @@ header {
   }
 }
 
+#root{
+  position: relative;
+  min-height: 100vh;
+}
+
 footer {
   padding: 2rem 5rem 2rem;
   background-color: #e3d9d7;
   height: 7rem;  
-  position: relative;
+  left: 0;
+  right: 0;
   bottom: 0;
-  margin-top: auto;
+  position: absolute;
+
+
   
   img {
     width: 150px;
@@ -653,11 +663,16 @@ footer {
 
 /* The game */
 .thegame {
-  margin: 2rem;
+  margin: 3rem auto;
+  width: auto;
   min-height: 90vh;
+  display: table;
   min-height: -webkit-calc(100vh - 15rem);
   min-height: -moz-calc(100vh - 15rem);
   min-height: calc(100vh - 15rem);
+  // display: flex;
+  // justify-content: center;
+
 
   /* Gameboard with controls */
   .gameboard {
@@ -728,54 +743,57 @@ footer {
   margin-right: 2rem;
   float: left;
   font-size: 14px;
-  width: 220px;
+  width: 270px;
   
   h2 {
-    margin: 0 0.5rem 0.25rem;
+    margin: 0 0.5rem 1rem;
   }
 
-
-  // figure {
-  //   display: inline-block;
-  //   margin: 0;
-  //   padding: 4px 0 0 4px;
-  //   width: 24px;
-  //   height: 24px;
-  //   // background-color: #141631;
-  //   margin: 5px 5px 0 0;
-  //   border-radius: 3px;
-
-  // }
+  .leaderboard{
+    border: 1px solid rgb(223,223,223);
+    border-radius: 10px;
+    text-align: left;
+    padding-right: 1em;
+    padding-left: 1em;
+  }
   
   ul {
     padding: 0;
-    margin: 0;
-    border: 2px solid rgb(223,223,223);
-    border-radius: 10px;
-    // line-height: 60px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    list-style: none;
 
     li {
-      border-top: 2px solid rgb(223,223,223);
-      margin: 1rem;
+      border-top: 1px solid rgb(223,223,223);
+      padding-top: 1em;
+      padding-bottom: 1em;
+      //margin: 1rem;
       overflow: hidden;
-      // text-align: center;
-      // vertical-align: middle;
+      display: grid;
+      grid-template-columns: 1fr 3fr;
 
-      // padding: 0.5rem;
-      // white-space: nowrap;
-      // text-overflow: ellipsis;
-
-      // padding-top: auto;
-      // padding-bottom: auto;
-      
+      .list-content{
+        //vertical-align: middle;
+        display: table;
+  
+      }
 
       &:first-child {
         border-top: none;
       }
 
       p {
-        margin: 0;
         font-weight: 600;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: auto;
+        margin-bottom: auto;
+        display: table-cell;
+      text-align: center;
+      vertical-align: middle;
       }
 
       img {
@@ -785,13 +803,9 @@ footer {
         padding: 1rem;
       }
 
-      .name {
-        // float: left;
-      }
-
       .points {
-        float: right;
         color: rgb(223,223,223);
+        width: auto;
       }
     }
   }
@@ -1004,4 +1018,112 @@ footer {
   100% {
     opacity: 1;
   }
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: baseline;
+    align-content: space-between;
+}
+
+.round-box {
+  border-radius: 8px;
+  margin: 0;
+  padding: 1rem 2rem 2rem;
+  margin: auto;
+
+  h2 {
+    font-size: 30px;
+    text-align: left;
+    font-weight: 300;
+    display: inline-block;
+  }
+}
+
+.game {
+  display: inline-block;
+  list-style: none;
+  padding: 0;
+  //width: 200px;
+  margin: 0 1rem;
+  overflow: auto;
+
+  li {
+    background-color: #D3D3D3;
+    padding: 5px 10px;
+    margin: 0 0 3px 0;
+    font-size: 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+
+    &:hover {
+      background-color: #f7f7e9;
+    }
+  }
+}
+
+.spacer {
+  background-color: #ddd;
+  height: 20px;
+  width: 3px;
+  margin: auto;
+}
+
+.thefinalwinner {
+  display: block;
+  width: 400px;
+  margin: auto;
+  margin-bottom: 3rem;
+
+  li {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: gold;
+    padding: 1rem;
+
+    &:hover {
+      background-color: gold;
+    }
+  }
+}
+
+li {
+  &.looser {
+    background-color: #eee;
+    color: #999;
+  }
+
+  .gotogame {
+    background-color: transparent;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0;
+  }
+
+  .gotogame:hover {
+    background-color: transparent;
+  }
+
+}
+
+.points {
+  display: inline-block;
+  width: 24px;
+  font-weight: bold;
+}
+
+.livedlongest {
+  width: 16px;
+  height: 16px;
+  float: right;
+  margin-top: 3px;
 }
