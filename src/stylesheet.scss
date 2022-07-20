@@ -1021,109 +1021,125 @@ footer {
 }
 
 .flex {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: baseline;
-    align-content: space-between;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: baseline;
+  align-content: space-between;
 }
 
 .round-box {
-  border-radius: 8px;
-  margin: 0;
-  padding: 1rem 2rem 2rem;
-  margin: auto;
+border-radius: 8px;
+margin: 0;
+padding: 1rem 2rem 2rem;
+margin: auto;
+text-align: center;
 
-  h2 {
-    font-size: 30px;
-    text-align: left;
-    font-weight: 300;
-    display: inline-block;
-  }
+h2 {
+  font-size: 30px;
+  font-weight: 400;
+  color: #DCDCDC;
+}
 }
 
 .game {
-  display: inline-block;
-  list-style: none;
-  padding: 0;
-  //width: 200px;
-  margin: 0 1rem;
-  overflow: auto;
+display: inline-block;
+list-style: none;
+padding: 0;
+//width: 200px;
+margin: 0 1rem;
+overflow: auto;
 
-  li {
-    background-color: #D3D3D3;
-    padding: 5px 10px;
-    margin: 0 0 3px 0;
-    font-size: 14px;
-    border-radius: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
+li {
+  background-color: #F5F5F5;
+  padding: 10px 15px;
+  margin: 0 0 7px 0;
+  font-size: 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 
-    &:hover {
-      background-color: #f7f7e9;
-    }
+  &:hover {
+    background-color: #f7f7e9;
   }
+}
 }
 
 .spacer {
-  background-color: #ddd;
-  height: 20px;
-  width: 3px;
-  margin: auto;
+background-color: #ddd;
+height: 2px;
+width: 80%;
+margin: auto;
 }
 
 .thefinalwinner {
-  display: block;
-  width: 400px;
-  margin: auto;
-  margin-bottom: 3rem;
+display: block;
+width: 400px;
+margin: auto;
+margin-bottom: 3rem;
 
-  li {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
+li {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: gold;
+  padding: 1rem;
+
+  &:hover {
     background-color: gold;
-    padding: 1rem;
-
-    &:hover {
-      background-color: gold;
-    }
   }
+}
 }
 
 li {
-  &.looser {
-    background-color: #eee;
-    color: #999;
-  }
+&.looser {
+  text-decoration: line-through;
+  background-color: #D3D3D3;
+}
 
-  .gotogame {
-    background-color: transparent;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 0;
-  }
+&.winner {
+  background: linear-gradient(90deg, #000735 70%, #0EBDE7 30%);
+  color: white;
+}
 
-  .gotogame:hover {
-    background-color: transparent;
-  }
+.gotogame:hover {
+  background-color: transparent;
+}
 
 }
 
 .points {
-  display: inline-block;
-  width: 24px;
-  font-weight: bold;
+  margin-left: 4rem;
+display: inline-block;
+width: 24px;
+font-weight: bold;
 }
 
 .livedlongest {
-  width: 16px;
-  height: 16px;
-  float: right;
-  margin-top: 3px;
+width: 16px;
+height: 16px;
+float: right;
+margin-top: 3px;
+}
+
+.gotogame {
+  background-color: transparent;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0;
+
+  .button-link {
+    font-size: 15px;
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    font-family: 'Barlow Condensed';
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

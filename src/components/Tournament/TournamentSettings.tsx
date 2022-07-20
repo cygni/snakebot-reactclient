@@ -9,9 +9,9 @@ function TournamentSettings() {
   const tournamentId = useAppSelector(state => state.tournament.tournamentId);
   const noofPlayerrs = useAppSelector(state => state.tournament.players);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
+  const [tourName, setTourName] = useState('');
   const dispatch = useAppDispatch();
 
-  
   useEffect(() => {
     console.log("Got default tournament settings from socket:",gameSettings);
     setLocalGameSettings(gameSettings);
@@ -32,6 +32,10 @@ function TournamentSettings() {
     setLocalGameSettings({ ...localGameSettings, [id]: checked });
   }
 
+  function handleNameChange(e: React.ChangeEvent<HTMLInputElement>){
+    setTourName(e.target.value);
+  }
+
 
   return (
     <div className='tournamentsettings'>
@@ -42,6 +46,7 @@ function TournamentSettings() {
 
           <form id='settings-form' onSubmit={(e) => {
             console.log("Form submitted");
+            localStorage.setItem('tourName', tourName);
               e.preventDefault();
               dispatch(updateGameSettings(localGameSettings));
               dispatch(settingsAreDone());
@@ -54,7 +59,7 @@ function TournamentSettings() {
                 <input 
                   name='MyTournament'
                   type='String'
-                  value=''
+                  onChange={handleNameChange}
                 />
               </div>
 

@@ -41,9 +41,9 @@ function TournamentBracket({tournamentGame, levelIndex}: Props) {
   
     if (tournamentGame.gamePlayed && tournamentGame.isViewed) {
       return (
-        <li key={index} className={player.isMovedUpInTournament ? 'winner' : 'looser'}>
-          <span className="points">{player.points}</span>
-          {player.name} {player.isWinner ? star : null}
+        <li key={index} className={player.isWinner ? 'winner' : player.isMovedUpInTournament ? '' : 'looser'}>
+          {player.name} {player.isWinner ? null : null}
+          <span className="points">{player.points+'p'}</span>
         </li>
       );
     }
