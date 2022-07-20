@@ -39,8 +39,7 @@ function ScoreBoard() {
                 <img src={getCurrentSnakeHead(snakes[snakeID]).src} alt="snakehead" />
                 <div className="list-content">
                   <p className='name'>{snakes[snakeID].name}</p>
-                  {/* <p className='points'>{snakes[snakeID].points} points</p> */}
-                  <p className="points">12 points</p>
+                  <p className='points'>{snakes[snakeID].points} points</p>
                 </div>
               </li>
             ))
