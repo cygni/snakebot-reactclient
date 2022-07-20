@@ -13,8 +13,8 @@ function Modal({setIsOpen} :any){
 
     return (
     <>
-        <div className="darkBG" onClick={() => setIsOpen(false)}/>
-
+        
+ <div className="darkBG" onClick={() => setIsOpen(false)}/>
         <div className="centered">
             <div className="modal">
 

@@ -188,8 +188,9 @@ footer {
   height: 7rem;  
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -400px; //TA BORT DETTA SENARE
   position: absolute;
+
 
 
   
@@ -831,29 +832,29 @@ footer {
 
 /* Modal */
 
-// .darkBG {
-//   background-color: rgba(0, 0, 0, 0.2);
-//   width: 100vw;
-//   height: 100%;
-//   z-index: 2;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   position: absolute;
-// }
-
-.centered {
-  position: fixed;
+.darkBG {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0 !important; 
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  position: fixed;
 }
+
+ .centered {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+ } 
 
 .modal {
   width: 900px;
   height: 500px;
   background-color: white;
-  z-index: 10;
+  z-index: 10 !important;
   border-radius: 16px;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
   padding-top: 2rem;
