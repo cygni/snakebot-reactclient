@@ -23,7 +23,7 @@ function TournamentSchedule() {
     return (
       <section className="page clear-fix">
           <article style={{ textAlign: 'center' }}>
-            <h1>{localStorage.getItem('tourName')}</h1>
+            <h1 className='bracketH1'>{localStorage.getItem('tourName')}</h1>
           </article>
           <div className="tournamentschedule">
             {levels.slice(0).reverse().map((level, index) => (
