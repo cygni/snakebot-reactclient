@@ -65,7 +65,7 @@ import search from "../assets/icons/search-icon.svg"
     <>
       <section className="gameView">
           <article>
-            <h1>Search for old games</h1>
+            <h1 className="searchH1">Search for old games</h1>
             <p className="searchintro">
               You can find old games here by searching for the snake name.
             </p>

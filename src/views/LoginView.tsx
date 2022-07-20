@@ -39,7 +39,7 @@ function LoginView() {
         <section className="loginview">
             <article>
                 <div className='logintext'>
-                <h1>Log In</h1>
+                <h1 className='loginH1'>Log In</h1>
                 <p>Log in with username and password to access additional functions.</p>
                 </div>
                 <div className="loginview">
