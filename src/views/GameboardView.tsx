@@ -16,7 +16,7 @@ import { Layer, Stage } from "react-konva";
 import Snake from "../canvasComponents/Snake";
 import Obstacles from "../canvasComponents/Obstacles";
 import Stars from "../canvasComponents/Stars";
-
+import { useCallback } from 'react';
 import Modal from "../components/Modal"
 import { viewedGame } from "../context/slices/tournamentSlice";
 
@@ -27,7 +27,7 @@ function GameboardView() {
     const dispatch = useAppDispatch();
     const currentFrameState = useAppSelector(state => state.currentFrame);
     const tournamentStarted = useAppSelector(state => state.tournament.isTournamentStarted);
-    const nextGame = useAppSelector(state => state.tournament.tournamentLevels);
+    const getLevel = useAppSelector(state => state.tournament);
     const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -57,14 +57,25 @@ function GameboardView() {
         }
     }
 
-    function nextGameNavigation() {
-        if (tournamentStarted) {
-            dispatch(viewedGame(gameID!));
-            return (
-                <button className="nextBtn" onClick={() => navigate(`/tournament/${gameID}`)}>Go to next game  -{'>'}</button>
-            )
-        }
-    }
+    const _moveToNextTournamentGame = (id: string) => {
+        const currentLevel = getLevel.tournamentLevels.find((level: { tournamentGames: any[]; }) =>
+          level.tournamentGames.find(game =>
+            game.gameId === id
+          )
+        );
+      
+        if (currentLevel) {
+          const nextGame = currentLevel.tournamentGames.find(game =>
+            game.gameId !== id
+          );
+          if (nextGame && !nextGame.isViewed) {
+            navigate(`/tournament/${nextGame.gameId}`);
+            dispatch(viewedGame(nextGame.gameId));
+          } else {
+            navigate('/tournament');
+          }
+        } 
+      };
 
     useEffect(() => {
         console.log("här ska det hända något")
@@ -106,7 +117,7 @@ function GameboardView() {
             </div>
             <div className='tourGameBtns'>
             {BracketNavigation()}
-            {nextGameNavigation()}
+            <button className="nextBtn" onClick={() => _moveToNextTournamentGame(gameID!)}>Go to next game  -{'>'}</button>
             </div>
         </div>
         {modalOpen && <Modal setIsOpen={setModalOpen} />}
