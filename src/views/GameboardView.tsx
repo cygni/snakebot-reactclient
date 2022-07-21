@@ -52,12 +52,16 @@ function GameboardView() {
     function BracketNavigation() {
         if (tournamentStarted) {
             return (
+                <>
                 <button className="scheduleBtn" onClick={() => navigate('/tournament')}>{'<'}-  Back to schedule</button>
+                <button className="nextBtn" onClick={() => _moveToNextTournamentGame(gameID!)}>Go to next game  -{'>'}</button>
+                </>
             )
         }
     }
 
     const _moveToNextTournamentGame = (id: string) => {
+        if (tournamentStarted) {
         const currentLevel = getLevel.tournamentLevels.find((level: { tournamentGames: any[]; }) =>
           level.tournamentGames.find(game =>
             game.gameId === id
@@ -75,7 +79,7 @@ function GameboardView() {
             navigate('/tournament');
           }
         } 
-      };
+      }};
 
     useEffect(() => {
         console.log("här ska det hända något")
@@ -117,7 +121,6 @@ function GameboardView() {
             </div>
             <div className='tourGameBtns'>
             {BracketNavigation()}
-            <button className="nextBtn" onClick={() => _moveToNextTournamentGame(gameID!)}>Go to next game  -{'>'}</button>
             </div>
         </div>
         {modalOpen && <Modal setIsOpen={setModalOpen} />}
