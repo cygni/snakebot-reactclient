@@ -21,7 +21,7 @@ function TournamentBracket({tournamentGame, levelIndex}: Props) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);
       dispatch(viewedGame(tournamentGame.gameId));
-      navigate(`/tournament/${tournamentGame.gameId}`);
+      navigate(`/tournament/${tournamentGame.gameId}`, {state:{fromTournament:true}});
     } else {
       alert("You must view the previous round before you can view this game");
     }

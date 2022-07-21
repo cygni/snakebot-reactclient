@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router-dom"
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from "../components/ScoreBoard";
 import { TournamentGame } from '../constants/messageTypes';
@@ -30,6 +30,10 @@ function GameboardView() {
     const getLevel = useAppSelector(state => state.tournament);
     const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
     const [modalOpen, setModalOpen] = useState(false);
+    const location = useLocation();
+
+    //@ts-ignore
+    console.log(location.state?.fromTournament!)
 
     // Initialize the game
     useEffect(() => {
@@ -50,7 +54,8 @@ function GameboardView() {
 
     // Display button to go back to the tournament bracket
     function BracketNavigation() {
-        if (tournamentStarted) {
+        const locationState: any | undefined = location.state;
+        if (locationState?.fromTournament) {
             return (
                 <>
                 <button className="scheduleBtn" onClick={() => navigate('/tournament')}>{'<'}-  Back to schedule</button>
@@ -73,7 +78,7 @@ function GameboardView() {
             game.gameId !== id
           );
           if (nextGame && !nextGame.isViewed) {
-            navigate(`/tournament/${nextGame.gameId}`);
+            navigate(`/tournament/${nextGame.gameId}`, {state:{fromTournament:true}});
             dispatch(viewedGame(nextGame.gameId));
           } else {
             navigate('/tournament');
