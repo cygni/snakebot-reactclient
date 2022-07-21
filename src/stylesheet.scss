@@ -686,7 +686,34 @@ footer {
   // display: flex;
   // justify-content: center;
 
+  .tourGameBtns {
+    margin-top: 1rem;
+    margin-left: 69.5%;
+  }
 
+  .nextBtn {
+    width: 180px;
+    height: auto;
+    color: white;
+    background-color: #0EBDE7;
+    border-radius: 6px;
+    border: none;
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 0 10px;
+  }
+
+  .scheduleBtn {
+    width: 180px;
+    height: auto;
+    color: white;
+    background-color: #000735;
+    border-radius: 6px;
+    border: none;
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 0 10px;
+  }
   /* Gameboard with controls */
   .gameboard {
     background-image: url('./assets/images/space.png');
@@ -747,6 +774,8 @@ footer {
     outline: none;
   }
 }
+
+
 
 /**
 * Scoreboard

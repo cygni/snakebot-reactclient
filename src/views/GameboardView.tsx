@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom"
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from "../components/ScoreBoard";
+import { TournamentGame } from '../constants/messageTypes';
 
 import api from "../api";
 import { useEffect, useState } from "react";
@@ -17,6 +18,8 @@ import Obstacles from "../canvasComponents/Obstacles";
 import Stars from "../canvasComponents/Stars";
 
 import Modal from "../components/Modal"
+import { viewedGame } from "../context/slices/tournamentSlice";
+
 
 function GameboardView() {
     let { gameID } = useParams();
@@ -24,6 +27,7 @@ function GameboardView() {
     const dispatch = useAppDispatch();
     const currentFrameState = useAppSelector(state => state.currentFrame);
     const tournamentStarted = useAppSelector(state => state.tournament.isTournamentStarted);
+    const nextGame = useAppSelector(state => state.tournament.tournamentLevels);
     const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -48,7 +52,16 @@ function GameboardView() {
     function BracketNavigation() {
         if (tournamentStarted) {
             return (
-                <button className="primaryBtn" onClick={() => navigate('/tournament')}>View Bracket</button>
+                <button className="scheduleBtn" onClick={() => navigate('/tournament')}>{'<'}-  Back to schedule</button>
+            )
+        }
+    }
+
+    function nextGameNavigation() {
+        if (tournamentStarted) {
+            dispatch(viewedGame(gameID!));
+            return (
+                <button className="nextBtn" onClick={() => navigate(`/tournament/${gameID}`)}>Go to next game  -{'>'}</button>
             )
         }
     }
@@ -72,7 +85,7 @@ function GameboardView() {
 
   return (
     <section className="page clear-fix">
-        {BracketNavigation()}
+        
         
         <div className="thegame">
         <ScoreBoard />
@@ -91,8 +104,13 @@ function GameboardView() {
                 </Stage>
                 <ControllBar/>
             </div>
+            <div className='tourGameBtns'>
+            {BracketNavigation()}
+            {nextGameNavigation()}
+            </div>
         </div>
         {modalOpen && <Modal setIsOpen={setModalOpen} />}
+        
     </section>
   )
 }
