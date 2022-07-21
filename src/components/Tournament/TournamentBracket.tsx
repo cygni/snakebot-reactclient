@@ -15,6 +15,7 @@ function TournamentBracket({tournamentGame, levelIndex}: Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const priorLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex-1]);
+  const currentLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex])
 
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
@@ -30,7 +31,12 @@ function TournamentBracket({tournamentGame, levelIndex}: Props) {
     () => {
       if (levelIndex===0) return true;
       return priorLevel.tournamentGames.every(game => game.isViewed);
-    }, [priorLevel]);
+    }, [priorLevel, levelIndex]);
+
+    const currentLevelViewed = useCallback(
+      () => {
+        return currentLevel.tournamentGames.every(game => game.isViewed);
+      }, [currentLevel]);
   
   function RenderPlayer(index: number) {
     let player = tournamentGame.players[index];
@@ -40,8 +46,11 @@ function TournamentBracket({tournamentGame, levelIndex}: Props) {
     }
   
     if (tournamentGame.gamePlayed && tournamentGame.isViewed) {
+      let className = '';
+      if (player.isWinner) className += 'winner ';
+      if (currentLevelViewed() && !player.isMovedUpInTournament) className += 'looser';
       return (
-        <li key={index} className={player.isWinner ? 'winner' : player.isMovedUpInTournament ? '' : 'looser'}>
+        <li key={index} className={className}>
           {player.name} {player.isWinner ? null : null}
           <span className="points">{player.points+'p'}</span>
         </li>
