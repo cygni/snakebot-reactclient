@@ -4,12 +4,25 @@ import { useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 import Podium from '../assets/images/Podium.svg';
 import { BsX } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 
 
 function Modal({setIsOpen} :any){
     const snakes = useSelector((state: RootState) => state.currentFrame);
+    const navigate = useNavigate();
     console.log("test")
+
+    function closeAndNav(){
+        setIsOpen(false);
+        navigate(`/viewgame`);
+    }
+
+    useEffect(()=>{
+        document.body.style.overflow = 'hidden';
+        return () => {document.body.style.overflow = 'visible'}
+    },[])
+
 
     return (
     <>
@@ -46,8 +59,8 @@ function Modal({setIsOpen} :any){
                 </button>
 
                 <div className="buttons">
-                    <button>Search for new game</button>
-                    <button>Close</button>
+                    <button onClick={closeAndNav}>Search for new game</button>
+                    <button onClick={() => setIsOpen(false)}>Close</button>
                 </div>
            
             </div>

@@ -32,8 +32,7 @@ function GameboardView() {
     const [modalOpen, setModalOpen] = useState(false);
     const location = useLocation();
 
-    //@ts-ignore
-    console.log(location.state?.fromTournament!)
+    console.log("gameboardview", modalOpen)
 
     // Initialize the game
     useEffect(() => {
@@ -90,17 +89,9 @@ function GameboardView() {
         console.log("här ska det hända något")
         if(gameEnded){
             setModalOpen(true);
+            console.log("setting modal open");
         }
     }, [gameEnded])
-
-    useEffect(() => {
-        if(modalOpen){
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'visible';
-        }
-
-    },[modalOpen])
 
 
   return (
@@ -128,7 +119,7 @@ function GameboardView() {
             {BracketNavigation()}
             </div>
         </div>
-        {modalOpen && <Modal setIsOpen={setModalOpen} />}
+        {/* {modalOpen && <Modal setIsOpen={setModalOpen} />} */}
         
     </section>
   )

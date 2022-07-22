@@ -51,14 +51,10 @@ function LoginView() {
                             <label htmlFor="password">Password</label>
                           
                             <input className={errorMessage.length>0 ? "error" : ""} value={password} onChange={event => setPassword(event.target.value)} id="password" type="password" placeholder="password"/>
-                            <p className={errorMessage.length>0 ? "error-text" : "hide"}><span><BsFillExclamationCircleFill/></span> Incorrect username or password</p>
+                            <p className={errorMessage.length>0 ? "error-text" : "hide"}><span><BsFillExclamationCircleFill/></span>{errorMessage}</p>
 
                             <input className='signInBtn' type="submit" value="Sign in"/>
                         </form>
-
-                        {/* <span>
-                            {errorMessage}
-                        </span> */}
                 </div>
             </article>
         </section>
