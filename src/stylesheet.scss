@@ -995,7 +995,7 @@ footer {
 .loading {
   background-color: #000735;
   text-align: center;
-  height: 500px;
+  height: 1500px;
   padding: 20%;
 }
 
@@ -1012,6 +1012,11 @@ footer {
   margin: .19em;
   border-radius: .6em;
   animation: loading 1s infinite alternate;
+}
+
+.loading h1 {
+  margin-top: 3rem;
+  color: #ccc;
 }
 
 .loading h2 {

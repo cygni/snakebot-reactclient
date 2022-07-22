@@ -34,6 +34,8 @@ export type TournamentData = {
     tournamentLevels: TournamentLevel[];
     finalGameID: string;
     finalGameResult: {name: string, playerId: string, points: number}[];
+    startedGames: {[key: string]: boolean};
+    gameFinishedShare: number;
 
     isLoggedIn: boolean;
     isTournamentActive: boolean;
@@ -58,6 +60,8 @@ const initialState: TournamentData = {
     tournamentLevels: [],
     finalGameID: '',
     finalGameResult: [],
+    startedGames: {},
+    gameFinishedShare: 0,
 
     isLoggedIn: localStorage.getItem("token") !== null,
     isTournamentActive: false,
@@ -105,6 +109,7 @@ export const tournamentSlice = createSlice({
         startTournament: (state) => {
             state.isTournamentStarted = true;
             state.tournamentViewState = TournamentEnums.LOADINGPAGE;
+
         },
 
         settingsAreDone: (state) => {
@@ -123,22 +128,26 @@ export const tournamentSlice = createSlice({
             state.tournamentLevels = action.payload.tournamentLevels;
             state.tournamentName = action.payload.tournamentName;
 
-            // Initialize isViewed for all games
+            // Initialize isViewed for all games and get amount of games played
+            let totalGamesPlayed = 0;
             state.tournamentLevels.forEach(level => {
                 level.tournamentGames.forEach(game => {
                     if (game.isViewed == undefined) game.isViewed = false;
+                    if (game.gamePlayed) totalGamesPlayed++;
                 });
             });
+            state.gameFinishedShare = (100 * totalGamesPlayed) / Math.pow(2, state.noofLevels);
 
             if (state.isTournamentStarted) {
                 // Find and play first game that has not been played
                 let startedGame = false;
                 for (let level of state.tournamentLevels) {
                     for (let game of level.tournamentGames) {
-                        if (game.gameId !== null && !game.gamePlayed) {
+                        if (game.gameId !== null && !state.startedGames[game.gameId]) {
+                            state.startedGames[game.gameId] = true;
                             api.startTournamentGame(game.gameId);
                             startedGame = true;
-                            break;
+                           // break;
                         }
                     }
                     // If we started a game, we are done
