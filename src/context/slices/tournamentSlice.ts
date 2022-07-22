@@ -32,6 +32,8 @@ export type TournamentData = {
 
     players: Player[];
     tournamentLevels: TournamentLevel[];
+    finalGameID: string;
+    finalGameResult: {name: string, playerId: string, points: number}[];
 
     isLoggedIn: boolean;
     isTournamentActive: boolean;
@@ -54,6 +56,8 @@ const initialState: TournamentData = {
 
     players: [],
     tournamentLevels: [],
+    finalGameID: '',
+    finalGameResult: [],
 
     isLoggedIn: localStorage.getItem("token") !== null,
     isTournamentActive: false,
@@ -159,6 +163,8 @@ export const tournamentSlice = createSlice({
         tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
             state.allGamesPlayed = true;
             state.tournamentViewState = TournamentEnums.SCHEDULE;
+            state.finalGameID = action.payload.gameId;
+            state.finalGameResult = action.payload.gameResult;
         },
 
         setLoggedIn: (state, action: PayloadAction<boolean>) => {
