@@ -14,8 +14,6 @@ function PageHeader() {
     dispatch(setLoggedIn(false));
   }
 
-  console.log("pathname is", pathname, "statement true?:", pathname==="/");
-
   return (
     <header className={pathname==="/" ? "navbar-startpage" : ""}>
     <Link to="/">

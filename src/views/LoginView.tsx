@@ -25,7 +25,6 @@ function LoginView() {
                 navigate('/');
             }
             else{
-                console.log("Login failed'");
                 SetErrorMessage(response.data);
             }
         })

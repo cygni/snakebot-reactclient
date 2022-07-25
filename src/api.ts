@@ -1,8 +1,7 @@
 import axios from "axios";
-import { Console } from "console";
 import SockJS from "sockjs-client";
 import Arbitraryconstants from "./constants/Arbitraryconstants";
-import MessageTypes, { GameSettings } from "./constants/messageTypes"
+import { GameSettings } from "./constants/messageTypes"
 import { onSocketMessage } from "./context/messageDispatch";
 import { GameData } from "./context/slices/gameDataSlice";
 

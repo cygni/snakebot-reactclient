@@ -1,26 +1,22 @@
 import React, {useState, useEffect } from 'react'
-import api from '../../api';
 import { useAppDispatch, useAppSelector } from '../../context/hooks'
-import { startTournament, updateGameSettings, settingsAreDone, setTournamentName } from '../../context/slices/tournamentSlice'
+import { updateGameSettings, settingsAreDone } from '../../context/slices/tournamentSlice'
 
 function TournamentSettings() {
   const gameSettings = useAppSelector(state => state.tournament.gameSettings);
-  const tournamentName = useAppSelector(state => state.tournament.tournamentName);
-  const tournamentId = useAppSelector(state => state.tournament.tournamentId);
-  const noofPlayerrs = useAppSelector(state => state.tournament.players);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
   const [tourName, setTourName] = useState('');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log("Got default tournament settings from socket:",gameSettings);
+    // console.log("Got default tournament settings from socket:",gameSettings);
     setLocalGameSettings(gameSettings);
   }, [gameSettings]);
 
   //TEMP LOG FOR TESTING
-  useEffect(() => {
-    console.log("localGameSettings:",localGameSettings);
-  }, [localGameSettings]);
+  // useEffect(() => {
+  //   console.log("localGameSettings:",localGameSettings);
+  // }, [localGameSettings]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -255,15 +251,9 @@ function TournamentSettings() {
                 <span className="slider round"></span>
               </label>
             </div>
-              
-              {/* <div>
-                <PlayerList/>
-              </div> */}
-
-
               <div className='tournamentButtons'>
-                <button onClick={()=>setLocalGameSettings(gameSettings)} className="resetDefault">Reset to default</button>
-                <button type="submit" className="createTournamentBtn">Continue</button>
+                <button type='button' onClick={()=>setLocalGameSettings(gameSettings)} className="resetDefault">Reset to default</button>
+                <button type="submit" className="createTournamentBtn button">Continue</button>
               </div>
           </form>
         </article>

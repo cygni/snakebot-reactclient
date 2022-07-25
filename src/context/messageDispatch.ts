@@ -4,7 +4,6 @@ import messageTypes from '../constants/messageTypes';
 import Actions from './Actions';
 import { nextMessage } from './slices/gameDataSlice';
 import { tournamentCreated, setGamePlan, tournamentEnded, setLoggedIn } from './slices/tournamentSlice';
-import api from '../api';
 
 export default function dataDispatch(increaseCounter: boolean = true) {
     let index = store.getState().gameData.counter;
@@ -59,6 +58,7 @@ export function onSocketMessage(jsonData: string) {
             break;
 
         case messageTypes.TOURNAMENT_CREATED:
+            console.log("Tournament created:");
             store.dispatch(tournamentCreated(message as types.TournamentCreatedMessage));
             break;
 

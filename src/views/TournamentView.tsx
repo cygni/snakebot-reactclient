@@ -10,23 +10,17 @@ import TournamentEnums from '../constants/TournamentEnums';
 
 function TournamentView() {
   const tournament = useAppSelector(state => state.tournament);
-  const allGamesPlayed = useAppSelector(state => state.tournament.allGamesPlayed);
-  const isSettingsDone = useAppSelector(state => state.tournament.isSettingsDone);
   const activeTournamentView = useAppSelector(state => state.tournament.tournamentViewState);
-
-  
 
   // Create tournament on mount
   useEffect(() => {
     if (!tournament.isTournamentActive) {
       api.createTournament("Tournament");
     }
-  }, []);
+  }, [tournament.isTournamentActive]);
 
   function selectView(page: TournamentEnums){
-    console.log("Switch")
     switch(page){
-
       case TournamentEnums.PLAYERLIST:
         return <PlayerList />;
       case TournamentEnums.SCHEDULE:
@@ -37,16 +31,6 @@ function TournamentView() {
         return <LoadingPage />;
      
     }
-  //   if(isSettingsDone){
-  //     return <PlayerList />;
-  //   }
-  //   else if(!tournament.isTournamentStarted){
-  //   return <TournamentSettings />;
-  //   }
-  //   else if(allGamesPlayed){
-  //     return <TournamentSchedule />;
-  //   }
-  //   return <LoadingPage />;
    }
   
   return (
