@@ -1,9 +1,9 @@
-import { getSnakeHead } from '../constants/Images'
-import { useAppSelector } from "../context/hooks";
+import { getSnakeHead } from '../../constants/Images'
+import { useAppSelector } from "../../context/hooks";
 
 function LoadingPage() {
-
   const gameFinishedShare = useAppSelector(state => state.tournament.gameFinishedShare);
+  
   return (
     <div className="loading">
       <h2>preparing the snakepit</h2>

@@ -1,21 +1,16 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ControllBar from "../components/ControllBar";
 import ScoreBoard from "../components/ScoreBoard";
-import { TournamentGame } from "../constants/messageTypes";
 
 import api from "../api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { setGameData } from "../context/slices/gameDataSlice";
 import messageDispatch from "../context/messageDispatch";
 import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
 import { useAppDispatch, useAppSelector } from "../context/hooks";
 
 // For drawing the gameboard
-import {
-  MAP_HEIGHT_PX,
-  MAP_WIDTH_PX,
-  TILE_SIZE,
-} from "../constants/BoardUtils";
+import { MAP_HEIGHT_PX, MAP_WIDTH_PX } from "../constants/BoardUtils";
 import { Layer, Stage } from "react-konva";
 import Snake from "../canvasComponents/Snake";
 import Obstacles from "../canvasComponents/Obstacles";
@@ -121,7 +116,6 @@ function GameboardView() {
         </div>
         <div className="tourGameBtns">{BracketNavigation()}</div>
       </div>
-      {/* {modalOpen && <Modal setIsOpen={setModalOpen} />} */}
     </section>
   );
 }
