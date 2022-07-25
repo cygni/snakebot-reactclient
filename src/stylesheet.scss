@@ -255,13 +255,22 @@ footer {
     color: white;
     background-color: #0EBDE7;
     border-radius: 6px;
-    border: none;
+    border-color: white;
     margin-right: auto;
     margin-left: auto;
     display: block;
 
     padding: 12px 20px;
     
+    cursor: pointer;
+
+    &:hover {
+      border-color: #0EBDE7;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
   }
 
   .error{
@@ -313,8 +322,19 @@ footer {
     margin-left: 1rem;
     color: white;
     background-color: #0EBDE7;
+    border-color: white;
     border-radius: 6px;
-    border: none;
+    //border: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #0EBDE7;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+
   }
 
   .searchintro {
@@ -493,8 +513,17 @@ footer {
     margin-right: 1rem;
     color: white;
     background-color: #000735;
+    border-color: white;
     border-radius: 6px;
-    border: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #000735;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
   }
 
   .createTournamentBtn {
@@ -503,8 +532,17 @@ footer {
     margin-left: 1rem;
     color: white;
     background-color: #0EBDE7;
+    border-color: white;
     border-radius: 6px;
-    border: none;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #0EBDE7;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
   }
 
   .tournamentButtons {
@@ -657,10 +695,19 @@ footer {
     background-color: #0EBDE7;
     padding: 12px 20px;
     border-radius: 6px;
-    border: 1px solid #DCDCDC;
+    border-color: white;
     margin-bottom: 7rem;
     margin-top: 0.5rem;
     margin-left: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #0EBDE7;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
 }
 
 .editSettingsButton {
@@ -672,10 +719,21 @@ footer {
   background-color: #000735;
   padding: 12px 20px;
   border-radius: 6px;
-  border: 1px solid #DCDCDC;
+  border-color: white;
   margin-bottom: 7rem;
   margin-top: 0.5rem;
   margin-right: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #000735;
+    
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+
 }
 
 
@@ -702,10 +760,20 @@ footer {
     color: white;
     background-color: #0EBDE7;
     border-radius: 6px;
-    border: none;
+    border-color: white;
     display: inline-block;
     padding: 12px 20px;
     margin: 0 10px;
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: #0EBDE7;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
   }
 
   .scheduleBtn {
@@ -714,10 +782,20 @@ footer {
     color: white;
     background-color: #000735;
     border-radius: 6px;
-    border: none;
+    border-color: white;
     display: inline-block;
     padding: 12px 20px;
     margin: 0 10px;
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: #000735;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
   }
   /* Gameboard with controls */
   .gameboard {
