@@ -1,33 +1,29 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import ControllBar from "../components/ControllBar";
-import ScoreBoard from "../components/ScoreBoard";
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import ControllBar from '../components/ControllBar';
+import ScoreBoard from '../components/ScoreBoard';
 
-import api from "../api";
-import { useEffect } from "react";
-import { setGameData } from "../context/slices/gameDataSlice";
-import messageDispatch from "../context/messageDispatch";
-import { clearCurrentFrame } from "../context/slices/currentFrameSlice";
-import { useAppDispatch, useAppSelector } from "../context/hooks";
+import api from '../api';
+import { useEffect } from 'react';
+import { setGameData } from '../context/slices/gameDataSlice';
+import messageDispatch from '../context/messageDispatch';
+import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
+import { useAppDispatch, useAppSelector } from '../context/hooks';
 
 // For drawing the gameboard
-import { MAP_HEIGHT_PX, MAP_WIDTH_PX } from "../constants/BoardUtils";
-import { Layer, Stage } from "react-konva";
-import Snake from "../canvasComponents/Snake";
-import Obstacles from "../canvasComponents/Obstacles";
-import Stars from "../canvasComponents/Stars";
-import { viewedGame } from "../context/slices/tournamentSlice";
+import { MAP_HEIGHT_PX, MAP_WIDTH_PX } from '../constants/BoardUtils';
+import { Layer, Stage } from 'react-konva';
+import Snake from '../canvasComponents/Snake';
+import Obstacles from '../canvasComponents/Obstacles';
+import Stars from '../canvasComponents/Food';
+import { viewedGame } from '../context/slices/tournamentSlice';
 
 function GameboardView() {
   let { gameID } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
-  const tournamentStarted = useAppSelector(
-    (state) => state.tournament.isTournamentStarted
-  );
-  const tournamentLevels = useAppSelector(
-    (state) => state.tournament.tournamentLevels
-  );
+  const tournamentStarted = useAppSelector((state) => state.tournament.isTournamentStarted);
+  const tournamentLevels = useAppSelector((state) => state.tournament.tournamentLevels);
   const location = useLocation();
 
   // Initialize the game
@@ -37,13 +33,13 @@ function GameboardView() {
 
     // Setup the game
     api.getGame(gameID!).then((game) => {
-      console.log("Fetched game", game);
+      console.log('Fetched game', game);
       dispatch(setGameData(game));
 
       // dispatch 3 times so we get the first map update
       messageDispatch();
       messageDispatch();
-      messageDispatch();
+      messageDispatch(false);
     });
   }, [gameID]);
 
@@ -53,17 +49,11 @@ function GameboardView() {
     if (locationState?.fromTournament) {
       return (
         <>
-          <button
-            className="scheduleBtn"
-            onClick={() => navigate("/tournament")}
-          >
-            {"<"}- Back to schedule
+          <button className='scheduleBtn' onClick={() => navigate('/tournament')}>
+            {'<'}- Back to schedule
           </button>
-          <button
-            className="nextBtn"
-            onClick={() => _moveToNextTournamentGame(gameID!)}
-          >
-            Go to next game -{">"}
+          <button className='nextBtn' onClick={() => _moveToNextTournamentGame(gameID!)}>
+            Go to next game -{'>'}
           </button>
         </>
       );
@@ -91,18 +81,18 @@ function GameboardView() {
           });
           dispatch(viewedGame(nextGame.gameId));
         } else {
-          navigate("/tournament");
+          navigate('/tournament');
         }
       }
     }
   };
 
   return (
-    <section className="page clear-fix">
-      <div className="thegame">
+    <section className='page clear-fix'>
+      <div className='thegame'>
         <ScoreBoard />
-        <div className="gameboard">
-          <Stage className="canvas" width={MAP_WIDTH_PX} height={MAP_HEIGHT_PX}>
+        <div className='gameboard'>
+          <Stage className='canvas' width={MAP_WIDTH_PX} height={MAP_HEIGHT_PX}>
             <Layer>
               {currentFrameState.IDs.map((snakeID, i) => {
                 const snake = currentFrameState.snakesData[snakeID];
@@ -114,7 +104,7 @@ function GameboardView() {
           </Stage>
           <ControllBar />
         </div>
-        <div className="tourGameBtns">{BracketNavigation()}</div>
+        <div className='tourGameBtns'>{BracketNavigation()}</div>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { TournamentLevel } from "../../constants/messageTypes";
-import { useAppSelector } from "../../context/hooks";
+import { useAppDispatch, useAppSelector } from "../../context/hooks";
+import { declareTournamentWinner } from "../../context/slices/tournamentSlice";
 import TournamentBracket from "./TournamentBracket";
 import Podium from "../../assets/images/Podium.svg";
 
@@ -23,6 +24,8 @@ function TournamentSchedule() {
     (state) => state.tournament.finalGameResult
   );
   const finalGameID = useAppSelector((state) => state.tournament.finalGameID);
+  const declaredWinner = useAppSelector(state => state.tournament.isWinnerDeclared);
+  const dispatch = useAppDispatch();
 
   function lastGameViewed() {
     let viewed = false;
@@ -38,6 +41,13 @@ function TournamentSchedule() {
 
   function showPodium() {
     if (lastGameViewed()) {
+      if (!declaredWinner){
+        let msg = new SpeechSynthesisUtterance();
+  
+        msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
+        speechSynthesis.speak(msg);
+      }
+      dispatch(declareTournamentWinner());
       return (
         <>
           <div className="podium">
@@ -61,6 +71,12 @@ function TournamentSchedule() {
           </div>
         </>
       );
+    }
+    if (declaredWinner){
+      let msg = new SpeechSynthesisUtterance();
+
+      msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
+      speechSynthesis.speak(msg);
     }
   }
 

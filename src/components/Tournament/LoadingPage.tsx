@@ -16,7 +16,7 @@ function LoadingPage() {
       <span><img src={getSnakeHead("#9BF3F0").src} alt="snakehead" /></span>
       <span><img src={getSnakeHead("#FF4848").src} alt="snakehead" /></span>
       <span><img src={getSnakeHead("#FFDF4A").src} alt="snakehead" /></span>
-      <h1 className='percentloader'>{gameFinishedShare}%</h1>
+      <h1 className='percentloader'>{Math.round(gameFinishedShare)}%</h1>
     </div>
   )
 }
