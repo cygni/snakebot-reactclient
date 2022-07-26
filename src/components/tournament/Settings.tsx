@@ -58,6 +58,13 @@ function TournamentSettings() {
 
           <div className="maxnoofplayers">
             <label htmlFor="maxNoofPlayers">MaxPlayers</label>
+            <div className="tooltip">?
+            <span className="tooltiptext">This setting will determine the amount of players in each game. 
+            The tournament bracket will determine the amount of rounds as a geometric number sequence where 
+            each advancing round will have half the amount of games as the previous one. To avoid cases where some 
+            players automatically advance from the first round, this setting should be set accordingly for the amount 
+            of players in the tournament. </span>
+            </div>
             <input
               name="maxPlayers"
               id="maxNoofPlayers"
@@ -68,6 +75,8 @@ function TournamentSettings() {
               onChange={handleInputChange}
               // onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
             />
+            
+
           </div>
 
           <div>
