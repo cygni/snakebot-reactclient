@@ -1,10 +1,8 @@
-
-
 export enum TournamentEnums {
   LOADINGPAGE = 'LOADINGPAGE',
   SETTINGSPAGE = 'SETTINGSPAGE',
   PLAYERLIST = 'PLAYERLIST',
-  SCHEDULE = 'SCHEDULE'
+  SCHEDULE = 'SCHEDULE',
 }
 
-export default TournamentEnums
+export default TournamentEnums;

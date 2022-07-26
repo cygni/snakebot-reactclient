@@ -40,7 +40,7 @@ function GameboardView() {
       messageDispatch();
       messageDispatch(false);
     });
-  }, [gameID]);
+  }, [dispatch, gameID]);
 
   // Display button to go back to the tournament bracket
   function BracketNavigation() {

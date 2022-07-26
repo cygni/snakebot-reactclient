@@ -1,4 +1,4 @@
-export default{
+const MessageTypes = {
     GAME_HISTORY: "se.cygni.snake.eventapi.history.GameHistory",
     GAME_CREATED_EVENT: 'se.cygni.snake.api.event.GameCreatedEvent',
     GAME_STARTING_EVENT: 'se.cygni.snake.api.event.GameStartingEvent',
@@ -17,7 +17,13 @@ export default{
     CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
     START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
     START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame',
-}
+};
+
+export default MessageTypes;
+
+// ##################################################
+// ########### Typescript message types #############
+// ##################################################
 
 export type Message = {
     gameId: string;

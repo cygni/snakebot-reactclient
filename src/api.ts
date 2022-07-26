@@ -37,6 +37,9 @@ function sendWhenConnected(msg: string) {
   }
 }
 
+// ##############################################################################################
+// ########################### REST API ########################################################
+// ##############################################################################################
 export async function getToken(username: string, password: string): Promise<{ success: boolean; data: string }> {
   try {
     let resp = await axios.get(`/login?login=${username}&password=${password}`);
@@ -53,9 +56,6 @@ export type Game = {
   players: string[];
 };
 
-// ##############################################################################################
-// ########################### REST API ########################################################
-// ##############################################################################################
 async function searchForGames(snakeName: string): Promise<Game[]> {
   const resp = await axios.get(`/history/search/${snakeName}`).catch((err) => {
     console.error(err);
