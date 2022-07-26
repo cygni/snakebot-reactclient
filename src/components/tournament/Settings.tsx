@@ -8,7 +8,7 @@ import {
 function TournamentSettings() {
   const gameSettings = useAppSelector((state) => state.tournament.gameSettings);
   const [localGameSettings, setLocalGameSettings] = useState(gameSettings);
-  const [tourName, setTourName] = useState("");
+  const [tourName, setTourName] = useState("My Tournament");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -52,6 +52,7 @@ function TournamentSettings() {
             <input
               name="MyTournament"
               type="String"
+              value={tourName}
               onChange={handleNameChange}
             />
           </div>
@@ -173,26 +174,28 @@ function TournamentSettings() {
             />
           </div>
 
-          <div className="addfood">
-            <label htmlFor="addFoodLikelihood">AddFoodLikelihood</label>
+          <div>
+            <label htmlFor="addFoodLikelihood">AddFoodLikelihood %</label>
             <input
               name="addFoodLikelihood"
               id="addFoodLikelihood"
+              type="number"
               min="0"
               max="100"
-              value={localGameSettings.addFoodLikelihood + "%"}
+              value={localGameSettings.addFoodLikelihood}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className="removefood">
-            <label htmlFor="removeFoodLikelihood">RemoveFoodLikelihood</label>
+          <div>
+            <label htmlFor="removeFoodLikelihood">RemoveFoodLikelihood %</label>
             <input
               name="removeFoodLikelihood"
               id="removeFoodLikelihood"
+              type="number"
               min="0"
               max="100"
-              value={localGameSettings.removeFoodLikelihood + "%"}
+              value={localGameSettings.removeFoodLikelihood}
               onChange={handleInputChange}
             />
           </div>
