@@ -1,7 +1,8 @@
 {
-  "name": "snakebot-webclient-2.0",
-  "version": "0.1.0",
-  "homepage": "https://dolvur.github.io/",
+  "name": "snakebot-reactclient",
+  "description": "A new webclient for Snakebot",
+  "version": "1.0.0",
+  "homepage": "https://github.com/cygni/snakebot-reactclient",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
