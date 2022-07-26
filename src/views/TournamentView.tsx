@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import api from "../api";
 import { useAppSelector } from "../context/hooks";
-import TournamentSettings from "../components/Tournament/TournamentSettings";
-import TournamentSchedule from "../components/Tournament/TournamentSchedule";
-import LoadingPage from "../components/Tournament/LoadingPage";
+import TournamentSettings from "../components/tournament/Settings";
+import TournamentSchedule from "../components/tournament/Schedule";
+import LoadingPage from "../components/tournament/LoadingPage";
 import PlayerList from "../components/PlayerList";
 import TournamentEnums from "../constants/TournamentEnums";
 

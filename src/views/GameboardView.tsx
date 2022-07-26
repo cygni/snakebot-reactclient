@@ -12,9 +12,9 @@ import { useAppDispatch, useAppSelector } from '../context/hooks';
 // For drawing the gameboard
 import { MAP_HEIGHT_PX, MAP_WIDTH_PX } from '../constants/BoardUtils';
 import { Layer, Stage } from 'react-konva';
-import Snake from '../canvasComponents/Snake';
-import Obstacles from '../canvasComponents/Obstacles';
-import Stars from '../canvasComponents/Food';
+import Snake from '../components/canvas/Snake';
+import Obstacles from '../components/canvas/Obstacles';
+import Stars from '../components/canvas/Food';
 import { viewedGame } from '../context/slices/tournamentSlice';
 
 function GameboardView() {
@@ -22,7 +22,6 @@ function GameboardView() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
-  const tournamentStarted = useAppSelector((state) => state.tournament.isTournamentStarted);
   const tournamentLevels = useAppSelector((state) => state.tournament.tournamentLevels);
   const location = useLocation();
 
@@ -62,27 +61,25 @@ function GameboardView() {
 
   const _moveToNextTournamentGame = (id: string) => {
     let gameIndex = 0;
-    if (tournamentStarted) {
-      const currentLevel = tournamentLevels.find((level) =>
-        level.tournamentGames.find((game, index) => {
-          if (game.gameId === id) {
-            gameIndex = index;
-            return true;
-          }
-          return false;
-        })
-      );
-
-      if (currentLevel) {
-        const nextGame = currentLevel.tournamentGames[gameIndex + 1];
-        if (nextGame) {
-          navigate(`/tournament/${nextGame.gameId}`, {
-            state: { fromTournament: true },
-          });
-          dispatch(viewedGame(nextGame.gameId));
-        } else {
-          navigate('/tournament');
+    const currentLevel = tournamentLevels.find((level) =>
+      level.tournamentGames.find((game, index) => {
+        if (game.gameId === id) {
+          gameIndex = index;
+          return true;
         }
+        return false;
+      })
+    );
+
+    if (currentLevel) {
+      const nextGame = currentLevel.tournamentGames[gameIndex + 1];
+      if (nextGame) {
+        navigate(`/tournament/${nextGame.gameId}`, {
+          state: { fromTournament: true },
+        });
+        dispatch(viewedGame(nextGame.gameId));
+      } else {
+        navigate('/tournament');
       }
     }
   };

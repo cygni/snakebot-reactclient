@@ -4,7 +4,6 @@ import TournamentEnums from '../../constants/TournamentEnums';
 import {
   TournamentCreatedMessage,
   GameSettings,
-  Message,
   TournamentGamePlanMessage,
   Player,
   TournamentLevel,
@@ -49,8 +48,6 @@ export type TournamentData = {
   isLoggedIn: boolean;
   isTournamentActive: boolean;
   isTournamentStarted: boolean;
-  isSettingsDone: boolean;
-  allGamesPlayed: boolean;
 
   tournamentViewState: TournamentEnums;
 };
@@ -72,8 +69,6 @@ const initialState: TournamentData = {
   isLoggedIn: localStorage.getItem('token') !== null,
   isTournamentActive: false,
   isTournamentStarted: false,
-  isSettingsDone: false,
-  allGamesPlayed: false,
 
   tournamentViewState: TournamentEnums.SETTINGSPAGE,
 };
@@ -115,7 +110,6 @@ export const tournamentSlice = createSlice({
     },
 
     settingsAreDone: (state) => {
-      state.isSettingsDone = true;
       state.tournamentViewState = TournamentEnums.PLAYERLIST;
     },
 
@@ -145,19 +139,21 @@ export const tournamentSlice = createSlice({
       state.gameFinishedShare = (100 * totalGamesPlayed) / Math.pow(2, state.noofLevels);
 
       if (state.isTournamentStarted) {
-        // Find and play first game that has not been played
-        let startedGame = false;
+        // Find and play games that has not been played
         for (let level of state.tournamentLevels) {
+          let startNextLevel = true;
           for (let game of level.tournamentGames) {
+            // If a game has not been played, don't start the next level
+            if (!game.gamePlayed) startNextLevel = false;
+
             if (game.gameId !== null && !state.startedGames[game.gameId]) {
               state.startedGames[game.gameId] = true;
               api.startTournamentGame(game.gameId);
-              startedGame = true;
-              // break;
             }
           }
-          // If we started a game, we are done
-          if (startedGame) break;
+
+          // Start next level if all games in this level has been played
+          if (!startNextLevel) break;
         }
       }
     },
@@ -174,7 +170,6 @@ export const tournamentSlice = createSlice({
     },
 
     tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
-      state.allGamesPlayed = true;
       state.tournamentViewState = TournamentEnums.SCHEDULE;
       state.finalGameID = action.payload.gameId;
       state.finalGameResult = action.payload.gameResult;

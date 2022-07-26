@@ -22,6 +22,9 @@ export default function dataDispatch(increaseCounter: boolean = true) {
       store.dispatch(gameCreatedEvent(message as types.GameCreatedMessage));
       break;
 
+    case messageTypes.GAME_STARTING_EVENT:
+      break;
+
     case messageTypes.MAP_UPDATE_EVENT:
       store.dispatch(mapUpdateEvent(message as types.MapUpdateMessage));
       break;
