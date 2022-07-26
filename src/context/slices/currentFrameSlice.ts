@@ -9,6 +9,7 @@ import {
   MapUpdateMessage,
   SnakeDiedMessage,
 } from '../../constants/messageTypes';
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
 export type TilePosition = { x: number; y: number };
 
@@ -77,6 +78,7 @@ export const snakesSlice = createSlice({
       state.snakesData[action.payload.playerId].alive = false;
 
       let msg = new SpeechSynthesisUtterance();
+      msg.volume = Arbitraryconstants.TTS_VOLUME;
 
       msg.text = `${state.snakesData[action.payload.playerId].name} died from ${action.payload.deathReason}`;
       speechSynthesis.speak(msg);

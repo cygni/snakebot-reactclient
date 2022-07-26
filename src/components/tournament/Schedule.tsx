@@ -4,6 +4,7 @@ import { declareTournamentWinner } from '../../context/slices/tournamentSlice';
 import TournamentBracket from './Bracket';
 import Podium from '../../assets/images/Podium.svg';
 import api from '../../api';
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
 function roundClassName(round: TournamentLevel) {
   switch (round.level) {
@@ -42,6 +43,7 @@ function TournamentSchedule() {
     if (lastGameViewed()) {
       if (!declaredWinner) {
         let msg = new SpeechSynthesisUtterance();
+        msg.volume = Arbitraryconstants.TTS_VOLUME;
 
         msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
         speechSynthesis.speak(msg);
@@ -73,6 +75,7 @@ function TournamentSchedule() {
     }
     if (declaredWinner) {
       let msg = new SpeechSynthesisUtterance();
+      msg.volume = Arbitraryconstants.TTS_VOLUME;
 
       msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
       speechSynthesis.speak(msg);
