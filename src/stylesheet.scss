@@ -3,9 +3,8 @@
 body {
   overscroll-behavior-y: none;
   overscroll-behavior-x: none;
-  min-height: 100vh;
+  min-height: 100%;
   margin: 0;
-  height: 100%;
   
 }
 
@@ -127,7 +126,7 @@ iframe{
   margin-right: 20%;
   padding-right: 27vw;
   padding-top: 8rem;
-  padding-bottom: 8rem;
+  padding-bottom: 20rem;
   position: relative;
 
 
@@ -193,13 +192,8 @@ footer {
   height: 7rem;  
   left: 0;
   right: 0;
-  bottom: -400px; //TA BORT DETTA SENARE
+  bottom: 0; //TA BORT DETTA SENARE
   position: absolute;
-  top: 100%;
-  //margin-top: 20px;
-
-
-
   
   img {
     width: 150px;
@@ -302,7 +296,7 @@ footer {
   padding-top: 5rem;
   padding-bottom: 5rem;
   text-align: center;
-  min-height: 70vh; // ÄNDRA SENARE
+ 
   min-height: -webkit-calc(100vh - 25rem);
   min-height: -moz-calc(100vh - 25rem);
   min-height: calc(100vh - 25rem);
