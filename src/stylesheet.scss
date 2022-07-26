@@ -506,7 +506,6 @@ footer {
     display: block;
   }
 
-
   .resetDefault {
     height: 50px;
     width: 200px;
@@ -858,6 +857,26 @@ footer {
   }
 }
 
+.newTournamentButton {
+  width: 15vw;
+  margin-left: auto;
+  padding-right: auto;
+  margin-right: auto;
+  color: white;
+  background-color: #0EBDE7;
+  padding: 12px 20px;
+  border-radius: 6px;
+  border-color: white;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #0EBDE7;
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+}
 
 
 /**
