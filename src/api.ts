@@ -9,24 +9,33 @@ import { store } from './context/store';
 
 let socket = new SockJS(Arbitraryconstants.SERVER_URL + '/events');
 let onConnectQueue: string[] = [];
+newConnection();
 
-socket.onopen = () => {
-  console.log('Connected to server');
-  // Send all queued messages
-  onConnectQueue.forEach((msg) => {
-    socket.send(msg);
-  });
-  onConnectQueue = [];
-};
+function newConnection() {
+  socket = new SockJS(Arbitraryconstants.SERVER_URL + '/events');
 
-socket.onmessage = (event: any) => onSocketMessage(event.data);
+  socket.onopen = () => {
+    console.log('Connected to server');
+    // Send all queued messages
+    onConnectQueue.forEach((msg) => {
+      socket.send(msg);
+    });
+    onConnectQueue = [];
+  };
 
-socket.onclose = () => {
-  console.log('Disconnected from server');
-  alert('Disconnected from server, please refresh the page to reconnect');
-  localStorage.clear();
-  store.dispatch(clearTournament());
-};
+  socket.onmessage = (event: any) => onSocketMessage(event.data);
+
+  socket.onclose = () => {
+    console.log('Disconnected from server');
+    localStorage.clear();
+    store.dispatch(clearTournament());
+
+    setTimeout(() => {
+      console.log('Trying to reconnect...');
+      newConnection();
+    }, 3000);
+  };
+}
 
 function sendWhenConnected(msg: string) {
   console.log('Queuing/sending socket message:', JSON.parse(msg));
