@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from "react";
 import { Image, Group } from "react-konva";
-import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../constants/BoardUtils";
-import { getBlackhole } from "../constants/Images";
-import { TilePosition } from "../context/slices/currentFrameSlice";
+import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../../constants/BoardUtils";
+import { getBlackhole } from "../../constants/Images";
+import { TilePosition } from "../../context/slices/currentFrameSlice";
 import konva from "konva";
 
 type Props = {

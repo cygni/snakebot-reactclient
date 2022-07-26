@@ -1,8 +1,8 @@
 import { Group, Rect, Image, Arc } from "react-konva";
-import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../constants/BoardUtils";
-import { SnakeData, TilePosition } from "../context/slices/currentFrameSlice";
-import Colors from "../constants/Colors";
-import { getCurrentSnakeHead, getCurrentSnakeTail } from "../constants/Images";
+import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../../constants/BoardUtils";
+import { SnakeData, TilePosition } from "../../context/slices/currentFrameSlice";
+import Colors from "../../constants/Colors";
+import { getCurrentSnakeHead, getCurrentSnakeTail } from "../../constants/Images";
 
 type Props = {
   snake: SnakeData;

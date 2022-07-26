@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import { TilePosition } from "../context/slices/currentFrameSlice";
+import { TilePosition } from "../../context/slices/currentFrameSlice";
 import { Image, Group } from "react-konva";
-import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../constants/BoardUtils";
-import { getStar } from "../constants/Images";
+import { TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../../constants/BoardUtils";
+import { getStar } from "../../constants/Images";
 
 type Props = {
   stars: TilePosition[];

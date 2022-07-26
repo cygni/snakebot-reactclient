@@ -1,5 +1,4 @@
 import { TournamentGame } from "../../constants/messageTypes";
-import Star from "../../assets/images/star.svg";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../context/hooks";
 import { viewedGame } from "../../context/slices/tournamentSlice";

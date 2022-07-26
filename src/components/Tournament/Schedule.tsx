@@ -1,7 +1,7 @@
 import { TournamentLevel } from "../../constants/messageTypes";
 import { useAppDispatch, useAppSelector } from "../../context/hooks";
 import { declareTournamentWinner } from "../../context/slices/tournamentSlice";
-import TournamentBracket from "./TournamentBracket";
+import TournamentBracket from "./Bracket";
 import Podium from "../../assets/images/Podium.svg";
 
 function roundClassName(round: TournamentLevel) {
