@@ -13,9 +13,11 @@ const snakeColors = [
   '#9BF3F0',
 ];
 
-export default {
-  getSnakeColor(i: number) {
-    return snakeColors[i];
+const Colors = {
+  getSnakeColor: (index: number) => {
+    return snakeColors[index % snakeColors.length];
   },
   DEAD_SNAKE: '#999999',
-};
+}
+
+export default Colors;

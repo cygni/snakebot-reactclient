@@ -1,5 +1,4 @@
 
-import { RiCloseLine } from "react-icons/ri";
 import { useSelector } from "react-redux"
 import type { RootState } from '../context/store';
 import Podium from '../assets/images/Podium.svg';

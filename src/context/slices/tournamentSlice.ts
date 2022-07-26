@@ -53,13 +53,9 @@ export type TournamentData = {
   allGamesPlayed: boolean;
 
   tournamentViewState: TournamentEnums;
-
-  messages: Message[];
-  counter: number;
 };
 
 const initialState: TournamentData = {
-  // Default game settings
   gameSettings: placeholdGameSettings,
   tournamentId: '',
   tournamentName: 'Tournament Not Created',
@@ -80,22 +76,21 @@ const initialState: TournamentData = {
   allGamesPlayed: false,
 
   tournamentViewState: TournamentEnums.SETTINGSPAGE,
-
-  messages: [],
-  counter: 0,
 };
 
 export const tournamentSlice = createSlice({
-  name: 'gameData',
+  name: 'tournament',
   initialState,
   reducers: {
-    addMessage: (state, action: PayloadAction<Message>) => {
-      state.messages.push(action.payload);
+    clearTournament: (state) => {
+      Object.assign(state, initialState);
+      state.isLoggedIn = localStorage.getItem('token') !== null;
     },
 
     tournamentCreated: (state, action: PayloadAction<TournamentCreatedMessage>) => {
       // Clear out old data
       Object.assign(state, initialState);
+      state.isLoggedIn = localStorage.getItem('token') !== null;
 
       // Set data from message
       state.gameSettings = action.payload.gameSettings;
@@ -107,8 +102,6 @@ export const tournamentSlice = createSlice({
 
     updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
       state.gameSettings = action.payload;
-
-      // TODO: Exception handling, what if message gets lost?
       api.updateTournamentSettings(action.payload);
     },
 
@@ -189,16 +182,12 @@ export const tournamentSlice = createSlice({
 
     setLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
-      // if (state.isLoggedIn === false) {
-      //     // Navigate to loginView
-      //     window.location.href = "/login";
-      // }
     },
   },
 });
 
 export const {
-  addMessage,
+  clearTournament,
   tournamentCreated,
   updateGameSettings,
   startTournament,

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import api from "../api";
 import { useAppSelector } from "../context/hooks";
 import TournamentSettings from "../components/Tournament/TournamentSettings";
@@ -7,13 +8,11 @@ import LoadingPage from "../components/Tournament/LoadingPage";
 import PlayerList from "../components/PlayerList";
 import TournamentEnums from "../constants/TournamentEnums";
 
-function TournamentView() {
-  const isTournamentActive = useAppSelector(
-    (state) => state.tournament.isTournamentActive
-  );
-  const activeTournamentView = useAppSelector(
-    (state) => state.tournament.tournamentViewState
-  );
+function TournamentView() { 
+  const isTournamentActive = useAppSelector((state) => state.tournament.isTournamentActive);
+  const activeTournamentView = useAppSelector((state) => state.tournament.tournamentViewState);
+  const isLoggedIn = useAppSelector((state) => state.tournament.isLoggedIn);
+  const navigate = useNavigate();
 
   // Create tournament on mount
   useEffect(() => {
@@ -21,6 +20,11 @@ function TournamentView() {
       api.createTournament("Tournament");
     }
   }, [isTournamentActive]);
+
+  // If not logged in, redirect to login page
+  useEffect(()=>{
+    if (!isLoggedIn) navigate('/login');
+  });
 
   function selectView(page: TournamentEnums) {
     switch (page) {
