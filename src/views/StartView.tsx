@@ -24,14 +24,12 @@ function StartView() {
           black holes though!
         </p>
         <p>Checkout the screencasts below:</p>
-        <iframe
-          title='screencast-introduction'
-          width='560'
-          height='315'
-          src='https://www.youtube.com/embed/videoseries?list=PL_mlNK0QR9ykOvFg3z4nmAT_aZxCVCrD4'
-          frameBorder='0'
-          allowFullScreen
-        />
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/9FGxNwOONIc"
+         title="YouTube video player" frameBorder="0" 
+         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+         allowFullScreen>
+          
+         </iframe>
         <p>
           We at Cygni love programming. We also love a friendly competetion over a couple of beers. What better way to
           combine these two things than a battle in programming!
