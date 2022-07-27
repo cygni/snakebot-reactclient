@@ -3,14 +3,18 @@
 body {
   overscroll-behavior-y: none;
   overscroll-behavior-x: none;
-  min-height: 100%;
-  margin: 0;
-  
+  min-height: 100vh;
 }
 
-// section {
-//   // background-color: #ebebeb;
-// }
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  flex-grow: 1;
+}
 
 p{
   font-family: Barlow;
@@ -54,7 +58,7 @@ iframe{
   background-attachment: relative;
   background-position: center bottom;
   margin-top: -10rem;
-  
+
 
   img{
     width: 15vw;
@@ -102,11 +106,11 @@ iframe{
   padding-right: 20%;
   padding-top: 5rem;
   padding-bottom: 5rem;
-  
+
   p {
     color: white;
   }
-  
+
   h1{
     color: white;
   }
@@ -122,14 +126,11 @@ iframe{
 }
 
 .cygni-at-campus{
-  margin-left: 20%;
-  margin-right: 20%;
-  padding-right: 27vw;
+  padding-left: 20%;
+  padding-right: 20%;
   padding-top: 8rem;
-  padding-bottom: 20rem;
-  position: relative;
-
-
+  display: flex;
+  justify-content: space-between;
 }
 
 
@@ -139,6 +140,7 @@ iframe{
 header {
   padding: 2rem 5rem 2rem;
   background-color: #000735;
+  z-index: 1;
 
   ul {
     list-style-type: none;
@@ -181,20 +183,11 @@ header {
   }
 }
 
-#root{
-  position: relative;
-  min-height: 100vh;
-}
-
 footer {
   padding: 2rem 5rem 2rem;
   background-color: #e3d9d7;
-  height: 7rem;  
-  left: 0;
-  right: 0;
-  bottom: 0; //TA BORT DETTA SENARE
-  position: absolute;
-  
+  height: 7rem;
+
   img {
     width: 150px;
     float: left;
@@ -255,7 +248,7 @@ footer {
     display: block;
 
     padding: 12px 20px;
-    
+
     cursor: pointer;
 
     &:hover {
@@ -270,12 +263,12 @@ footer {
   .error{
     border-color: red !important;
   }
-  
+
   .error-text{
     color: red;
     font-size: 12px;
   }
-  
+
   span{
     font-size: 10px;
     vertical-align: middle;
@@ -294,14 +287,8 @@ footer {
   margin-left: 20%;
   margin-right: 20%;
   padding-top: 5rem;
-  padding-bottom: 5rem;
+  // padding-bottom: 5rem;
   text-align: center;
- 
-  min-height: -webkit-calc(100vh - 25rem);
-  min-height: -moz-calc(100vh - 25rem);
-  min-height: calc(100vh - 25rem);
-
-
 
   input {
     width: 20vw;
@@ -341,51 +328,51 @@ footer {
     list-style: none;
     padding: 0;
   }
-  
+
   .searchresults li {
     margin-bottom: 1.2rem;
   }
-  
+
   .searchheadline {
     margin: 0;
     font-size: 16px;
   }
-  
+
   .searchheadline a {
     text-decoration: none;
   }
-  
+
   .time {
     margin-left: 0.5rem;
   }
-  
+
   .players {
     font-size: 14px;
     list-style: none;
     padding: 0;
   }
-  
+
   .players li {
     display: inline-block;
     margin: 0 0 0 1rem;
-  
+
   }
-  
+
   .players li:first-child {
     margin: 0;
   }
-  
+
   .match {
     font-style: italic;
     color: #439335;
   }
-  
+
   .searchresultsheadline {
     margin-top: 1rem;
     font-size: 18px;
     font-weight: bold;
   }
-  
+
   .searchintro {
     margin-bottom: 1rem;
   }
@@ -407,26 +394,6 @@ footer {
     margin-right: 1rem;
   }
 
-}
-
-.hidden-wrapper{
-  background-color: transparent;
-  width: 50vw;
-  height: 250vh;
-  position: absolute;
-  overflow: hidden;
-  bottom: 0;
-  z-index: 2;
-  right: 20%;
-}
-
-.phone-cygni{
-  z-index: 3;
-  width: 400px;
-  height: auto;
-  right: 0;
-  position: absolute;
-  bottom: 0;
 }
 
 .hide{
@@ -490,7 +457,6 @@ footer {
     text-align: center;
   }
 
-  
 
   .tournament-name {
     padding-bottom: 1em;
@@ -553,7 +519,7 @@ footer {
   margin-right: auto;
   display: block;
   margin-top: 3rem;
-  
+
    .foodLabel, .headLabel, .tailLabel, .obstacleLabel {
      box-sizing: border-box;
      margin: 0;
@@ -576,14 +542,14 @@ footer {
     float: right;
     margin-right: 200px;
   }
-  
+
   /* Hide default HTML checkbox */
   .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+
   /* The slider */
   .slider {
     position: absolute;
@@ -596,7 +562,7 @@ footer {
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   .slider:before {
     position: absolute;
     content: "";
@@ -608,26 +574,26 @@ footer {
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+
   input:checked + .slider {
     background-color: #000735;
   }
-  
+
   input:focus + .slider {
     box-shadow: 0 0 1px #000735;
   }
-  
+
   input:checked + .slider:before {
     -webkit-transform: translateX(13px);
     -ms-transform: translateX(13px);
     transform: translateX(13px);
   }
-  
+
   /* Rounded sliders */
   .slider.round {
     border-radius: 34px;
   }
-  
+
   .slider.round:before {
     border-radius: 50%;
   }
@@ -648,7 +614,7 @@ footer {
     padding: 12px 20px;
     border-radius: 6px;
     margin-bottom: 4rem;
-    margin-top: 0.5rem;    
+    margin-top: 0.5rem;
 
     .playerString{
       font-family: 'Barlow Condensed';
@@ -721,7 +687,7 @@ footer {
 
   &:hover {
     border-color: #000735;
-    
+
   }
 
   &:active {
@@ -735,13 +701,7 @@ footer {
 .thegame {
   margin: 3rem auto;
   width: auto;
-  min-height: 90vh;
   display: table;
-  min-height: -webkit-calc(100vh - 15rem);
-  min-height: -moz-calc(100vh - 15rem);
-  min-height: calc(100vh - 15rem);
-  // display: flex;
-  // justify-content: center;
 
   .tourGameBtns {
     margin-top: 1rem;
@@ -821,7 +781,7 @@ footer {
     background-color: #fff;
     // padding: 2px;
   }
-  
+
   .playButton, .forwardButton, .backwardsButton {
     background-color: #141631;
     // border: 1px solid #333;
@@ -833,7 +793,7 @@ footer {
     transition: all 0.1s;
     width: 26px;
   }
-  
+
   .playButton:hover, .forwardButton:hover, .backwardsButton:hover {
     background-color: #06b6ee;
     transition: all 0.2s;
@@ -882,7 +842,7 @@ footer {
   float: left;
   font-size: 14px;
   width: 310px;
-  
+
   h2 {
     margin: 0 0.5rem 1rem;
   }
@@ -894,7 +854,7 @@ footer {
     padding-right: 1em;
     padding-left: 1em;
   }
-  
+
   ul {
     padding: 0;
     margin-top: 0;
@@ -916,7 +876,7 @@ footer {
       .list-content{
         //vertical-align: middle;
         display: table;
-  
+
       }
 
       &:first-child {
@@ -975,7 +935,7 @@ footer {
   background-color: rgba(0, 0, 0, 0.2);
   width: 100vw;
   height: 100vh;
-  z-index: 0 !important; 
+  z-index: 0 !important;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -987,7 +947,7 @@ footer {
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
- } 
+ }
 
 .modal {
   width: 900px;
@@ -1021,7 +981,7 @@ footer {
     display: inline-block;
     margin: 0px 50px;
     text-align: center;
-  
+
     h3{
       font-family: 'Barlow Condensed';
       font-size: 1.2em;
@@ -1304,14 +1264,10 @@ margin-top: 3px;
   }
 
   .cygni-at-campus{
-    margin-left: 30%;
-    margin-right: 30%;
-    padding-right: 20vw;
+    padding-left: 30%;
+    padding-right: 30%;
   }
 
-  .hidden-wrapper{
-    right: 30%;
-  }
 
 }
 
@@ -1325,7 +1281,7 @@ margin-top: 3px;
   border-color: black;
   text-decoration: solid;
   margin-top: 16px;
-  right: 12vw;  
+  right: 12vw;
 }
 
 .tooltip .tooltiptext {
