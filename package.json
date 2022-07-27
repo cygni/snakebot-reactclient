@@ -2,6 +2,7 @@
   "name": "snakebot-reactclient",
   "description": "A new webclient for Snakebot",
   "version": "1.0.0",
+  "contributors": ["Daniel Karlsson, Sebastian Helin", "Olivia Harlin"],
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
