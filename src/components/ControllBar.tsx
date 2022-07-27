@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../context/hooks";
 
 function ControllBar() {
   const dispatch = useAppDispatch();
-  const messagesLength = useAppSelector((state) => state.gameData.messages.length);
+  const messagesLength = useAppSelector((state) => state.gameData.messages?.length);
   const messageIndex = useAppSelector((state) => state.gameData.counter);
   const [running, setRunning] = useState(false);
   const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);

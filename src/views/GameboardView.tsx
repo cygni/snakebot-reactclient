@@ -33,6 +33,10 @@ function GameboardView() {
     // Setup the game
     api.getGame(gameID!).then((game) => {
       console.log('Fetched game', game);
+      if (JSON.stringify(game) === '{}'){
+        alert('Game not found or might still be running');
+        navigate('/');
+      }
       dispatch(setGameData(game));
 
       // dispatch 3 times so we get the first map update
@@ -40,7 +44,7 @@ function GameboardView() {
       messageDispatch();
       messageDispatch(false);
     });
-  }, [dispatch, gameID]);
+  }, [dispatch, gameID, navigate]);
 
   // Display button to go back to the tournament bracket
   function BracketNavigation() {
