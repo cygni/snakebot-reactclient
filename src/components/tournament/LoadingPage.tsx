@@ -1,6 +1,9 @@
-import { getSnakeHead } from '../constants/Images'
+import { getSnakeHead } from '../../constants/Images'
+import { useAppSelector } from "../../context/hooks";
 
 function LoadingPage() {
+  const gameFinishedShare = useAppSelector(state => state.tournament.gameFinishedShare);
+  
   return (
     <div className="loading">
       <h2>preparing the snakepit</h2>
@@ -13,6 +16,7 @@ function LoadingPage() {
       <span><img src={getSnakeHead("#9BF3F0").src} alt="snakehead" /></span>
       <span><img src={getSnakeHead("#FF4848").src} alt="snakehead" /></span>
       <span><img src={getSnakeHead("#FFDF4A").src} alt="snakehead" /></span>
+      <h1 className='percentloader'>{Math.round(gameFinishedShare)}%</h1>
     </div>
   )
 }

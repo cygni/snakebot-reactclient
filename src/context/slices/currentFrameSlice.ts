@@ -1,9 +1,17 @@
 import colors from '../../constants/Colors';
-import { createSlice } from '@reduxjs/toolkit';
-import Actions from '../Actions';
-import {convertCoords} from '../../constants/BoardUtils'
+import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit';
+import { convertCoords } from '../../constants/BoardUtils';
+import {
+  GameCreatedMessage,
+  GameEndedMessage,
+  GameMap,
+  GameResultMessage,
+  MapUpdateMessage,
+  SnakeDiedMessage,
+} from '../../constants/messageTypes';
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
-export type TilePosition = { x: number, y: number };
+export type TilePosition = { x: number; y: number };
 
 export type SnakeData = {
   name: string;
@@ -11,15 +19,15 @@ export type SnakeData = {
   color: string;
   positions: TilePosition[];
   alive: boolean;
-}
+};
 
 export type playerRanks = {
   name: string;
-}
+};
 
 export type playerPoints = {
   points: number;
-}
+};
 
 interface FrameState {
   IDs: string[];
@@ -27,12 +35,12 @@ interface FrameState {
   snakesData: {
     [key: string]: SnakeData;
   };
-  playerRanks: string[],
-  playerPoints: number [],
+  playerRanks: string[];
+  playerPoints: number[];
 
   obstaclePositions: TilePosition[];
   foodPositions: TilePosition[];
-  
+  gameEnded: boolean;
 }
 
 const initialState: FrameState = {
@@ -43,81 +51,94 @@ const initialState: FrameState = {
   playerPoints: [],
   obstaclePositions: [],
   foodPositions: [],
-}
+  gameEnded: false,
+};
 
 export const snakesSlice = createSlice({
-    name: 'snakes',
-    initialState,
-    reducers: {
-      // Clear data
-      clearCurrentFrame: (state) => {
-        Object.assign(state, initialState);
-      }
+  name: 'snakes',
+  initialState,
+  reducers: {
+    clearCurrentFrame: (state) => {
+      // Reset state
+      Object.assign(state, initialState);
     },
 
-    extraReducers: (builder) => {
-        builder
-        .addCase(Actions.gameCreatedEvent, (state, action) => {
-          // Reset state
-          Object.assign(state, initialState);
-        })
-        .addCase(Actions.mapUpdateEvent, (state, action) => {
-          // Initialize snakes
-          if (Object.keys(state.snakesData).length === 0) {
-              action.payload.map.snakeInfos.forEach(snake => {
-                state.IDs.push(snake.id);
-                state.snakesData = {...state.snakesData,
-                  [snake.id]:
-                    {name: snake.name,
-                    points: snake.points,
-                    color: colors.getSnakeColor(state.colorIndex),
-                    positions: [],
-                    alive: true}};
+    gameCreatedEvent: (state, action: PayloadAction<GameCreatedMessage>) => {
+      // Reset state
+      Object.assign(state, initialState);
+    },
 
-                state.colorIndex++;
-              });
-          }
+    mapUpdateEvent: (state, action: PayloadAction<MapUpdateMessage>) => {
+      updateMap(state, action.payload.map);
+      state.gameEnded = false;
+    },
 
-          // Update snake positions, points and alive status
-          action.payload.map.snakeInfos.forEach(snake => {
-            state.snakesData[snake.id].positions = snake.positions.map(position => convertCoords(position));
-            state.snakesData[snake.id].points = snake.points;
-            if (snake.positions.length === 0) {
-              state.snakesData[snake.id].alive = false;
-            } else {
-              state.snakesData[snake.id].alive = true;
-            }
-          });
+    snakeDiedEvent: (state, action: PayloadAction<SnakeDiedMessage>) => {
+      console.log('Snake has died!', action.payload);
+      state.snakesData[action.payload.playerId].alive = false;
 
-          // Update food positions
-          state.foodPositions = action.payload.map.foodPositions.map(position => convertCoords(position));
+      let msg = new SpeechSynthesisUtterance();
+      msg.volume = Arbitraryconstants.TTS_VOLUME;
 
-          // Update obstacle positions
-          state.obstaclePositions = action.payload.map.obstaclePositions.map(position => convertCoords(position));
-        })
-        .addCase(Actions.snakeDiedEvent, (state, action) => {
-          console.log("Snake has died!", action.payload);
-          state.snakesData[action.payload.playerId].alive = false;
+      msg.text = `${state.snakesData[action.payload.playerId].name} died from ${action.payload.deathReason}`;
+      speechSynthesis.speak(msg);
+      state.gameEnded = false;
+    },
 
-          let msg = new SpeechSynthesisUtterance();
+    gameResultEvent: (state, action: PayloadAction<GameResultMessage>) => {
+      action.payload.playerRanks.forEach((player) => {
+        state.playerRanks.push(player.playerName);
+        state.playerPoints.push(player.points);
+      });
+    },
 
-          msg.text = state.snakesData[action.payload.playerId].name + ' died from ' + action.payload.deathReason;
-          speechSynthesis.speak(msg);
+    gameEndedEvent: (state, action: PayloadAction<GameEndedMessage>) => {
+      console.log('Game has ended!');
+      updateMap(state, action.payload.map);
+      state.gameEnded = true;
+    },
+  },
+});
 
-        })
-        .addCase(Actions.gameResultEvent, (state, action) => {
-         action.payload.playerRanks.forEach(player => {
-           state.playerRanks.push(player.playerName);
-           state.playerPoints.push(player.points);
-         });
-          
-        })
-        
+function updateMap(state: Draft<FrameState>, map: GameMap) {
+  // Initialize snakes
+  if (Object.keys(state.snakesData).length === 0) {
+    map.snakeInfos.forEach((snake) => {
+      state.IDs.push(snake.id);
+      state.snakesData = {
+        ...state.snakesData,
+        [snake.id]: {
+          name: snake.name,
+          points: snake.points,
+          color: colors.getSnakeColor(state.colorIndex),
+          positions: [],
+          alive: true,
+        },
+      };
+
+      state.colorIndex++;
+    });
+  }
+
+  // Update snake positions, points and alive status
+  map.snakeInfos.forEach((snake) => {
+    state.snakesData[snake.id].positions = snake.positions.map((position) => convertCoords(position));
+    state.snakesData[snake.id].points = snake.points;
+    if (snake.positions.length === 0) {
+      state.snakesData[snake.id].alive = false;
+    } else {
+      state.snakesData[snake.id].alive = true;
     }
-  })
-  
-  export const { clearCurrentFrame } = snakesSlice.actions
-  
-  export default snakesSlice.reducer
+  });
 
+  // Update food positions
+  state.foodPositions = map.foodPositions.map((position) => convertCoords(position));
 
+  // Update obstacle positions
+  state.obstaclePositions = map.obstaclePositions.map((position) => convertCoords(position));
+}
+
+export const { clearCurrentFrame, gameCreatedEvent, mapUpdateEvent, snakeDiedEvent, gameResultEvent, gameEndedEvent } =
+  snakesSlice.actions;
+
+export default snakesSlice.reducer;

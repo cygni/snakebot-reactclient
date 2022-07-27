@@ -25,7 +25,7 @@ import deadSnakeHead100 from '../assets/snakes/999999/grey-dead-head-100.svg';
 import starPath from '../assets/images/star.svg';
 import blackholePath from '../assets/images/blackhole.webp';
 
-import type { SnakeData, TilePosition } from '../context/slices/currentFrameSlice';
+import type { SnakeData } from '../context/slices/currentFrameSlice';
 
 function createImg(src: string) {
   const img = new Image();
@@ -147,26 +147,3 @@ export function getSnakeTail(color: string) {
       return snakeTails[10];
   }
 }
-
-// export function getRotation(firstPosition: TilePosition, secondPosition: TilePosition | undefined) {
-//   if (secondPosition === undefined) return 0;
-  
-//   const xDiff = secondPosition.x - firstPosition.x;
-//   const yDiff = secondPosition.y - firstPosition.y;
-//   if(xDiff === 0 && yDiff === 0) return 0;
-//   else if(xDiff === 0 && yDiff === 1){
-//     return 0;
-//   } else if(xDiff === 1 && yDiff === 1){
-//     return Math.PI/4;
-//   } else if(xDiff === 1 && yDiff === 0){
-//     return Math.PI*3/2;
-//   } else if(xDiff === 0 && yDiff === -1){
-//     return Math.PI;
-//   } else if(xDiff === -1 && yDiff === 0){
-//     return Math.PI/2;
-//   } else {
-//     console.error('Error in getRotation');
-//     return 0;
-//   }
-// }
-

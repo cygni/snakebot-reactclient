@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../api";
 import type { Game } from "../api";
+import search from "../assets/icons/search-icon.svg";
 
- function GamesearchView() {
+function GamesearchView() {
   const [snakeName, setSnakeName] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResults, setSearchResults] = useState<Game[]>([]);
@@ -19,38 +20,49 @@ import type { Game } from "../api";
   function Results() {
     if (searchResults.length === 0 && hasSearched) {
       return (
-        <p
-          className={true ? 'show' : 'hidden'}
-          style={{ color: 'red' }}
-        >No result found</p>);
-      } else {
-        return (
-        <ul className="searchresults"> {
-          [...searchResults].reverse().map((game: Game, index: number) => (
+        <div className={true ? "show" : "hidden"}>
+          <div className="no-results">
+            <img alt={"searchIcon"} src={search}></img>
+            <h2>No results found</h2>
+            <p>
+              Make sure the spelling is correct or try searching for something
+              else.
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <ul className="searchresults">
+          {" "}
+          {[...searchResults].reverse().map((game: Game, index: number) => (
             <li key={index}>
-              <h3 className="searchheadline">
-                <Link to={{ pathname: '/viewgame/' + game.gameId }}>
-                  <span className="date">Date: {game.gameDate}</span>
+              <p>
+                <span className="game-played">Game Played:</span>
+                {game.gameDate}{" "}
+                <Link to={{ pathname: "/viewgame/" + game.gameId }}>
+                  <span className="viewgame"> View Game</span>
                 </Link>
-              </h3>
-              <ul className="players"> {
+              </p>
+              {/* <ul className="players"> {
                 game.players.map((player: string, i: number) => (
                   <li key={i} className={(snakeName === player ? 'match' : '')}>
                     { player }
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </li>
           ))}
-        </ul>);
-        
-      }
+        </ul>
+      );
     }
+  }
 
   return (
-    <section className="page clear-fix">
+    <>
+      <section className="gameView">
         <article>
-          <h1>Search for old games</h1>
+          <h1 className="searchH1">Search for old games</h1>
           <p className="searchintro">
             You can find old games here by searching for the snake name.
           </p>
@@ -66,12 +78,12 @@ import type { Game } from "../api";
               />
               <input className="searchbtn" type="submit" value="Search" />
             </form>
-            <h2 className="searchresultsheadline">Results</h2>
-            { Results() }
+            {Results()}
           </div>
         </article>
       </section>
-  )
+    </>
+  );
 }
 
-export default GamesearchView
+export default GamesearchView;
