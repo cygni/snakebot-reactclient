@@ -78,7 +78,9 @@ export const snakesSlice = createSlice({
       state.snakesData[action.payload.playerId].alive = false;
 
       let msg = new SpeechSynthesisUtterance();
+      
       msg.volume = Arbitraryconstants.TTS_VOLUME;
+      msg.voice = speechSynthesis.getVoices().find(voice => voice.name === Arbitraryconstants.TTS_VOICE)!;
 
       msg.text = `${state.snakesData[action.payload.playerId].name} died from ${action.payload.deathReason}`;
       speechSynthesis.speak(msg);
