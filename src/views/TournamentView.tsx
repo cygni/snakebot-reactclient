@@ -5,8 +5,8 @@ import { useAppSelector } from "../context/hooks";
 import TournamentSettings from "../components/tournament/Settings";
 import TournamentSchedule from "../components/tournament/Schedule";
 import LoadingPage from "../components/tournament/LoadingPage";
-import PlayerList from "../components/PlayerList";
-import TournamentEnums from "../constants/TournamentEnums";
+import PlayerList from "../components/tournament/PlayerList";
+import {TournamentEnums} from "../constants/ViewEnums";
 
 function TournamentView() { 
   const isTournamentActive = useAppSelector((state) => state.tournament.isTournamentActive);

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import TournamentEnums from '../../constants/TournamentEnums';
+import {TournamentEnums} from '../../constants/ViewEnums';
 import {
   TournamentCreatedMessage,
   GameSettings,

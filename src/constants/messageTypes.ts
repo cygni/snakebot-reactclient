@@ -178,3 +178,19 @@ export interface TournamentEndedMessage extends SocketMessage {
     tournamentId: string;
     tournamentName: string;
 }
+
+export type GameHistory = {
+    gameId: string;
+    playerPositions: string[];
+};
+
+export interface ArenaUpdateEventMessage extends SocketMessage {
+    arenaName: string;
+    gameHistory: GameHistory[];
+    gameId: string;
+    onlinePlayers: string[];
+    ranked: boolean;
+    rating: {};
+    receivingPlayerId: null | string;
+    timestamp: number;
+}

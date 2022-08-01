@@ -5,4 +5,9 @@ export enum TournamentEnums {
   SCHEDULE = 'SCHEDULE',
 }
 
-export default TournamentEnums;
+export enum ArenaEnums {
+  LOADINGPAGE = 'LOADINGPAGE',
+  SETTINGSPAGE = 'SETTINGSPAGE',
+  PLAYERLIST = 'PLAYERLIST',
+  GAME = 'GAME',
+};

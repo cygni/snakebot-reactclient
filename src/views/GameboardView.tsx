@@ -17,8 +17,16 @@ import Obstacles from '../components/canvas/Obstacles';
 import Stars from '../components/canvas/Food';
 import { viewedGame } from '../context/slices/tournamentSlice';
 
-function GameboardView() {
-  let { gameID } = useParams();
+type Props = {
+  gameID?: null | string;
+};
+
+function GameboardView({ gameID }: Props) {
+  let params = useParams();
+  if (!gameID) {
+    // If no gameID is provided, use the one in the URL
+    gameID = params.gameID!;
+  }
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
