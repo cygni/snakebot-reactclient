@@ -17,6 +17,9 @@ function App() {
   console.log("%cUsing server url: " + Constants.SERVER_URL, 'background: #222; color: #bada55');
   axios.defaults.baseURL = Constants.SERVER_URL;
 
+  // Ugly hack to initialize voices array (API limitation)
+  speechSynthesis.getVoices();
+
   return (
   <Provider store={store}>
     <BrowserRouter>

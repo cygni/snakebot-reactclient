@@ -44,7 +44,8 @@ function TournamentSchedule() {
       if (!declaredWinner) {
         let msg = new SpeechSynthesisUtterance();
         msg.volume = Arbitraryconstants.TTS_VOLUME;
-
+        msg.voice = speechSynthesis.getVoices().find(voice => voice.name === Arbitraryconstants.TTS_VOICE)!;
+        
         msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
         speechSynthesis.speak(msg);
       }
