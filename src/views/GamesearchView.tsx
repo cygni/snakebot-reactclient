@@ -56,26 +56,24 @@ function GamesearchView() {
 
   return (
     <>
-      <article>
-        <section className='gameView'>
-          <h1 className='searchH1'>Search for old games</h1>
-          <p className='searchintro'>You can find old games here by searching for the snake name.</p>
-          <div className='text-content'>
-            <form className='clear-fix' onSubmit={searchGames}>
-              <input
-                id='yourName'
-                type='text'
-                value={snakeName}
-                placeholder='Snake name'
-                onChange={(e) => setSnakeName(e.target.value)}
-                className='searchfield'
-              />
-              <input className='searchbtn' type='submit' value='Search' />
-            </form>
-            {Results()}
-          </div>
-        </section>
-      </article>
+      <section className='gameView'>
+        <h1 className='searchH1'>Search for old games</h1>
+        <p className='searchintro'>You can find old games here by searching for the snake name.</p>
+        <div className='text-content'>
+          <form className='clear-fix' onSubmit={searchGames}>
+            <input
+              id='yourName'
+              type='text'
+              value={snakeName}
+              placeholder='Snake name'
+              onChange={(e) => setSnakeName(e.target.value)}
+              className='searchfield'
+            />
+            <input className='searchbtn' type='submit' value='Search' />
+          </form>
+          {Results()}
+        </div>
+      </section>
     </>
   );
 }
