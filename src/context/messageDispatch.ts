@@ -2,7 +2,7 @@ import { store } from './store';
 import * as types from '../constants/messageTypes';
 import messageTypes from '../constants/messageTypes';
 import { incrementMessageIndex } from './slices/gameDataSlice';
-import { arenaUpdateEvent } from './slices/arenaSlice';
+import { arenaUpdateEvent, resetArena } from './slices/arenaSlice';
 import { tournamentCreated, setGamePlan, tournamentEnded, setLoggedIn } from './slices/tournamentSlice';
 import {
   gameCreatedEvent,
@@ -81,6 +81,10 @@ export function onSocketMessage(jsonData: string) {
 
     case messageTypes.ARENA_UPDATE_EVENT:
       store.dispatch(arenaUpdateEvent(message as types.ArenaUpdateEventMessage));
+      break;
+
+    case messageTypes.ARENA_ENDED_EVENT:
+      store.dispatch(resetArena());
       break;
 
     default:

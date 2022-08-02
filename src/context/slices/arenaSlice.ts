@@ -44,9 +44,13 @@ export const arenaSlice = createSlice({
       api.startArenaGame(state.arenaName);
       state.arenaViewState = ArenaEnums.LOADINGPAGE;
     },
+
+    resetArena: (state) => {
+      Object.assign(state, initialState);
+    }
   },
 });
 
-export const { arenaUpdateEvent, startArenaGame } = arenaSlice.actions;
+export const { arenaUpdateEvent, startArenaGame, resetArena } = arenaSlice.actions;
 
 export default arenaSlice.reducer;

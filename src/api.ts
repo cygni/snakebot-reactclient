@@ -92,11 +92,10 @@ async function createTournament(tournamentName: string): Promise<void> {
   );
 }
 
-async function createArena(name: string): Promise<void> {
+async function createArena(): Promise<void> {
   sendWhenConnected(
     JSON.stringify({
-      type: 'se.cygni.snake.eventapi.request.SetCurrentArena',
-      currentArena: name,
+      type: 'se.cygni.snake.eventapi.request.CreateArena',
     })
   );
 }
