@@ -329,8 +329,13 @@ footer {
     padding: 0;
   }
 
+  li p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .searchresults li {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
   }
 
   .searchheadline {

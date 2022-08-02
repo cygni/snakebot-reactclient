@@ -40,13 +40,13 @@ function GamesearchView() {
                   <span className='viewgame'> View Game</span>
                 </Link>
               </p>
-              {/* <ul className="players"> {
+              <ul className="players"> {
                 game.players.map((player: string, i: number) => (
                   <li key={i} className={(snakeName === player ? 'match' : '')}>
                     { player }
                   </li>
                 ))}
-              </ul> */}
+              </ul>
             </li>
           ))}
         </ul>
