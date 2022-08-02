@@ -1,8 +1,16 @@
 import { getCurrentSnakeHead } from '../constants/Images';
 import { useAppSelector } from '../context/hooks';
+import disconnect from '../assets/icons/disconnected-icon.svg';
+import { useLocation } from 'react-router-dom';
 
 function ScoreBoard() {
-  const snakes = useAppSelector((state) => state.currentFrame.snakesData);
+  const snakes = useAppSelector(state => state.currentFrame.snakesData);
+  const arenaPlayerNames = useAppSelector(state => state.arena.players);
+  const location = useLocation();
+
+  function isArena() {
+    return location.pathname.includes('arena');
+  }
 
   // SORT BY 1. ALIVE, 2. POINTS, 3.NAME IN THAT ORDER
   function sortSnakes(snakeID_one: string, snakeID_two: string) {
@@ -28,6 +36,14 @@ function ScoreBoard() {
     return 0;
   }
 
+  function displayArenaDisconnected(snakeID: string) {
+    if (isArena() && !arenaPlayerNames.some(name => name === snakes[snakeID].name)) {
+      return (
+        <img className='disconnect' src={disconnect} alt="disconnected" />
+      );
+    }
+  }
+
   return (
     <div className='activePlayers'>
       <h2>Leaderboard</h2>
@@ -39,6 +55,7 @@ function ScoreBoard() {
               <li key={index}>
                 <img src={getCurrentSnakeHead(snakes[snakeID]).src} alt='snakehead' />
                 <div className='list-content'>
+                  { displayArenaDisconnected(snakeID) }
                   <p className='name'>{snakes[snakeID].name}</p>
                   <p className='points'>{snakes[snakeID].points} points</p>
                 </div>

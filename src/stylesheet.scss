@@ -877,6 +877,7 @@ footer {
       .list-content{
         //vertical-align: middle;
         display: table;
+        position: relative;
 
       }
 
@@ -891,8 +892,8 @@ footer {
         margin-top: auto;
         margin-bottom: auto;
         display: table-cell;
-      text-align: center;
-      vertical-align: middle;
+        text-align: center;
+        vertical-align: middle;
       }
 
       img {
@@ -907,6 +908,11 @@ footer {
         width: auto;
         padding-right: 20px;
         text-align: right;
+      }
+
+      .disconnect {
+        position: absolute;
+        right: 60px;
       }
     }
   }
