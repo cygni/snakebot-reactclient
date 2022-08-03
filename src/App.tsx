@@ -30,7 +30,6 @@ function App() {
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
         <Route path="/arena" element={<ArenaView/>}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
-        <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
         <Route path="/login" element={<LoginView/>}></Route>
       </Routes>
       <PageFooter/>

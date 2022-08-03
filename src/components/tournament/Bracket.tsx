@@ -1,7 +1,6 @@
 import { TournamentGame } from "../../constants/messageTypes";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../context/hooks";
-import { viewedGame } from "../../context/slices/tournamentSlice";
+import { viewGame } from "../../context/slices/tournamentSlice";
 import { useCallback } from "react";
 
 type Props = {
@@ -10,7 +9,6 @@ type Props = {
 };
 
 function TournamentBracket({ tournamentGame, levelIndex }: Props) {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const priorLevel = useAppSelector(
     (state) => state.tournament.tournamentLevels[levelIndex - 1]
@@ -22,10 +20,7 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);
-      dispatch(viewedGame(tournamentGame.gameId));
-      navigate(`/tournament/${tournamentGame.gameId}`, {
-        state: { fromTournament: true },
-      });
+      dispatch(viewGame(tournamentGame.gameId));
     } else {
       alert("You must view the previous round before you can view this game");
     }

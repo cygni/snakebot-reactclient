@@ -3,6 +3,7 @@ export enum TournamentEnums {
   SETTINGSPAGE = 'SETTINGSPAGE',
   PLAYERLIST = 'PLAYERLIST',
   SCHEDULE = 'SCHEDULE',
+  GAME = 'GAME',
 }
 
 export enum ArenaEnums {

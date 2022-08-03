@@ -36,9 +36,10 @@ export type TournamentData = {
   tournamentId: string;
   tournamentName: string;
   noofLevels: number;
-
+  
   players: Player[];
   tournamentLevels: TournamentLevel[];
+  activeGameId: string;
   finalGameID: string;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
@@ -60,6 +61,7 @@ const initialState: TournamentData = {
 
   players: [],
   tournamentLevels: [],
+  activeGameId: '',
   finalGameID: '',
   finalGameResult: [],
   startedGames: {},
@@ -117,6 +119,10 @@ export const tournamentSlice = createSlice({
       state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
     },
 
+    setTournamentView: (state, action: PayloadAction<TournamentEnums>) => {
+      state.tournamentViewState = action.payload;
+    },
+
     declareTournamentWinner: (state) => {
       state.isWinnerDeclared = true;
     },
@@ -158,8 +164,12 @@ export const tournamentSlice = createSlice({
       }
     },
 
-    viewedGame: (state, action: PayloadAction<string | null>) => {
+    viewGame: (state, action: PayloadAction<string | null>) => {
       if (action.payload == null) return;
+
+      state.activeGameId = action.payload;
+      state.tournamentViewState = TournamentEnums.GAME;
+
       for (let level of state.tournamentLevels) {
         for (let game of level.tournamentGames) {
           if (game.gameId === action.payload) {
@@ -187,13 +197,14 @@ export const {
   updateGameSettings,
   startTournament,
   setGamePlan,
-  viewedGame,
+  viewGame,
   tournamentEnded,
   setLoggedIn,
   settingsAreDone,
   setTournamentName,
   editSettings,
   declareTournamentWinner,
+  setTournamentView,
 } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

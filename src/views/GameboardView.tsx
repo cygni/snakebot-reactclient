@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
@@ -15,7 +15,6 @@ import { Layer, Stage } from 'react-konva';
 import Snake from '../components/canvas/Snake';
 import Obstacles from '../components/canvas/Obstacles';
 import Stars from '../components/canvas/Food';
-import { viewedGame } from '../context/slices/tournamentSlice';
 
 type Props = {
   gameID?: null | string;
@@ -31,8 +30,6 @@ function GameboardView({ gameID, children }: Props) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
-  const tournamentLevels = useAppSelector((state) => state.tournament.tournamentLevels);
-  const location = useLocation();
 
   // Initialize the game
   useEffect(() => {
@@ -55,48 +52,6 @@ function GameboardView({ gameID, children }: Props) {
     });
   }, [dispatch, gameID, navigate]);
 
-  // Display button to go back to the tournament bracket
-  function BracketNavigation() {
-    const locationState: any | undefined = location.state;
-    if (locationState?.fromTournament) {
-      return (
-        <>
-          <button className='black' onClick={() => navigate('/tournament')}>
-            {'<'}- Back to schedule
-          </button>
-          <button className='blue' onClick={() => _moveToNextTournamentGame(gameID!)}>
-            Go to next game -{'>'}
-          </button>
-        </>
-      );
-    }
-  }
-
-  const _moveToNextTournamentGame = (id: string) => {
-    let gameIndex = 0;
-    const currentLevel = tournamentLevels.find((level) =>
-      level.tournamentGames.find((game, index) => {
-        if (game.gameId === id) {
-          gameIndex = index;
-          return true;
-        }
-        return false;
-      })
-    );
-
-    if (currentLevel) {
-      const nextGame = currentLevel.tournamentGames[gameIndex + 1];
-      if (nextGame) {
-        navigate(`/tournament/${nextGame.gameId}`, {
-          state: { fromTournament: true },
-        });
-        dispatch(viewedGame(nextGame.gameId));
-      } else {
-        navigate('/tournament');
-      }
-    }
-  };
-
   return (
     <section className='page clear-fix'>
       <div className='thegame'>
@@ -116,7 +71,6 @@ function GameboardView({ gameID, children }: Props) {
         </div>
         
         <div className='additionalControls'>
-          {BracketNavigation()}
           {children}
         </div>
 

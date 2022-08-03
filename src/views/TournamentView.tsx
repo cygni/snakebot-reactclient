@@ -7,6 +7,7 @@ import TournamentSchedule from "../components/tournament/Schedule";
 import LoadingPage from "../components/tournament/LoadingPage";
 import PlayerList from "../components/tournament/PlayerList";
 import {TournamentEnums} from "../constants/ViewEnums";
+import Game from "../components/tournament/Game";
 
 function TournamentView() { 
   const isTournamentActive = useAppSelector((state) => state.tournament.isTournamentActive);
@@ -28,6 +29,8 @@ function TournamentView() {
 
   function selectView(page: TournamentEnums) {
     switch (page) {
+      case TournamentEnums.GAME:
+        return <Game />;
       case TournamentEnums.PLAYERLIST:
         return <PlayerList />;
       case TournamentEnums.SCHEDULE:
