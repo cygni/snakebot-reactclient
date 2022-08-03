@@ -19,9 +19,10 @@ import { viewedGame } from '../context/slices/tournamentSlice';
 
 type Props = {
   gameID?: null | string;
+  children?: React.ReactNode;
 };
 
-function GameboardView({ gameID }: Props) {
+function GameboardView({ gameID, children }: Props) {
   let params = useParams();
   if (!gameID) {
     // If no gameID is provided, use the one in the URL
@@ -60,10 +61,10 @@ function GameboardView({ gameID }: Props) {
     if (locationState?.fromTournament) {
       return (
         <>
-          <button className='scheduleBtn' onClick={() => navigate('/tournament')}>
+          <button className='black' onClick={() => navigate('/tournament')}>
             {'<'}- Back to schedule
           </button>
-          <button className='nextBtn' onClick={() => _moveToNextTournamentGame(gameID!)}>
+          <button className='blue' onClick={() => _moveToNextTournamentGame(gameID!)}>
             Go to next game -{'>'}
           </button>
         </>
@@ -113,7 +114,12 @@ function GameboardView({ gameID }: Props) {
           </Stage>
           <ControllBar />
         </div>
-        <div className='tourGameBtns'>{BracketNavigation()}</div>
+        
+        <div className='additionalControls'>
+          {BracketNavigation()}
+          {children}
+        </div>
+
       </div>
     </section>
   );

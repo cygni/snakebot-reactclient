@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
-import { startArenaGame } from '../../context/slices/arenaSlice';
+import { resetArena, startArenaGame } from '../../context/slices/arenaSlice';
 import GameboardView from '../../views/GameboardView';
 
 export default function Game() {
@@ -14,11 +14,17 @@ export default function Game() {
       alert('A minimum of 2 players is required to start a new game');
     }
   }
+
+  function killArena() {
+    dispatch(resetArena());
+  }
   
   return (
     <>
-      <GameboardView gameID={gameId} />
-      <button className='rematch-btn' onClick={newGame}>Rematch</button>
+      <GameboardView gameID={gameId}>
+        <button className='blue' onClick={newGame}>Rematch</button>
+        <button className='black' onClick={killArena}>End</button>
+      </GameboardView>
     </>
   );
 }

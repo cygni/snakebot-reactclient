@@ -708,54 +708,44 @@ footer {
   width: auto;
   display: table;
 
-  .tourGameBtns {
+  .additionalControls {
     margin-top: 1rem;
-    margin-left: 69.5%;
+    // margin-left: 69.5%;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      width: 180px;
+      height: auto;
+      color: white;
+      // background-color: #0EBDE7;
+      border-radius: 6px;
+      border-color: white;
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 0 10px;
+
+      cursor: pointer;
+
+      &:hover {
+        border-color: #0EBDE7;
+      }
+
+      &:active {
+        transform: translateY(2px);
+      }
+    }
+
+    .blue {
+      background-color: #0EBDE7;
+    }
+
+    .black {
+      background-color: #000735;
+    }
+    
   }
 
-  .nextBtn {
-    width: 180px;
-    height: auto;
-    color: white;
-    background-color: #0EBDE7;
-    border-radius: 6px;
-    border-color: white;
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 0 10px;
-
-    cursor: pointer;
-
-    &:hover {
-      border-color: #0EBDE7;
-    }
-
-    &:active {
-      transform: translateY(2px);
-    }
-  }
-
-  .scheduleBtn {
-    width: 180px;
-    height: auto;
-    color: white;
-    background-color: #000735;
-    border-radius: 6px;
-    border-color: white;
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 0 10px;
-
-    cursor: pointer;
-
-    &:hover {
-      border-color: #000735;
-    }
-
-    &:active {
-      transform: translateY(2px);
-    }
-  }
   /* Gameboard with controls */
   .gameboard {
     background-image: url('./assets/images/space.png');
@@ -1315,25 +1305,34 @@ margin-top: 3px;
 /** ARENA
 
 */
+.arena-gameboard {
+  // margin-top: -3rem; // Overlay over the gameboard div (.game)
+  // margin-bottom: 3rem;
+  // float: right;
+  margin: 3rem auto;
+  margin-top: -3rem;
+  width: auto;
+  display: table;
 
-.rematch-btn {
-  margin-left: auto;
-  padding-right: auto;
-  margin-right: auto;
-  margin-top: 1rem;
-  color: white;
-  background-color: #0EBDE7;
-  padding: 12px 20px;
-  border-radius: 6px;
-  border-color: white;
-  cursor: pointer;
-
-  &:hover {
-    border-color: #0EBDE7;
-  }
-
-  &:active {
-    transform: translateY(2px);
+  button {
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    color: white;
+    background-color: #0EBDE7;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border-color: white;
+    cursor: pointer;
+  
+    &:hover {
+      border-color: #0EBDE7;
+    }
+  
+    &:active {
+      transform: translateY(2px);
+    }
   }
 }
 
