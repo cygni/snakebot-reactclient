@@ -92,10 +92,11 @@ async function createTournament(tournamentName: string): Promise<void> {
   );
 }
 
-async function createArena(): Promise<void> {
+async function createArena(gameSettings = {} as GameSettings): Promise<void> {
   sendWhenConnected(
     JSON.stringify({
       type: 'se.cygni.snake.eventapi.request.CreateArena',
+      gameSettings: gameSettings,
     })
   );
 }
@@ -157,6 +158,14 @@ async function updateTournamentSettings(gameSettings: GameSettings): Promise<voi
   );
 }
 
+async function getDefaultGameSettings(): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.GetDefaultGameSettings',
+    })
+  );
+}
+
 const api = {
   searchForGames,
   getGame,
@@ -168,6 +177,7 @@ const api = {
   updateTournamentSettings,
   createArenaGame: createArena,
   startArenaGame,
+  getDefaultGameSettings,
 };
 
 export default api;

@@ -1,11 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
 import api from '../../api';
-import { startArenaGame } from '../../context/slices/arenaSlice';
+import { setArenaView, startArenaGame } from '../../context/slices/arenaSlice';
 import { useState } from 'react';
+import { ArenaEnums } from '../../constants/ViewEnums';
 
 function PlayerList() {
   const arenaPlayers = useAppSelector((state) => state.arena.players);
   const arenaId = useAppSelector((state) => state.arena.arenaName);
+  const gameSettings = useAppSelector(state => state.arena.gameSettings);
   const [copied, setCopied] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -19,9 +21,12 @@ function PlayerList() {
   }
 
   function createArena() {
-    // Skapa ny arena här istället för i client
     setCopied(false);
-    api.createArenaGame();
+    api.createArenaGame(gameSettings);
+  }
+
+  function viewSettings() {
+    dispatch(setArenaView(ArenaEnums.SETTINGSPAGE));
   }
 
   function copyButton() {
@@ -59,9 +64,15 @@ function PlayerList() {
         <button onClick={createArena} className=' createArenaButton'>
           Create New
         </button>
+        {arenaId ? (
         <button onClick={startGame} className='startArenaButton'>
           Start
         </button>
+        ) : (
+        <button onClick={viewSettings} className='startArenaButton'>
+          Change Settings
+        </button>
+        )}
       </div>
     </>
   );

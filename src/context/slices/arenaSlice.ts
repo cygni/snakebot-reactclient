@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import type { ArenaUpdateEventMessage, GameHistory } from '../../constants/messageTypes';
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
+import type { ArenaUpdateEventMessage, GameHistory, GameSettings } from '../../constants/messageTypes';
 import { ArenaEnums } from '../../constants/ViewEnums';
 
 export type ArenaData = {
@@ -9,6 +10,7 @@ export type ArenaData = {
   gameId: null | string;
   gameHistory: GameHistory[];
 
+  gameSettings: GameSettings;
   arenaViewState: ArenaEnums;
 };
 
@@ -18,6 +20,7 @@ const initialState: ArenaData = {
   gameId: null,
   gameHistory: [],
 
+  gameSettings: Arbitraryconstants.placeholdGameSettings,
   arenaViewState: ArenaEnums.PLAYERLIST,
 };
 
@@ -45,12 +48,20 @@ export const arenaSlice = createSlice({
       state.arenaViewState = ArenaEnums.LOADINGPAGE;
     },
 
+    setArenaView: (state, action: PayloadAction<ArenaEnums>) => {
+      state.arenaViewState = action.payload;
+    },
+
+    setGameSettings: (state, action: PayloadAction<GameSettings>) => {
+      state.gameSettings = action.payload;
+    },
+
     resetArena: (state) => {
       Object.assign(state, initialState);
     }
   },
 });
 
-export const { arenaUpdateEvent, startArenaGame, resetArena } = arenaSlice.actions;
+export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, resetArena } = arenaSlice.actions;
 
 export default arenaSlice.reducer;

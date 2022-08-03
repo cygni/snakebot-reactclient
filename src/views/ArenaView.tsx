@@ -1,6 +1,7 @@
 import Game from "../components/arena/Game";
 import LoadingPage from "../components/arena/LoadingPage";
 import PlayerList from "../components/arena/PlayerList";
+import Settings from "../components/arena/Settings";
 import { ArenaEnums } from "../constants/ViewEnums";
 import { useAppSelector } from "../context/hooks";
 
@@ -12,8 +13,7 @@ function ArenaView() {
       case ArenaEnums.PLAYERLIST:
         return <PlayerList />;
       case ArenaEnums.SETTINGSPAGE:
-        // return <TournamentSettings />;
-        break;
+        return <Settings />;
       case ArenaEnums.LOADINGPAGE:
         return <LoadingPage />;
       case ArenaEnums.GAME:

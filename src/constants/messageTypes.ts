@@ -9,6 +9,7 @@ const MessageTypes = {
     TOURNAMENT_GAME_PLAN : 'se.cygni.snake.eventapi.model.TournamentGamePlan',
     TOURNAMENT_ENDED_EVENT : 'se.cygni.snake.api.event.TournamentEndedEvent',
     ACTIVE_GAMES_LIST : 'se.cygni.snake.eventapi.response.ActiveGamesList',
+    DEFAULT_GAME_SETTINGS: 'se.cygni.snake.eventapi.response.DefaultGameSettings',
     UNAUTHORIZED : 'se.cygni.snake.eventapi.exception.Unauthorized',
     SNAKE_DEAD_EVENT : 'se.cygni.snake.api.event.SnakeDeadEvent',
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
@@ -205,4 +206,8 @@ export interface ArenaEndedEventMessage extends SocketMessage {
     arenaName: string;
     receivingPlayerId: null | string;
     timestamp: number;
+}
+
+export interface DefaultGameSettingsMessage extends SocketMessage {
+    gameSettings: GameSettings;
 }

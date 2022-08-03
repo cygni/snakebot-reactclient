@@ -9,27 +9,7 @@ import {
   TournamentLevel,
   TournamentEndedMessage,
 } from '../../constants/messageTypes';
-
-const placeholdGameSettings: GameSettings = {
-  addFoodLikelihood: 0,
-  foodEnabled: false,
-  headToTailConsumes: false,
-  maxNoofPlayers: 0,
-  noofRoundsTailProtectedAfterNibble: 0,
-  obstaclesEnabled: false,
-  pointsPerCausedDeath: 0,
-  pointsPerFood: 0,
-  pointsPerLength: 0,
-  pointsPerNibble: 0,
-  removeFoodLikelihood: 0,
-  spontaneousGrowthEveryNWorldTick: 0,
-  startFood: 0,
-  startObstacles: 0,
-  startSnakeLength: 0,
-  tailConsumeGrows: false,
-  timeInMsPerTick: 0,
-  trainingGame: false,
-};
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
 export type TournamentData = {
   gameSettings: GameSettings;
@@ -54,7 +34,7 @@ export type TournamentData = {
 };
 
 const initialState: TournamentData = {
-  gameSettings: placeholdGameSettings,
+  gameSettings: Arbitraryconstants.placeholdGameSettings,
   tournamentId: '',
   tournamentName: 'Tournament Not Created',
   noofLevels: 0,
