@@ -640,6 +640,46 @@ footer {
   margin-left: auto;
   display: block;
   text-align: center;
+
+  button {
+    width: 200px;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border-color: white;
+    margin-bottom: 7rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #000735;
+
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  .black {
+    background-color: #000735;
+  }
+
+  .blue {
+    background-color: #0EBDE7;
+  }
+
+  .green {
+    background-color: #0bce22;
+  }
+
+  .red {
+    background-color: #D50000;
+  }
 }
 
 .playerListH1 {
@@ -1334,55 +1374,6 @@ margin-top: 3px;
       transform: translateY(2px);
     }
   }
-}
-
-.createArenaButton {
-  width: 200px;
-  margin-left: auto;
-  padding-right: auto;
-  margin-right: auto;
-  color: white;
-  background-color: #000735;
-  padding: 12px 20px;
-  border-radius: 6px;
-  border-color: white;
-  margin-bottom: 7rem;
-  margin-top: 0.5rem;
-  margin-right: 0.5rem;
-  cursor: pointer;
-
-  &:hover {
-    border-color: #000735;
-
-  }
-
-  &:active {
-    transform: translateY(2px);
-  }
-}
-
-.startArenaButton {
-  width: 200px;
-    margin-left: auto;
-    padding-right: auto;
-    margin-right: auto;
-    color: white;
-    background-color: #0EBDE7;
-    padding: 12px 20px;
-    border-radius: 6px;
-    border-color: white;
-    margin-bottom: 7rem;
-    margin-top: 0.5rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-
-    &:hover {
-      border-color: #0EBDE7;
-    }
-
-    &:active {
-      transform: translateY(2px);
-    }
 }
 
 .playerInfoArena {

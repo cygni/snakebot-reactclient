@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
 import api from '../../api';
-import { setArenaView, startArenaGame } from '../../context/slices/arenaSlice';
+import { setArenaView, startArenaGame, resetArena } from '../../context/slices/arenaSlice';
 import { useState } from 'react';
 import { ArenaEnums } from '../../constants/ViewEnums';
 
 function PlayerList() {
   const arenaPlayers = useAppSelector((state) => state.arena.players);
   const arenaId = useAppSelector((state) => state.arena.arenaName);
-  const gameSettings = useAppSelector(state => state.arena.gameSettings);
+  const gameSettings = useAppSelector((state) => state.arena.gameSettings);
   const [copied, setCopied] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -23,6 +23,10 @@ function PlayerList() {
   function createArena() {
     setCopied(false);
     api.createArenaGame(gameSettings);
+  }
+
+  function endArena() {
+    dispatch(resetArena());
   }
 
   function viewSettings() {
@@ -45,13 +49,40 @@ function PlayerList() {
       return <p className='playerInfoCopied'>Text Copied!</p>;
     }
 
-    return <p className='playerInfo'>Click button to copy to clipboard</p>
+    return <p className='playerInfo'>Click button to copy to clipboard</p>;
+  }
+
+  function playerlistButtons() {
+    if (arenaId) {
+      return (
+        <>
+          <button onClick={endArena} className='red'>End Arena</button>
+
+          <button onClick={startGame} className='green'>
+            Start
+          </button>
+        </>
+      );
+    }
+    return (
+      <>
+        <button onClick={createArena} className='blue'>
+          Create New
+        </button>
+
+        <button onClick={viewSettings} className='black'>
+          Change Settings
+        </button>
+      </>
+    );
   }
 
   return (
     <>
       <h1 className='playerListH1'>Arena</h1>
-      <button className='playerInfoArena' onClick={copyButton}>{arenaId}</button>
+      <button className='playerInfoArena' onClick={copyButton}>
+        {arenaId}
+      </button>
       {infoText()}
       <div className='playersList'>
         {arenaPlayers.map((playerName, index) => (
@@ -60,20 +91,7 @@ function PlayerList() {
           </p>
         ))}
       </div>
-      <div className='playerlistBtns'>
-        <button onClick={createArena} className=' createArenaButton'>
-          Create New
-        </button>
-        {arenaId ? (
-        <button onClick={startGame} className='startArenaButton'>
-          Start
-        </button>
-        ) : (
-        <button onClick={viewSettings} className='startArenaButton'>
-          Change Settings
-        </button>
-        )}
-      </div>
+      <div className='playerlistBtns'>{playerlistButtons()}</div>
     </>
   );
 }
