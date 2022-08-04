@@ -34,7 +34,7 @@ function Settings() {
     <div className="tournamentsettings">
       <article className="half">
         <div className="center-block">
-          <h1 className="tournament-name">Tournament Settings</h1>
+          <h1 className="tournament-name">Settings</h1>
         </div>
 
         <form
