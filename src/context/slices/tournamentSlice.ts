@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import api from '../../api';
-import TournamentEnums from '../../constants/TournamentEnums';
+import {TournamentEnums} from '../../constants/ViewEnums';
 import {
   TournamentCreatedMessage,
   GameSettings,
@@ -9,36 +9,17 @@ import {
   TournamentLevel,
   TournamentEndedMessage,
 } from '../../constants/messageTypes';
-
-const placeholdGameSettings: GameSettings = {
-  addFoodLikelihood: 0,
-  foodEnabled: false,
-  headToTailConsumes: false,
-  maxNoofPlayers: 0,
-  noofRoundsTailProtectedAfterNibble: 0,
-  obstaclesEnabled: false,
-  pointsPerCausedDeath: 0,
-  pointsPerFood: 0,
-  pointsPerLength: 0,
-  pointsPerNibble: 0,
-  removeFoodLikelihood: 0,
-  spontaneousGrowthEveryNWorldTick: 0,
-  startFood: 0,
-  startObstacles: 0,
-  startSnakeLength: 0,
-  tailConsumeGrows: false,
-  timeInMsPerTick: 0,
-  trainingGame: false,
-};
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
 export type TournamentData = {
   gameSettings: GameSettings;
   tournamentId: string;
   tournamentName: string;
   noofLevels: number;
-
+  
   players: Player[];
   tournamentLevels: TournamentLevel[];
+  activeGameId: string;
   finalGameID: string;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
@@ -53,13 +34,14 @@ export type TournamentData = {
 };
 
 const initialState: TournamentData = {
-  gameSettings: placeholdGameSettings,
+  gameSettings: Arbitraryconstants.placeholdGameSettings,
   tournamentId: '',
   tournamentName: 'Tournament Not Created',
   noofLevels: 0,
 
   players: [],
   tournamentLevels: [],
+  activeGameId: '',
   finalGameID: '',
   finalGameResult: [],
   startedGames: {},
@@ -117,6 +99,10 @@ export const tournamentSlice = createSlice({
       state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
     },
 
+    setTournamentView: (state, action: PayloadAction<TournamentEnums>) => {
+      state.tournamentViewState = action.payload;
+    },
+
     declareTournamentWinner: (state) => {
       state.isWinnerDeclared = true;
     },
@@ -158,8 +144,12 @@ export const tournamentSlice = createSlice({
       }
     },
 
-    viewedGame: (state, action: PayloadAction<string | null>) => {
+    viewGame: (state, action: PayloadAction<string | null>) => {
       if (action.payload == null) return;
+
+      state.activeGameId = action.payload;
+      state.tournamentViewState = TournamentEnums.GAME;
+
       for (let level of state.tournamentLevels) {
         for (let game of level.tournamentGames) {
           if (game.gameId === action.payload) {
@@ -187,13 +177,14 @@ export const {
   updateGameSettings,
   startTournament,
   setGamePlan,
-  viewedGame,
+  viewGame,
   tournamentEnded,
   setLoggedIn,
   settingsAreDone,
   setTournamentName,
   editSettings,
   declareTournamentWinner,
+  setTournamentView,
 } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

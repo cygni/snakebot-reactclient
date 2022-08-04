@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../context/hooks";
+import { useAppDispatch, useAppSelector } from "../../context/hooks";
 import {
   editSettings,
   startTournament,
-} from "../context/slices/tournamentSlice";
-import api from "../api";
+} from "../../context/slices/tournamentSlice";
+import api from "../../api";
 
 function PlayerList() {
   const tournamentPlayers = useAppSelector((state) => state.tournament.players);

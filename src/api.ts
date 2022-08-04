@@ -39,7 +39,7 @@ function newConnection() {
 
 function sendWhenConnected(msg: string) {
   console.log('Queuing/sending socket message:', JSON.parse(msg));
-  if (socket.readyState === 1 && localStorage.getItem('token') !== null) {
+  if (socket.readyState === 1) {
     socket.send(msg);
   } else {
     onConnectQueue.push(msg); // if no connection is established, save message in queue
@@ -92,6 +92,24 @@ async function createTournament(tournamentName: string): Promise<void> {
   );
 }
 
+async function createArena(gameSettings = {} as GameSettings): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.CreateArena',
+      gameSettings: gameSettings,
+    })
+  );
+}
+
+async function startArenaGame(arenaName: string): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.StartArenaGame',
+      arenaName: arenaName,
+    })
+  );
+}
+
 async function killTournament(): Promise<void> {
   sendWhenConnected(
     JSON.stringify({
@@ -140,6 +158,22 @@ async function updateTournamentSettings(gameSettings: GameSettings): Promise<voi
   );
 }
 
+async function getDefaultGameSettings(): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.GetDefaultGameSettings',
+    })
+  );
+}
+
+async function disconnectFromArena(): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.DisconnectFromArena',
+    })
+  );
+}
+
 const api = {
   searchForGames,
   getGame,
@@ -149,6 +183,10 @@ const api = {
   startTournament,
   startTournamentGame,
   updateTournamentSettings,
+  createArenaGame: createArena,
+  startArenaGame,
+  getDefaultGameSettings,
+  disconnectFromArena,
 };
 
 export default api;

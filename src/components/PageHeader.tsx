@@ -30,6 +30,11 @@ function PageHeader() {
               Game
             </NavLink>
           </li>
+          <li>
+            <NavLink to='/arena' className={({ isActive }) => (isActive ? 'selected' : '')}>
+              Arena
+            </NavLink>
+          </li>
           {isLoggedIn ? (
             <li>
               <NavLink to='/tournament' className={({ isActive }) => (isActive ? 'selected' : '')}>

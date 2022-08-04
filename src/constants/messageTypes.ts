@@ -9,10 +9,13 @@ const MessageTypes = {
     TOURNAMENT_GAME_PLAN : 'se.cygni.snake.eventapi.model.TournamentGamePlan',
     TOURNAMENT_ENDED_EVENT : 'se.cygni.snake.api.event.TournamentEndedEvent',
     ACTIVE_GAMES_LIST : 'se.cygni.snake.eventapi.response.ActiveGamesList',
+    DEFAULT_GAME_SETTINGS: 'se.cygni.snake.eventapi.response.DefaultGameSettings',
     UNAUTHORIZED : 'se.cygni.snake.eventapi.exception.Unauthorized',
     SNAKE_DEAD_EVENT : 'se.cygni.snake.api.event.SnakeDeadEvent',
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
     GAME_RESULT_EVENT : 'se.cygni.snake.api.event.GameResultEvent',
+    ARENA_ENDED_EVENT : 'se.cygni.snake.api.event.ArenaEndedEvent',
+
     UPDATE_TOURNAMENT_SETTINGS : 'se.cygni.snake.event.UpdateTournamentSettings',
     CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
     START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
@@ -177,4 +180,34 @@ export interface TournamentEndedMessage extends SocketMessage {
     timestamp: number;
     tournamentId: string;
     tournamentName: string;
+}
+
+export type GameHistory = {
+    gameId: string;
+    playerPositions: string[];
+};
+
+// ##################################################
+// ########## Arena related messages ###############
+// ##################################################
+
+export interface ArenaUpdateEventMessage extends SocketMessage {
+    arenaName: string;
+    gameHistory: GameHistory[];
+    gameId: string;
+    onlinePlayers: string[];
+    ranked: boolean;
+    rating: {};
+    receivingPlayerId: null | string;
+    timestamp: number;
+}
+
+export interface ArenaEndedEventMessage extends SocketMessage {
+    arenaName: string;
+    receivingPlayerId: null | string;
+    timestamp: number;
+}
+
+export interface DefaultGameSettingsMessage extends SocketMessage {
+    gameSettings: GameSettings;
 }

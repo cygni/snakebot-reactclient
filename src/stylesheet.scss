@@ -329,8 +329,13 @@ footer {
     padding: 0;
   }
 
+  li p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .searchresults li {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
   }
 
   .searchheadline {
@@ -635,6 +640,46 @@ footer {
   margin-left: auto;
   display: block;
   text-align: center;
+
+  button {
+    width: 200px;
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border-color: white;
+    margin-bottom: 7rem;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      border-color: #000735;
+
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  .black {
+    background-color: #000735;
+  }
+
+  .blue {
+    background-color: #0EBDE7;
+  }
+
+  .green {
+    background-color: #0bce22;
+  }
+
+  .red {
+    background-color: #D50000;
+  }
 }
 
 .playerListH1 {
@@ -703,54 +748,44 @@ footer {
   width: auto;
   display: table;
 
-  .tourGameBtns {
+  .additionalControls {
     margin-top: 1rem;
-    margin-left: 69.5%;
+    // margin-left: 69.5%;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      width: 180px;
+      height: auto;
+      color: white;
+      // background-color: #0EBDE7;
+      border-radius: 6px;
+      border-color: white;
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 0 10px;
+
+      cursor: pointer;
+
+      &:hover {
+        border-color: #0EBDE7;
+      }
+
+      &:active {
+        transform: translateY(2px);
+      }
+    }
+
+    .blue {
+      background-color: #0EBDE7;
+    }
+
+    .black {
+      background-color: #000735;
+    }
+    
   }
 
-  .nextBtn {
-    width: 180px;
-    height: auto;
-    color: white;
-    background-color: #0EBDE7;
-    border-radius: 6px;
-    border-color: white;
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 0 10px;
-
-    cursor: pointer;
-
-    &:hover {
-      border-color: #0EBDE7;
-    }
-
-    &:active {
-      transform: translateY(2px);
-    }
-  }
-
-  .scheduleBtn {
-    width: 180px;
-    height: auto;
-    color: white;
-    background-color: #000735;
-    border-radius: 6px;
-    border-color: white;
-    display: inline-block;
-    padding: 12px 20px;
-    margin: 0 10px;
-
-    cursor: pointer;
-
-    &:hover {
-      border-color: #000735;
-    }
-
-    &:active {
-      transform: translateY(2px);
-    }
-  }
   /* Gameboard with controls */
   .gameboard {
     background-image: url('./assets/images/space.png');
@@ -877,6 +912,7 @@ footer {
       .list-content{
         //vertical-align: middle;
         display: table;
+        position: relative;
 
       }
 
@@ -891,8 +927,8 @@ footer {
         margin-top: auto;
         margin-bottom: auto;
         display: table-cell;
-      text-align: center;
-      vertical-align: middle;
+        text-align: center;
+        vertical-align: middle;
       }
 
       img {
@@ -907,6 +943,11 @@ footer {
         width: auto;
         padding-right: 20px;
         text-align: right;
+      }
+
+      .disconnect {
+        position: absolute;
+        right: 60px;
       }
     }
   }
@@ -1300,4 +1341,70 @@ margin-top: 3px;
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+/** ARENA
+
+*/
+.arena-gameboard {
+  // margin-top: -3rem; // Overlay over the gameboard div (.game)
+  // margin-bottom: 3rem;
+  // float: right;
+  margin: 3rem auto;
+  margin-top: -3rem;
+  width: auto;
+  display: table;
+
+  button {
+    margin-left: auto;
+    padding-right: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    color: white;
+    background-color: #0EBDE7;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border-color: white;
+    cursor: pointer;
+  
+    &:hover {
+      border-color: #0EBDE7;
+    }
+  
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+}
+
+.playerInfoArena {
+    width: 200px;
+    height: auto;
+    margin-top: 2rem;
+    color: black;
+    background-color: white;
+    border-radius: 6px;
+    border-color: black;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+
+    padding: 12px 20px;
+
+    cursor: pointer;
+
+    &:hover {
+      border-color: black;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  .playerInfoCopied {
+    text-align: center;
+    color: green;
+  }
+
+
 

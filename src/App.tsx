@@ -11,6 +11,7 @@ import GameboardView from './views/GameboardView';
 import TournamentView from './views/TournamentView';
 import LoginView from './views/LoginView'
 import Constants from './constants/Arbitraryconstants';
+import ArenaView from './views/ArenaView';
 
 function App() {
   console.log("%cUsing server url: " + Constants.SERVER_URL, 'background: #222; color: #bada55');
@@ -27,8 +28,8 @@ function App() {
         <Route path="/" element={<StartView />}></Route>
         <Route path="/viewgame" element={<GamesearchView />}></Route>
         <Route path="/viewgame/:gameID" element={<GameboardView />}></Route>
+        <Route path="/arena" element={<ArenaView/>}></Route>
         <Route path="/tournament" element={<TournamentView />}></Route>
-        <Route path="/tournament/:gameID" element={<GameboardView />}></Route>
         <Route path="/login" element={<LoginView/>}></Route>
       </Routes>
       <PageFooter/>

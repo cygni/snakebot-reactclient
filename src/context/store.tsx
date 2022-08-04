@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import currentFrameReducer from './slices/currentFrameSlice';
 import gameDataReducer from './slices/gameDataSlice';
 import tournamentReducer from './slices/tournamentSlice';
+import arenaReducer from './slices/arenaSlice';
 
 export const store = configureStore({
   reducer: {
     currentFrame: currentFrameReducer,
     gameData: gameDataReducer,
     tournament: tournamentReducer,
+    arena: arenaReducer,
   },
 })
 
