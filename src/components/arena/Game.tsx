@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
-import { resetArena, startArenaGame } from '../../context/slices/arenaSlice';
+import { disconnectFromArena, startArenaGame } from '../../context/slices/arenaSlice';
 import GameboardView from '../../views/GameboardView';
 
 export default function Game() {
@@ -15,15 +15,15 @@ export default function Game() {
     }
   }
 
-  function killArena() {
-    dispatch(resetArena());
+  function disconnect() {
+    dispatch(disconnectFromArena());
   }
   
   return (
     <>
       <GameboardView gameID={gameId}>
         <button className='blue' onClick={newGame}>Rematch</button>
-        <button className='black' onClick={killArena}>End</button>
+        <button className='black' onClick={disconnect}>End</button>
       </GameboardView>
     </>
   );

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
-import { setArenaView, startArenaGame, resetArena, createArena } from '../../context/slices/arenaSlice';
+import { setArenaView, startArenaGame, disconnectFromArena, createArena } from '../../context/slices/arenaSlice';
 import { useState } from 'react';
 import { ArenaEnums } from '../../constants/ViewEnums';
 
@@ -23,8 +23,8 @@ function PlayerList() {
     dispatch(createArena());
   }
 
-  function endArena() {
-    dispatch(resetArena());
+  function disconnectArena() {
+    dispatch(disconnectFromArena());
   }
 
   function viewSettings() {
@@ -54,7 +54,7 @@ function PlayerList() {
     if (arenaId) {
       return (
         <>
-          <button onClick={endArena} className='red'>End Arena</button>
+          <button onClick={disconnectArena} className='red'>End Arena</button>
 
           <button onClick={startGame} className='green'>
             Start

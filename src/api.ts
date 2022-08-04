@@ -166,6 +166,14 @@ async function getDefaultGameSettings(): Promise<void> {
   );
 }
 
+async function disconnectFromArena(): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.DisconnectFromArena',
+    })
+  );
+}
+
 const api = {
   searchForGames,
   getGame,
@@ -178,6 +186,7 @@ const api = {
   createArenaGame: createArena,
   startArenaGame,
   getDefaultGameSettings,
+  disconnectFromArena,
 };
 
 export default api;

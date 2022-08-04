@@ -65,12 +65,13 @@ export const arenaSlice = createSlice({
       state.gameSettings = action.payload;
     },
 
-    resetArena: (state) => {
+    disconnectFromArena: (state) => {
       Object.assign(state, initialState);
+      api.disconnectFromArena();
     }
   },
 });
 
-export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, resetArena, createArena } = arenaSlice.actions;
+export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, disconnectFromArena, createArena } = arenaSlice.actions;
 
 export default arenaSlice.reducer;
