@@ -1,13 +1,11 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
-import api from '../../api';
-import { setArenaView, startArenaGame, resetArena } from '../../context/slices/arenaSlice';
+import { setArenaView, startArenaGame, resetArena, createArena } from '../../context/slices/arenaSlice';
 import { useState } from 'react';
 import { ArenaEnums } from '../../constants/ViewEnums';
 
 function PlayerList() {
   const arenaPlayers = useAppSelector((state) => state.arena.players);
   const arenaId = useAppSelector((state) => state.arena.arenaName);
-  const gameSettings = useAppSelector((state) => state.arena.gameSettings);
   const [copied, setCopied] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -20,9 +18,9 @@ function PlayerList() {
     }
   }
 
-  function createArena() {
+  function _createArena() {
     setCopied(false);
-    api.createArenaGame(gameSettings);
+    dispatch(createArena());
   }
 
   function endArena() {
@@ -66,7 +64,7 @@ function PlayerList() {
     }
     return (
       <>
-        <button onClick={createArena} className='blue'>
+        <button onClick={_createArena} className='blue'>
           Create New
         </button>
 

@@ -43,6 +43,15 @@ export const arenaSlice = createSlice({
       }
     },
 
+    createArena: (state) => {
+      // If placehold settings, don't send them
+      if (JSON.stringify(state.gameSettings) === JSON.stringify(Arbitraryconstants.placeholdGameSettings)) {
+        api.createArenaGame();
+      } else {
+        api.createArenaGame(state.gameSettings);
+      }
+    },
+
     startArenaGame: (state) => {
       api.startArenaGame(state.arenaName);
       state.arenaViewState = ArenaEnums.LOADINGPAGE;
@@ -62,6 +71,6 @@ export const arenaSlice = createSlice({
   },
 });
 
-export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, resetArena } = arenaSlice.actions;
+export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, resetArena, createArena } = arenaSlice.actions;
 
 export default arenaSlice.reducer;
