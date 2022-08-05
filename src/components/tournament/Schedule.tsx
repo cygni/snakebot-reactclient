@@ -4,7 +4,7 @@ import { declareTournamentWinner } from '../../context/slices/tournamentSlice';
 import TournamentBracket from './Bracket';
 import Podium from '../../assets/images/Podium.svg';
 import api from '../../api';
-import Arbitraryconstants from '../../constants/Arbitraryconstants';
+import { useEffect } from 'react';
 
 function roundClassName(round: TournamentLevel) {
   switch (round.level) {
@@ -24,25 +24,17 @@ function TournamentSchedule() {
   const levels = useAppSelector((state) => state.tournament.tournamentLevels);
   const finalGameResult = useAppSelector((state) => state.tournament.finalGameResult);
   const finalGameID = useAppSelector((state) => state.tournament.finalGameID);
-  const declaredWinner = useAppSelector((state) => state.tournament.isWinnerDeclared);
   const viewedGames = useAppSelector((state) => state.tournament.viewedGames);
   const dispatch = useAppDispatch();
 
-  function lastGameViewed() {
-    return viewedGames[finalGameID] === true;
-  }
+  useEffect(() => {
+    if (viewedGames[finalGameID]) {
+      dispatch(declareTournamentWinner(finalGameResult[0].name))
+    }
+  }, [dispatch, finalGameResult, finalGameID, viewedGames]);
 
   function showPodium() {
-    if (lastGameViewed()) {
-      if (!declaredWinner) {
-        let msg = new SpeechSynthesisUtterance();
-        msg.volume = Arbitraryconstants.TTS_VOLUME;
-        msg.voice = speechSynthesis.getVoices().find(voice => voice.name === Arbitraryconstants.TTS_VOICE)!;
-        
-        msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
-        speechSynthesis.speak(msg);
-      }
-      dispatch(declareTournamentWinner());
+    if (viewedGames[finalGameID]) {
       return (
         <>
           <div className='podium'>
@@ -66,13 +58,6 @@ function TournamentSchedule() {
           </div>
         </>
       );
-    }
-    if (declaredWinner) {
-      let msg = new SpeechSynthesisUtterance();
-      msg.volume = Arbitraryconstants.TTS_VOLUME;
-
-      msg.text = 'Congratulations' + finalGameResult[0].name + ', on winning the tournament!';
-      speechSynthesis.speak(msg);
     }
   }
 

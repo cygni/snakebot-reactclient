@@ -106,7 +106,15 @@ export const tournamentSlice = createSlice({
       state.tournamentViewState = action.payload;
     },
 
-    declareTournamentWinner: (state) => {
+    declareTournamentWinner: (state, action: PayloadAction<string>) => {
+      if (!state.isWinnerDeclared) {
+        let msg = new SpeechSynthesisUtterance();
+        msg.volume = Arbitraryconstants.TTS_VOLUME;
+        msg.voice = speechSynthesis.getVoices().find(voice => voice.name === Arbitraryconstants.TTS_VOICE)!;
+        
+        msg.text = 'Congratulations' + action.payload + ', on winning the tournament!';
+        speechSynthesis.speak(msg);
+      }
       state.isWinnerDeclared = true;
     },
 
@@ -154,17 +162,9 @@ export const tournamentSlice = createSlice({
       state.tournamentViewState = TournamentEnums.GAME;
 
       state.viewedGames[action.payload] = true;
-      // for (let level of state.tournamentLevels) {
-      //   for (let game of level.tournamentGames) {
-      //     if (game.gameId === action.payload) {
-      //       game.isViewed = true;
-      //     }
-      //   }
-      // }
     },
 
     tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
-      // state.tournamentViewState = TournamentEnums.SCHEDULE;
       state.finalGameID = action.payload.gameId;
       state.finalGameResult = action.payload.gameResult;
     },
