@@ -27,7 +27,6 @@ function GameboardView({ gameID, children }: Props) {
     // If no gameID is provided, use the one in the URL
     gameID = params.gameID!;
   }
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
 
@@ -41,7 +40,6 @@ function GameboardView({ gameID, children }: Props) {
       console.log('Fetched game', game);
       if (JSON.stringify(game) === '{}'){
         alert('Game not found or might still be running');
-        navigate('/');
       }
       dispatch(setGameData(game));
 
@@ -50,7 +48,7 @@ function GameboardView({ gameID, children }: Props) {
       messageDispatch();
       messageDispatch(false);
     });
-  }, [dispatch, gameID, navigate]);
+  }, [dispatch, gameID]);
 
   return (
     <section className='page clear-fix'>

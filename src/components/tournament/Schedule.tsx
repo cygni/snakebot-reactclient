@@ -25,18 +25,11 @@ function TournamentSchedule() {
   const finalGameResult = useAppSelector((state) => state.tournament.finalGameResult);
   const finalGameID = useAppSelector((state) => state.tournament.finalGameID);
   const declaredWinner = useAppSelector((state) => state.tournament.isWinnerDeclared);
+  const viewedGames = useAppSelector((state) => state.tournament.viewedGames);
   const dispatch = useAppDispatch();
 
   function lastGameViewed() {
-    let viewed = false;
-    levels.forEach((level) =>
-      level.tournamentGames.forEach((game) => {
-        if (game.gameId === finalGameID) {
-          viewed = game.isViewed;
-        }
-      })
-    );
-    return viewed;
+    return viewedGames[finalGameID] === true;
   }
 
   function showPodium() {

@@ -1281,12 +1281,18 @@ margin-top: 3px;
   font-weight: bold;
   padding: 0;
 
-  .button-link {
+  label {
     font-size: 15px;
     background: none!important;
     border: none;
     padding: 0!important;
     font-family: 'Barlow Condensed';
+  }
+
+  .button-link {
+    background: none!important;
+    border: none;
+    padding: 0!important;
     text-decoration: underline;
     cursor: pointer;
   }

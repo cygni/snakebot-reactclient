@@ -23,6 +23,7 @@ export type TournamentData = {
   finalGameID: string;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
+  viewedGames: { [key: string]: boolean };
   gameFinishedShare: number;
   isWinnerDeclared: boolean;
 
@@ -45,6 +46,7 @@ const initialState: TournamentData = {
   finalGameID: '',
   finalGameResult: [],
   startedGames: {},
+  viewedGames: {},
   gameFinishedShare: 0,
   isWinnerDeclared: false,
 
@@ -88,7 +90,8 @@ export const tournamentSlice = createSlice({
 
     startTournament: (state) => {
       state.isTournamentStarted = true;
-      state.tournamentViewState = TournamentEnums.LOADINGPAGE;
+      // state.tournamentViewState = TournamentEnums.LOADINGPAGE;
+      state.tournamentViewState = TournamentEnums.SCHEDULE;
     },
 
     settingsAreDone: (state) => {
@@ -118,7 +121,7 @@ export const tournamentSlice = createSlice({
       let totalGamesPlayed = 0;
       state.tournamentLevels.forEach((level) => {
         level.tournamentGames.forEach((game) => {
-          if (game.isViewed === undefined) game.isViewed = false;
+          // if (game.isViewed === undefined) game.isViewed = false;
           if (game.gamePlayed) totalGamesPlayed++;
         });
       });
@@ -150,17 +153,18 @@ export const tournamentSlice = createSlice({
       state.activeGameId = action.payload;
       state.tournamentViewState = TournamentEnums.GAME;
 
-      for (let level of state.tournamentLevels) {
-        for (let game of level.tournamentGames) {
-          if (game.gameId === action.payload) {
-            game.isViewed = true;
-          }
-        }
-      }
+      state.viewedGames[action.payload] = true;
+      // for (let level of state.tournamentLevels) {
+      //   for (let game of level.tournamentGames) {
+      //     if (game.gameId === action.payload) {
+      //       game.isViewed = true;
+      //     }
+      //   }
+      // }
     },
 
     tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
-      state.tournamentViewState = TournamentEnums.SCHEDULE;
+      // state.tournamentViewState = TournamentEnums.SCHEDULE;
       state.finalGameID = action.payload.gameId;
       state.finalGameResult = action.payload.gameResult;
     },

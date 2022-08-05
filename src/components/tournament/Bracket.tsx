@@ -10,30 +10,28 @@ type Props = {
 
 function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   const dispatch = useAppDispatch();
-  const priorLevel = useAppSelector(
-    (state) => state.tournament.tournamentLevels[levelIndex - 1]
-  );
-  const currentLevel = useAppSelector(
-    (state) => state.tournament.tournamentLevels[levelIndex]
-  );
+  const priorLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex - 1]);
+  const currentLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex]);
+  const viewedGames = useAppSelector((state) => state.tournament.viewedGames);
 
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);
       dispatch(viewGame(tournamentGame.gameId));
     } else {
-      alert("You must view the previous round before you can view this game");
+      // Shouldn't happen but just in case
+      alert("The game must finish and you must view the previous round before you can view this game");
     }
   }
 
   const priorLevelViewed = useCallback(() => {
     if (levelIndex === 0) return true;
-    return priorLevel.tournamentGames.every((game) => game.isViewed);
-  }, [priorLevel, levelIndex]);
+    return priorLevel.tournamentGames.every((game) => viewedGames[game.gameId!] === true);
+  }, [priorLevel, levelIndex, viewedGames]);
 
   const currentLevelViewed = useCallback(() => {
-    return currentLevel.tournamentGames.every((game) => game.isViewed);
-  }, [currentLevel]);
+    return currentLevel.tournamentGames.every((game) => viewedGames[game.gameId!] === true);
+  }, [currentLevel, viewedGames]);
 
   function RenderPlayer(index: number) {
     let player = tournamentGame.players[index];
@@ -45,7 +43,7 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
       );
     }
 
-    if (tournamentGame.gamePlayed && tournamentGame.isViewed) {
+    if (tournamentGame.gamePlayed && viewedGames[tournamentGame.gameId!]) {
       let className = "";
       if (player.isWinner) className += "winner ";
       if (currentLevelViewed() && !player.isMovedUpInTournament)
@@ -63,6 +61,17 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
 
   function RenderGameLink() {
     if (!priorLevelViewed()) return null;
+
+    if (!tournamentGame.gamePlayed) {
+      return (
+        <div className="gotogame">
+          <label>
+            Simulating...
+          </label>
+        </div>
+      );
+    }
+
     return (
       <div className="gotogame">
         <button
@@ -70,7 +79,9 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
           className="button-link"
           onClick={() => goToGame(tournamentGame)}
         >
-          Go to game
+          <label>
+            Go to game
+          </label>
         </button>
       </div>
     );

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { TournamentEnums } from '../../constants/ViewEnums';
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
 import { setTournamentView, viewGame } from '../../context/slices/tournamentSlice';
@@ -9,7 +8,7 @@ export default function Game() {
   const tournamentLevels = useAppSelector((state) => state.tournament.tournamentLevels);
   const dispatch = useAppDispatch();
 
-  const moveToNextTournamentGame = () => {
+  function nextGameButton() {
     let gameIndex = 0;
     const currentLevel = tournamentLevels.find((level) =>
       level.tournamentGames.find((game, index) => {
@@ -20,30 +19,23 @@ export default function Game() {
         return false;
       })
     );
+    const nextGame = currentLevel?.tournamentGames[gameIndex + 1];
 
-    if (currentLevel) {
-      const nextGame = currentLevel.tournamentGames[gameIndex + 1];
-      // console.log("Next game:", nextGame, nextGame.gameId, "currentLevel", currentLevel);
-      if (nextGame) {
-        dispatch(viewGame(nextGame.gameId));
-      } else {
-        dispatch(setTournamentView(TournamentEnums.SCHEDULE));
-      }
+    if (nextGame?.gamePlayed) {
+      return (
+        <button className='blue' onClick={() => dispatch(viewGame(nextGame!.gameId))}>
+          Go to next game -{'>'}
+        </button>
+      );
     }
-  };
-
-  useEffect(()=>{
-    console.log("Game:", gameId);
-  }, [gameId]);
+  }
 
   return (
     <GameboardView gameID={gameId}>
       <button className='black' onClick={() => dispatch(setTournamentView(TournamentEnums.SCHEDULE))}>
         {'<'}- Back to schedule
       </button>
-      <button className='blue' onClick={moveToNextTournamentGame}>
-        Go to next game -{'>'}
-      </button>
+      {nextGameButton()}
     </GameboardView>
   );
 }
