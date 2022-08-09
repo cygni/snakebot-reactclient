@@ -8,6 +8,9 @@ import { setGameData } from '../context/slices/gameDataSlice';
 import messageDispatch from '../context/messageDispatch';
 import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
+import volumeOn from '../assets/icons/volume-icon.svg';
+import volumeOff from '../assets/icons/volume-mute-icon.svg';
+import { useState } from 'react';
 
 // For drawing the gameboard
 import { MAP_HEIGHT_PX, MAP_WIDTH_PX } from '../constants/BoardUtils';
@@ -15,6 +18,7 @@ import { Layer, Stage } from 'react-konva';
 import Snake from '../components/canvas/Snake';
 import Obstacles from '../components/canvas/Obstacles';
 import Stars from '../components/canvas/Food';
+import Arbitraryconstants from '../constants/Arbitraryconstants';
 
 type Props = {
   gameID?: null | string;
@@ -22,6 +26,9 @@ type Props = {
 };
 
 function GameboardView({ gameID, children }: Props) {
+
+  const [volumeIcon, setVolumeIcon] = useState(Arbitraryconstants.TTS_VOLUME === 0 ? volumeOff : volumeOn);
+
   let params = useParams();
   if (!gameID) {
     // If no gameID is provided, use the one in the URL
@@ -50,9 +57,21 @@ function GameboardView({ gameID, children }: Props) {
     });
   }, [dispatch, gameID]);
 
+  function handleVolume(){
+    if (Arbitraryconstants.TTS_VOLUME === 0){
+      Arbitraryconstants.TTS_VOLUME = 0.5;
+      setVolumeIcon(volumeOn);
+    }else {
+      Arbitraryconstants.TTS_VOLUME = 0;
+      setVolumeIcon(volumeOff);
+    }
+    console.log(Arbitraryconstants.TTS_VOLUME);
+  }
+
   return (
     <section className='page clear-fix'>
       <div className='thegame'>
+        
         <ScoreBoard />
         <div className='gameboard'>
           <Stage className='canvas' width={MAP_WIDTH_PX} height={MAP_HEIGHT_PX}>
@@ -71,7 +90,9 @@ function GameboardView({ gameID, children }: Props) {
         <div className='additionalControls'>
           {children}
         </div>
-
+        <div className='voiceControls'>
+          <img src={volumeIcon} onClick={handleVolume} alt='volume on' />
+        </div>
       </div>
     </section>
   );
