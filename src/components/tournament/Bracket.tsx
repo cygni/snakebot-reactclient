@@ -66,7 +66,7 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
       return (
         <div className="gotogame">
           <label>
-            Simulating...
+            Running...
           </label>
         </div>
       );
