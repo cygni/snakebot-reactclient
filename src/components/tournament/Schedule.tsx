@@ -22,19 +22,20 @@ function roundClassName(round: TournamentLevel) {
 
 function TournamentSchedule() {
   const levels = useAppSelector((state) => state.tournament.tournamentLevels);
-  const finalGameResult = useAppSelector((state) => state.tournament.finalGameResult);
-  const finalGameID = useAppSelector((state) => state.tournament.finalGameID);
-  const viewedGames = useAppSelector((state) => state.tournament.viewedGames);
+  const finalGame = levels[levels.length - 1]?.tournamentGames[0];
+  const finalGameResult = finalGame?.players;
+  const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (viewedGames[finalGameID]) {
+    if (finalGame && viewedGames[finalGame.gameId!]) {
       dispatch(declareTournamentWinner(finalGameResult[0].name))
     }
-  }, [dispatch, finalGameResult, finalGameID, viewedGames]);
+  }, [dispatch, finalGameResult, finalGame, viewedGames]);
 
   function showPodium() {
-    if (viewedGames[finalGameID]) {
+    if (finalGame && viewedGames[finalGame.gameId!]) {
       return (
         <>
           <div className='podium'>

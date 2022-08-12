@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../../api";
 import { TournamentEnums } from "../../constants/ViewEnums";
 import { useAppSelector, useAppDispatch } from "../../context/hooks";
-import { tournamentJoined } from "../../context/slices/tournamentSlice";
+import { setTournamentView } from "../../context/slices/tournamentSlice";
 
 function StartPage() {
 
@@ -10,12 +10,10 @@ function StartPage() {
     
     function createTournament(){
         api.createTournament("My Tournament");
-        localStorage.setItem("isTournamentActive", "true");
     }
 
     function joinTournament(){
-        console.log("Joining tournament, is tournament active?:", localStorage.getItem("isTournamentActive"));
-        dispatch(tournamentJoined(TournamentEnums.SCHEDULE));
+        dispatch(setTournamentView(TournamentEnums.SCHEDULE));
         api.getActiveTournament();
     }
     

@@ -7,7 +7,6 @@ import {
   TournamentGamePlanMessage,
   Player,
   TournamentLevel,
-  TournamentEndedMessage,
 } from '../../constants/messageTypes';
 import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
@@ -23,7 +22,6 @@ export type TournamentData = {
   finalGameID: string;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
-  viewedGames: { [key: string]: boolean };
   gameFinishedShare: number;
   isWinnerDeclared: boolean;
 
@@ -44,7 +42,6 @@ const initialState: TournamentData = {
   finalGameID: '',
   finalGameResult: [],
   startedGames: {},
-  viewedGames: {},
   gameFinishedShare: 0,
   isWinnerDeclared: false,
 
@@ -66,20 +63,16 @@ export const tournamentSlice = createSlice({
       // Clear out old data
       Object.assign(state, initialState);
       state.isLoggedIn = localStorage.getItem('token') !== null;
-      localStorage.setItem('isTournamentStarted', 'false');
+      localStorage.removeItem('isTournamentStarted');
+      localStorage.removeItem('viewedGames');
 
       // Set data from message
       state.gameSettings = action.payload.gameSettings;
       state.tournamentId = action.payload.tournamentId;
       state.tournamentName = action.payload.tournamentName;
 
-      localStorage.setItem('isTournamentActive', 'true');
       state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
       
-    },
-
-    tournamentJoined: (state, action) => {
-      state.tournamentViewState = action.payload;
     },
 
     updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
@@ -163,12 +156,9 @@ export const tournamentSlice = createSlice({
       state.activeGameId = action.payload;
       state.tournamentViewState = TournamentEnums.GAME;
 
-      state.viewedGames[action.payload] = true;
-    },
-
-    tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
-      state.finalGameID = action.payload.gameId;
-      state.finalGameResult = action.payload.gameResult;
+      //state.viewedGames[action.payload] = true;
+      const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
+      localStorage.setItem('viewedGames', JSON.stringify({ ...viewedGames, [action.payload]: true }));
     },
 
     setLoggedIn: (state, action: PayloadAction<boolean>) => {
@@ -184,14 +174,12 @@ export const {
   startTournament,
   setGamePlan,
   viewGame,
-  tournamentEnded,
   setLoggedIn,
   settingsAreDone,
   setTournamentName,
   editSettings,
   declareTournamentWinner,
   setTournamentView,
-  tournamentJoined,
 } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;
