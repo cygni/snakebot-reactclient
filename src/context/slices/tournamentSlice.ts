@@ -54,7 +54,7 @@ const initialState: TournamentData = {
   isTournamentActive: false,
   isTournamentStarted: false,
 
-  tournamentViewState: TournamentEnums.SETTINGSPAGE,
+  tournamentViewState: TournamentEnums.STARTPAGE,
 };
 
 export const tournamentSlice = createSlice({
@@ -77,6 +77,12 @@ export const tournamentSlice = createSlice({
       state.tournamentName = action.payload.tournamentName;
 
       state.isTournamentActive = true;
+      state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
+      
+    },
+
+    tournamentJoined: (state, action) => {
+      state.tournamentViewState = action.payload;
     },
 
     updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
@@ -189,6 +195,7 @@ export const {
   editSettings,
   declareTournamentWinner,
   setTournamentView,
+  tournamentJoined,
 } = tournamentSlice.actions;
 
 export default tournamentSlice.reducer;

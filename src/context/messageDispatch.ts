@@ -92,6 +92,11 @@ export function onSocketMessage(jsonData: string) {
       store.dispatch(setGameSettings(settingsMessage.gameSettings));
       break;
 
+    case messageTypes.TOURNAMENT_INFO:
+      const infoMessage = message as types.TournamentInfoMessage;
+      store.dispatch(setGamePlan(infoMessage.gamePlan));
+      break;
+
     default:
       console.error('Unknown message type:', message.type);
       break;
