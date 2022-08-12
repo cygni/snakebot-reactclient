@@ -15,10 +15,8 @@ function StartPage() {
 
     function joinTournament(){
         console.log("Joining tournament, is tournament active?:", localStorage.getItem("isTournamentActive"));
-        if(localStorage.getItem("isTournamentActive") === "true"){
-        api.getActiveTournament();
         dispatch(tournamentJoined(TournamentEnums.SCHEDULE));
-        }
+        api.getActiveTournament();
     }
     
     return (

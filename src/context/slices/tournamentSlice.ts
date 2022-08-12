@@ -28,8 +28,6 @@ export type TournamentData = {
   isWinnerDeclared: boolean;
 
   isLoggedIn: boolean;
-  isTournamentActive: boolean;
-  isTournamentStarted: boolean;
 
   tournamentViewState: TournamentEnums;
 };
@@ -51,9 +49,7 @@ const initialState: TournamentData = {
   isWinnerDeclared: false,
 
   isLoggedIn: localStorage.getItem('token') !== null,
-  isTournamentActive: false,
-  isTournamentStarted: false,
-
+  
   tournamentViewState: TournamentEnums.STARTPAGE,
 };
 
@@ -70,13 +66,14 @@ export const tournamentSlice = createSlice({
       // Clear out old data
       Object.assign(state, initialState);
       state.isLoggedIn = localStorage.getItem('token') !== null;
+      localStorage.setItem('isTournamentStarted', 'false');
 
       // Set data from message
       state.gameSettings = action.payload.gameSettings;
       state.tournamentId = action.payload.tournamentId;
       state.tournamentName = action.payload.tournamentName;
 
-      state.isTournamentActive = true;
+      localStorage.setItem('isTournamentActive', 'true');
       state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
       
     },
@@ -95,8 +92,7 @@ export const tournamentSlice = createSlice({
     },
 
     startTournament: (state) => {
-      state.isTournamentStarted = true;
-      // state.tournamentViewState = TournamentEnums.LOADINGPAGE;
+      localStorage.setItem('isTournamentStarted', 'true');
       state.tournamentViewState = TournamentEnums.SCHEDULE;
     },
 
@@ -141,7 +137,7 @@ export const tournamentSlice = createSlice({
       });
       state.gameFinishedShare = (100 * totalGamesPlayed) / Math.pow(2, state.noofLevels);
 
-      if (state.isTournamentStarted) {
+      if (localStorage.getItem('isTournamentStarted') === 'true') {
         // Find and play games that has not been played
         for (let level of state.tournamentLevels) {
           let startNextLevel = true;
@@ -149,7 +145,7 @@ export const tournamentSlice = createSlice({
             // If a game has not been played, don't start the next level
             if (!game.gamePlayed) startNextLevel = false;
 
-            if (game.gameId !== null && !state.startedGames[game.gameId]) {
+            if (!game.gamePlayed && game.gameId !== null && !state.startedGames[game.gameId]) {
               state.startedGames[game.gameId] = true;
               api.startTournamentGame(game.gameId);
             }
