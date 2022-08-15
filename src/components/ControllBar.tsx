@@ -14,7 +14,7 @@ function ControllBar() {
   const dispatch = useAppDispatch();
   const messagesLength = useAppSelector((state) => state.gameData.messages?.length);
   const messageIndex = useAppSelector((state) => state.gameData.counter);
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useState(true);
   const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);
   const gameEnded = useAppSelector((state) => state.currentFrame.gameEnded);
   const intervalID = useRef<NodeJS.Timer>();

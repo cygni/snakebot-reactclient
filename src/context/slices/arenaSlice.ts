@@ -34,11 +34,8 @@ export const arenaSlice = createSlice({
       state.players = action.payload.onlinePlayers;
       state.gameHistory = action.payload.gameHistory;
 
-      // Navigate to game when it is finished
-      if (
-        state.arenaViewState === ArenaEnums.LOADINGPAGE &&
-        state.gameHistory.some((game) => game.gameId === state.gameId)
-      ) {
+      if (state.gameId) {
+        api.setGameFilter(state.gameId);
         state.arenaViewState = ArenaEnums.GAME;
       }
     },

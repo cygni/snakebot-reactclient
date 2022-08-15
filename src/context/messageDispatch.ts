@@ -1,7 +1,7 @@
 import { store } from './store';
 import * as types from '../constants/messageTypes';
 import messageTypes from '../constants/messageTypes';
-import { incrementMessageIndex } from './slices/gameDataSlice';
+import { addMessage, incrementMessageIndex } from './slices/gameDataSlice';
 import { arenaUpdateEvent, disconnectFromArena, setGameSettings } from './slices/arenaSlice';
 import { tournamentCreated, setGamePlan, setLoggedIn } from './slices/tournamentSlice';
 import {
@@ -91,6 +91,24 @@ export function onSocketMessage(jsonData: string) {
     case messageTypes.TOURNAMENT_INFO:
       const infoMessage = message as types.TournamentInfoMessage;
       store.dispatch(setGamePlan(infoMessage.gamePlan));
+      break;
+
+    case messageTypes.INVALID_ARENA_NAME:
+      alert('No arena with that name found');
+      break;
+
+    // ##############################################################################################
+    // ############################### REALTIME GAME EVENTS (no history)  ###########################
+    // ##############################################################################################
+    case messageTypes.GAME_CREATED_EVENT:
+    case messageTypes.GAME_STARTING_EVENT:
+    case messageTypes.MAP_UPDATE_EVENT:
+    case messageTypes.SNAKE_DEAD_EVENT:
+    case messageTypes.GAME_RESULT_EVENT:
+    case messageTypes.GAME_ENDED_EVENT:
+      const gameMessage = message as types.Message;
+      store.dispatch(addMessage(gameMessage));
+      // dataDispatch();
       break;
 
     default:

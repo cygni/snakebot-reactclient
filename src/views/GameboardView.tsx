@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
 import api from '../api';
 import { useEffect } from 'react';
-import { setGameData } from '../context/slices/gameDataSlice';
+import { clearGameData, setGameData } from '../context/slices/gameDataSlice';
 import messageDispatch from '../context/messageDispatch';
 import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
@@ -37,16 +37,11 @@ function GameboardView({ gameID, children }: Props) {
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
 
-  // Initialize the game
-  useEffect(() => {
-    // Reset the current frame state
-    dispatch(clearCurrentFrame());
-
-    // Setup the game
+  function tryToFetchHistory() {
     api.getGame(gameID!).then((game) => {
       console.log('Fetched game', game);
       if (JSON.stringify(game) === '{}'){
-        alert('Game not found or might still be running');
+        return;
       }
       dispatch(setGameData(game));
 
@@ -55,6 +50,17 @@ function GameboardView({ gameID, children }: Props) {
       messageDispatch();
       messageDispatch(false);
     });
+  }
+
+  // Initialize the game
+  useEffect(() => {
+    // Reset the game data and the current frame state
+    dispatch(clearGameData());
+    dispatch(clearCurrentFrame());
+
+    // Setup the game
+    tryToFetchHistory();
+
   }, [dispatch, gameID]);
 
   function handleVolume(){
