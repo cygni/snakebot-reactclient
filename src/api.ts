@@ -27,7 +27,7 @@ function newConnection() {
 
   socket.onclose = () => {
     console.log('Disconnected from server');
-    localStorage.clear();
+    localStorage.removeItem('token');
     store.dispatch(clearTournament());
 
     setTimeout(() => {

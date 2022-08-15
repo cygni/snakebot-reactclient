@@ -12,7 +12,8 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   const dispatch = useAppDispatch();
   const priorLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex - 1]);
   const currentLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex]);
-  const viewedGames = useAppSelector((state) => state.tournament.viewedGames);
+  const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
+
 
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
@@ -48,9 +49,9 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
       if (player.isWinner) className += "winner ";
       if (currentLevelViewed() && !player.isMovedUpInTournament)
         className += "looser";
-      return (
+      return ( 
         <li key={index} className={className}>
-          {player.name} {player.isWinner ? null : null}
+          {player.name}
           <span className="points">{player.points + "p"}</span>
         </li>
       );
@@ -66,7 +67,7 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
       return (
         <div className="gotogame">
           <label>
-            Simulating...
+            Running...
           </label>
         </div>
       );

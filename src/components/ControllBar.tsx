@@ -56,6 +56,7 @@ function ControllBar() {
         value={messageIndex}
         className='react-native-slider'
         onChange={(e) => {
+          setRunning(false);
           dispatch(setMessageIndex(parseInt(e.target.value)));
           messageDispatch(false);
         }}
@@ -77,7 +78,10 @@ function ControllBar() {
           className='playButton'
           onClick={() => {
             setRunning(!running);
-            if (gameEnded) dispatch(setMessageIndex(0));
+            if (gameEnded) {
+              dispatch(setMessageIndex(2))
+              messageDispatch(false);
+            };
           }}
         />
         <input

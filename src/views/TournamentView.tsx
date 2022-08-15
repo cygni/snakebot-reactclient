@@ -8,19 +8,13 @@ import LoadingPage from "../components/tournament/LoadingPage";
 import PlayerList from "../components/tournament/PlayerList";
 import {TournamentEnums} from "../constants/ViewEnums";
 import Game from "../components/tournament/Game";
+import StartPage from "../components/tournament/StartPage";
 
 function TournamentView() { 
-  const isTournamentActive = useAppSelector((state) => state.tournament.isTournamentActive);
+  
   const activeTournamentView = useAppSelector((state) => state.tournament.tournamentViewState);
   const isLoggedIn = useAppSelector((state) => state.tournament.isLoggedIn);
   const navigate = useNavigate();
-
-  // Create tournament on mount
-  useEffect(() => {
-    if (!isTournamentActive) {
-      api.createTournament("Tournament");
-    }
-  }, [isTournamentActive]);
 
   // If not logged in, redirect to login page
   useEffect(()=>{
@@ -29,6 +23,8 @@ function TournamentView() {
 
   function selectView(page: TournamentEnums) {
     switch (page) {
+      case TournamentEnums.STARTPAGE:
+        return <StartPage />;
       case TournamentEnums.GAME:
         return <Game />;
       case TournamentEnums.PLAYERLIST:

@@ -158,6 +158,21 @@ export interface TournamentGamePlanMessage extends SocketMessage {
     tournamentName: string;
 }
 
+export interface TournamentInfoMessage extends SocketMessage {
+    gamePlan: TournamentGamePlanMessage;
+    gameSettings: GameSettings;
+    tournamentId: string;
+    tournamentName: string;
+}
+export interface TournamentEndedMessage extends SocketMessage {
+    gameId: string;
+    gameResult: {name: string, playerId: string, points: number}[];
+    playerWinnerId: string;
+    receivingPlayerId: null;
+    timestamp: number;
+    tournamentId: string;
+    tournamentName: string;
+}
 type ActiveGame = {
     gameFeatures: GameSettings;
     gameId: string;
@@ -169,15 +184,6 @@ export interface ActiveGamesListMessage extends SocketMessage {
     games: ActiveGame[];
 }
 
-export interface TournamentEndedMessage extends SocketMessage {
-    gameId: string;
-    gameResult: {name: string, playerId: string, points: number}[];
-    playerWinnerId: string;
-    receivingPlayerId: null;
-    timestamp: number;
-    tournamentId: string;
-    tournamentName: string;
-}
 
 export type GameHistory = {
     gameId: string;

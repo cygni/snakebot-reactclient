@@ -7,7 +7,6 @@ import {
   TournamentGamePlanMessage,
   Player,
   TournamentLevel,
-  TournamentEndedMessage,
 } from '../../constants/messageTypes';
 import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
@@ -23,13 +22,10 @@ export type TournamentData = {
   finalGameID: string;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
-  viewedGames: { [key: string]: boolean };
   gameFinishedShare: number;
   isWinnerDeclared: boolean;
 
   isLoggedIn: boolean;
-  isTournamentActive: boolean;
-  isTournamentStarted: boolean;
 
   tournamentViewState: TournamentEnums;
 };
@@ -46,15 +42,12 @@ const initialState: TournamentData = {
   finalGameID: '',
   finalGameResult: [],
   startedGames: {},
-  viewedGames: {},
   gameFinishedShare: 0,
   isWinnerDeclared: false,
 
   isLoggedIn: localStorage.getItem('token') !== null,
-  isTournamentActive: false,
-  isTournamentStarted: false,
-
-  tournamentViewState: TournamentEnums.SETTINGSPAGE,
+  
+  tournamentViewState: TournamentEnums.STARTPAGE,
 };
 
 export const tournamentSlice = createSlice({
@@ -70,13 +63,16 @@ export const tournamentSlice = createSlice({
       // Clear out old data
       Object.assign(state, initialState);
       state.isLoggedIn = localStorage.getItem('token') !== null;
+      localStorage.removeItem('isTournamentStarted');
+      localStorage.removeItem('viewedGames');
 
       // Set data from message
       state.gameSettings = action.payload.gameSettings;
       state.tournamentId = action.payload.tournamentId;
       state.tournamentName = action.payload.tournamentName;
 
-      state.isTournamentActive = true;
+      state.tournamentViewState = TournamentEnums.SETTINGSPAGE;
+      
     },
 
     updateGameSettings: (state, action: PayloadAction<GameSettings>) => {
@@ -89,8 +85,7 @@ export const tournamentSlice = createSlice({
     },
 
     startTournament: (state) => {
-      state.isTournamentStarted = true;
-      // state.tournamentViewState = TournamentEnums.LOADINGPAGE;
+      localStorage.setItem('isTournamentStarted', 'true');
       state.tournamentViewState = TournamentEnums.SCHEDULE;
     },
 
@@ -135,7 +130,7 @@ export const tournamentSlice = createSlice({
       });
       state.gameFinishedShare = (100 * totalGamesPlayed) / Math.pow(2, state.noofLevels);
 
-      if (state.isTournamentStarted) {
+      if (localStorage.getItem('isTournamentStarted') === 'true') {
         // Find and play games that has not been played
         for (let level of state.tournamentLevels) {
           let startNextLevel = true;
@@ -143,7 +138,7 @@ export const tournamentSlice = createSlice({
             // If a game has not been played, don't start the next level
             if (!game.gamePlayed) startNextLevel = false;
 
-            if (game.gameId !== null && !state.startedGames[game.gameId]) {
+            if (!game.gamePlayed && game.gameId !== null && !state.startedGames[game.gameId]) {
               state.startedGames[game.gameId] = true;
               api.startTournamentGame(game.gameId);
             }
@@ -161,12 +156,9 @@ export const tournamentSlice = createSlice({
       state.activeGameId = action.payload;
       state.tournamentViewState = TournamentEnums.GAME;
 
-      state.viewedGames[action.payload] = true;
-    },
-
-    tournamentEnded: (state, action: PayloadAction<TournamentEndedMessage>) => {
-      state.finalGameID = action.payload.gameId;
-      state.finalGameResult = action.payload.gameResult;
+      //state.viewedGames[action.payload] = true;
+      const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
+      localStorage.setItem('viewedGames', JSON.stringify({ ...viewedGames, [action.payload]: true }));
     },
 
     setLoggedIn: (state, action: PayloadAction<boolean>) => {
@@ -182,7 +174,6 @@ export const {
   startTournament,
   setGamePlan,
   viewGame,
-  tournamentEnded,
   setLoggedIn,
   settingsAreDone,
   setTournamentName,
