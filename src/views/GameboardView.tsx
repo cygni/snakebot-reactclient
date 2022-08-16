@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
@@ -60,9 +60,13 @@ function GameboardView({ gameID, children }: Props) {
   function handleVolume(){
     if (Arbitraryconstants.TTS_VOLUME === 0){
       Arbitraryconstants.TTS_VOLUME = 0.5;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0.5;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0.5;
       setVolumeIcon(volumeOn);
     }else {
       Arbitraryconstants.TTS_VOLUME = 0;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0;
       setVolumeIcon(volumeOff);
     }
     console.log(Arbitraryconstants.TTS_VOLUME);

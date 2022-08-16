@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import Constants from "../constants/Arbitraryconstants";
 import { setMessageIndex } from "../context/slices/gameDataSlice";
 import { useAppDispatch, useAppSelector } from "../context/hooks";
+import { isGameRunning } from "../context/slices/currentFrameSlice";
 
 function ControllBar() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,8 @@ function ControllBar() {
           messageDispatch();
         }
       }, frequency);
+    } else {
+      dispatch(isGameRunning(false));
     }
     return () => clearInterval(intervalID.current);
   }, [running, frequency]);
@@ -33,6 +36,7 @@ function ControllBar() {
   useEffect(() => {
     if (gameEnded) {
       setRunning(false);
+      dispatch(isGameRunning(false));
     }
   }, [gameEnded]);
 
@@ -45,7 +49,14 @@ function ControllBar() {
     }
     return Pause;
   }
-
+  
+  //If we leave the page, stop the game
+  useEffect(() => {
+    return () => {
+      setRunning(false);
+      dispatch(isGameRunning(false));
+    }
+  } , []);
   return (
     <div className='controlpanel'>
       <input
@@ -78,6 +89,7 @@ function ControllBar() {
           className='playButton'
           onClick={() => {
             setRunning(!running);
+            dispatch(isGameRunning(true));
             if (gameEnded) {
               dispatch(setMessageIndex(2))
               messageDispatch(false);
