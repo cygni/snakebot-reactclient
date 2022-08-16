@@ -22,12 +22,14 @@ import Arbitraryconstants from '../constants/Arbitraryconstants';
 
 type Props = {
   gameID?: null | string;
+  musicElement?: HTMLAudioElement;
   children?: React.ReactNode;
 };
 
-function GameboardView({ gameID, children }: Props) {
+function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR, children }: Props) {
 
   const [volumeIcon, setVolumeIcon] = useState(Arbitraryconstants.TTS_VOLUME === 0 ? volumeOff : volumeOn);
+  const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
 
   let params = useParams();
   if (!gameID) {
@@ -36,6 +38,21 @@ function GameboardView({ gameID, children }: Props) {
   }
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
+
+  const isRunning = useAppSelector(state => state.currentFrame.isRunning);
+  useEffect(() => {
+    if (isRunning) {
+      musicElement.play();
+    }
+    return () => {
+      musicElement.pause();
+    }
+  } , [isRunning, musicElement]);
+
+  // Reset the music timer when the game ends or when this component is unmounted
+  useEffect(() => {
+    return ()=>{musicElement.currentTime = 0;}
+  }, [musicElement, gameEnded]);
 
   function tryToFetchHistory() {
     api.getGame(gameID!).then((game) => {
@@ -66,9 +83,13 @@ function GameboardView({ gameID, children }: Props) {
   function handleVolume(){
     if (Arbitraryconstants.TTS_VOLUME === 0){
       Arbitraryconstants.TTS_VOLUME = 0.5;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0.5;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0.5;
       setVolumeIcon(volumeOn);
     }else {
       Arbitraryconstants.TTS_VOLUME = 0;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0;
       setVolumeIcon(volumeOff);
     }
     console.log(Arbitraryconstants.TTS_VOLUME);

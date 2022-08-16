@@ -1,5 +1,6 @@
 import cygnilogo from '../assets/logos/cygni-logo.svg';
 import instagramCygni from '../assets/images/cygni-instagram.png';
+import githublogo from '../assets/logos/gitlogo.png';
 
 function StartView() {
   return (
@@ -77,11 +78,14 @@ function StartView() {
 
         <h2>JavaScript client</h2>
         <p>
-          The client is written in JavaScript and the project can be cloned through the GitHub repository via the link
+          The client is written in JavaScript and the project can be cloned through the GitHub repository via the image link
           below. We recommend using VS Code for editing this project but feel free to use any editor you prefer. The
-          project has a Readme file that explains how to get going.
+          project has a Readme file that explains how to get going. 
         </p>
-        <a href='https://github.com/cygni/snakebot-client-js'>Github Repository</a>
+        <a href='https://github.com/cygni/snakebot-client-js'>
+        <img className='gitlogo' src={githublogo} alt='github-logo' />
+        </a>
+        
       </div>
 
       <div className='cygni-at-campus'>
@@ -95,6 +99,7 @@ function StartView() {
         <img className='phone-cygni' src={instagramCygni} alt='Cygni-instagram' />
       </div>
     </section>
+    
   );
 }
 
