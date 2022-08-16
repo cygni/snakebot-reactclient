@@ -21,13 +21,6 @@ function TournamentView() {
     if (!isLoggedIn) navigate('/login');
   });
 
-  // If we leave the page, set isLastGame to false to reset music state
-  useEffect(()=>{
-    return () => {
-      localStorage.setItem('isLastGame', 'false');
-    }
-  } , []);
-
   function selectView(page: TournamentEnums) {
     switch (page) {
       case TournamentEnums.STARTPAGE:
