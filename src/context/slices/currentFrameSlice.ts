@@ -67,21 +67,8 @@ export const snakesSlice = createSlice({
       Object.assign(state, initialState);
     },
 
-    isGameRunning: (state, action) => {
+    setGameRunning: (state, action: PayloadAction<boolean>) => {
       state.isRunning = action.payload;
-   
-      if (state.isRunning) {
-        if (localStorage.getItem('isFinalGame') === 'true') {
-        Arbitraryconstants.AUDIO_FINAL.play();
-        }
-        else if (localStorage.getItem('isFinalGame') === 'false') {
-        Arbitraryconstants.AUDIO_REGULAR.play();
-        }
-      }
-      else {
-       Arbitraryconstants.AUDIO_REGULAR.pause();
-        Arbitraryconstants.AUDIO_FINAL.pause();
-     }
     },
 
     gameCreatedEvent: (state, action: PayloadAction<GameCreatedMessage>) => {
@@ -113,6 +100,7 @@ export const snakesSlice = createSlice({
         state.playerRanks.push(player.playerName);
         state.playerPoints.push(player.points);
       });
+      state.gameEnded = true;
     },
 
     gameEndedEvent: (state, action: PayloadAction<GameEndedMessage>) => {
@@ -161,7 +149,7 @@ function updateMap(state: Draft<FrameState>, map: GameMap) {
   state.obstaclePositions = map.obstaclePositions.map((position) => convertCoords(position));
 }
 
-export const { clearCurrentFrame, gameCreatedEvent, mapUpdateEvent, snakeDiedEvent, gameResultEvent, gameEndedEvent, isGameRunning } =
+export const { clearCurrentFrame, gameCreatedEvent, mapUpdateEvent, snakeDiedEvent, gameResultEvent, gameEndedEvent, setGameRunning } =
   snakesSlice.actions;
 
 export default snakesSlice.reducer;

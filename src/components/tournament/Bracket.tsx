@@ -13,8 +13,6 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   const priorLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex - 1]);
   const currentLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex]);
   const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
-  const levels = useAppSelector((state) => state.tournament.tournamentLevels);
-  const finalGame = levels[levels.length - 1]?.tournamentGames[0];
 
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
@@ -23,11 +21,6 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
     } else {
       // Shouldn't happen but just in case
       alert("The game must finish and you must view the previous round before you can view this game");
-    }
-    if (finalGame.gameId === tournamentGame.gameId){
-      localStorage.setItem('isFinalGame', 'true');
-    } else {
-      localStorage.setItem('isFinalGame', 'false');
     }
   }
 

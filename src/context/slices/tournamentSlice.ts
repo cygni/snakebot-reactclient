@@ -19,7 +19,7 @@ export type TournamentData = {
   players: Player[];
   tournamentLevels: TournamentLevel[];
   activeGameId: string;
-  finalGameID: string;
+  finalGameID: string | null;
   finalGameResult: { name: string; playerId: string; points: number }[];
   startedGames: { [key: string]: boolean };
   gameFinishedShare: number;
@@ -119,6 +119,8 @@ export const tournamentSlice = createSlice({
       state.tournamentId = action.payload.tournamentId;
       state.tournamentLevels = action.payload.tournamentLevels;
       state.tournamentName = action.payload.tournamentName;
+
+      state.finalGameID = state.tournamentLevels[state.noofLevels - 1].tournamentGames[0].gameId;
 
       // Initialize isViewed for all games and get amount of games played
       let totalGamesPlayed = 0;

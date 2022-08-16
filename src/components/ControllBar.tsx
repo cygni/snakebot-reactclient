@@ -9,13 +9,13 @@ import { useEffect, useRef, useState } from "react";
 import Constants from "../constants/Arbitraryconstants";
 import { setMessageIndex } from "../context/slices/gameDataSlice";
 import { useAppDispatch, useAppSelector } from "../context/hooks";
-import { isGameRunning } from "../context/slices/currentFrameSlice";
+import { setGameRunning } from "../context/slices/currentFrameSlice";
 
 function ControllBar() {
   const dispatch = useAppDispatch();
   const messagesLength = useAppSelector((state) => state.gameData.messages?.length);
   const messageIndex = useAppSelector((state) => state.gameData.counter);
-  const [running, setRunning] = useState(false);
+  const running = useAppSelector(state => state.currentFrame.isRunning);
   const [frequency, setFrequency] = useState(Constants.STARTING_FREQUENCY);
   const gameEnded = useAppSelector((state) => state.currentFrame.gameEnded);
   const intervalID = useRef<NodeJS.Timer>();
@@ -27,18 +27,23 @@ function ControllBar() {
           messageDispatch();
         }
       }, frequency);
-    } else {
-      dispatch(isGameRunning(false));
     }
     return () => clearInterval(intervalID.current);
   }, [running, frequency]);
 
   useEffect(() => {
     if (gameEnded) {
-      setRunning(false);
-      dispatch(isGameRunning(false));
+      console.log("Game ended", gameEnded);
+      dispatch(setGameRunning(false));
     }
   }, [gameEnded]);
+
+  useEffect(() => {
+    // Stop the game on unmount
+    return () => {
+      dispatch(setGameRunning(false));
+    }
+  }, []);
 
   function getPlayIcon() {
     if (gameEnded) {
@@ -50,13 +55,6 @@ function ControllBar() {
     return Pause;
   }
   
-  //If we leave the page, stop the game
-  useEffect(() => {
-    return () => {
-      setRunning(false);
-      dispatch(isGameRunning(false));
-    }
-  } , []);
   return (
     <div className='controlpanel'>
       <input
@@ -67,7 +65,7 @@ function ControllBar() {
         value={messageIndex}
         className='react-native-slider'
         onChange={(e) => {
-          setRunning(false);
+          dispatch(setGameRunning(false));
           dispatch(setMessageIndex(parseInt(e.target.value)));
           messageDispatch(false);
         }}
@@ -88,8 +86,7 @@ function ControllBar() {
           name='PlayButton'
           className='playButton'
           onClick={() => {
-            setRunning(!running);
-            dispatch(isGameRunning(true));
+            dispatch(setGameRunning(!running));
             if (gameEnded) {
               dispatch(setMessageIndex(2))
               messageDispatch(false);
