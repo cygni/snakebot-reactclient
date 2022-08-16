@@ -24,7 +24,7 @@ const Arbitraryconstants = {
         startObstacles: 0,
         startSnakeLength: 0,
         tailConsumeGrows: false,
-        timeInMsPerTick: 0,
+        timeInMsPerTick: 250,
         trainingGame: false,
       } as GameSettings
 };

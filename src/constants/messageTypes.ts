@@ -21,6 +21,10 @@ const MessageTypes = {
     CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
     START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
     START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame',
+
+    // Player API
+    HEARTBEAT_RESPONSE : 'se.cygni.snake.api.response.HeartBeatResponse',
+    PLAYER_REGISTERED : 'se.cygni.snake.api.response.PlayerRegistered',
 };
 
 export default MessageTypes;

@@ -12,6 +12,8 @@ export type ArenaData = {
 
   gameSettings: GameSettings;
   arenaViewState: ArenaEnums;
+
+  playingAsPlayer: boolean;
 };
 
 const initialState: ArenaData = {
@@ -22,6 +24,8 @@ const initialState: ArenaData = {
 
   gameSettings: Arbitraryconstants.placeholdGameSettings,
   arenaViewState: ArenaEnums.PLAYERLIST,
+
+  playingAsPlayer: false,
 };
 
 export const arenaSlice = createSlice({
@@ -63,12 +67,17 @@ export const arenaSlice = createSlice({
     },
 
     disconnectFromArena: (state) => {
+      console.log('Disconnect from arena', state.arenaName);
       Object.assign(state, initialState);
       api.disconnectFromArena();
+    },
+
+    setPlayingAsPlayer: (state, action: PayloadAction<boolean>) => {
+      state.playingAsPlayer = action.payload;
     }
   },
 });
 
-export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, disconnectFromArena, createArena } = arenaSlice.actions;
+export const { arenaUpdateEvent, startArenaGame, setArenaView, setGameSettings, disconnectFromArena, createArena, setPlayingAsPlayer } = arenaSlice.actions;
 
 export default arenaSlice.reducer;

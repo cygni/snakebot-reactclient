@@ -108,7 +108,11 @@ export function onSocketMessage(jsonData: string) {
     case messageTypes.GAME_ENDED_EVENT:
       const gameMessage = message as types.Message;
       store.dispatch(addMessage(gameMessage));
-      // dataDispatch();
+
+      // Dispatch messages in realtime
+      if (store.getState().arena.playingAsPlayer) {
+        dataDispatch();
+      }
       break;
 
     default:

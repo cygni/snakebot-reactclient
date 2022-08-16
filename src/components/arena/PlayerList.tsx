@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
-import { setArenaView, startArenaGame, disconnectFromArena, createArena } from '../../context/slices/arenaSlice';
+import { setArenaView, startArenaGame, disconnectFromArena, createArena, setPlayingAsPlayer } from '../../context/slices/arenaSlice';
 import { useEffect, useState } from 'react';
 import { ArenaEnums } from '../../constants/ViewEnums';
 import api from '../../api';
@@ -54,6 +54,10 @@ function PlayerList() {
     }
   }
 
+  function joinAsPlayer() {
+    dispatch(setPlayingAsPlayer(true));
+  }
+
   function infoText() {
     if (!arenaId) {
       if (!localArenaId) {
@@ -80,6 +84,10 @@ function PlayerList() {
           
           <button onClick={disconnectArena} className='red'>
             End Arena
+          </button>
+
+          <button onClick={joinAsPlayer} className='blue'>
+            Join as Player
           </button>
         </>
       );
