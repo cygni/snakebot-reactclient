@@ -63,15 +63,19 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
     document.addEventListener('keydown', (event) => {
         console.log("pressed key: " + event.key);
         switch (event.key) {
+            case 'ArrowLeft':
             case 'a':
                 currentDirection = Direction.Left;
                 break;
+            case 'ArrowUp':
             case 'w':
                 currentDirection = Direction.Up;
                 break;
+            case 'ArrowRight':
             case 'd':
                 currentDirection = Direction.Right;
                 break;
+            case 'ArrowDown':
             case 's':
                 currentDirection = Direction.Down;
                 break;
