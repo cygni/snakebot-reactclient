@@ -2,7 +2,7 @@ import Arbitraryconstants from "./constants/Arbitraryconstants";
 import MessageTypes, { Message } from "./constants/messageTypes";
 
 const HEARTBEAT_INTERVAL = 5000;
-const MS_SLEEP_MARGIN = 20;
+const MS_SLEEP_MARGIN = 80;
 
 export enum Direction {
     Up = 'UP',
