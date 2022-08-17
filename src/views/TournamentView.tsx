@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import api from "../api";
 import { useAppSelector } from "../context/hooks";
 import TournamentSettings from "../components/tournament/Settings";
 import TournamentSchedule from "../components/tournament/Schedule";
@@ -20,13 +19,6 @@ function TournamentView() {
   useEffect(()=>{
     if (!isLoggedIn) navigate('/login');
   });
-
-  // If we leave the page, set isLastGame to false to reset music state
-  useEffect(()=>{
-    return () => {
-      localStorage.setItem('isLastGame', 'false');
-    }
-  } , []);
 
   function selectView(page: TournamentEnums) {
     switch (page) {

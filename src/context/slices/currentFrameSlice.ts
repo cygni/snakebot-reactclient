@@ -54,7 +54,7 @@ const initialState: FrameState = {
   obstaclePositions: [],
   foodPositions: [],
   gameEnded: false,
-  isRunning: false,
+  isRunning: true,
   isFinalGame: false,
 };
 

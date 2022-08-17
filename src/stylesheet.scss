@@ -1474,7 +1474,7 @@ margin-top: 3px;
       border-color: black;
     }
 
-    &:active {
+    &:active:disabled {
       transform: translateY(2px);
     }
   }

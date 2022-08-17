@@ -15,11 +15,16 @@ const MessageTypes = {
     ARENA_UPDATE_EVENT : 'se.cygni.snake.api.event.ArenaUpdateEvent',
     GAME_RESULT_EVENT : 'se.cygni.snake.api.event.GameResultEvent',
     ARENA_ENDED_EVENT : 'se.cygni.snake.api.event.ArenaEndedEvent',
+    INVALID_ARENA_NAME : 'se.cygni.snake.eventapi.exception.InvalidArenaName',
 
     UPDATE_TOURNAMENT_SETTINGS : 'se.cygni.snake.event.UpdateTournamentSettings',
     CREATE_TOURNAMENT : 'se.cygni.snake.event.CreateTournament',
     START_TOURNAMENT : 'se.cygni.snake.event.StartTournament',
     START_TOURNAMENT_GAME : 'se.cygni.snake.event.StartTournamentGame',
+
+    // Player API
+    HEARTBEAT_RESPONSE : 'se.cygni.snake.api.response.HeartBeatResponse',
+    PLAYER_REGISTERED : 'se.cygni.snake.api.response.PlayerRegistered',
 };
 
 export default MessageTypes;
@@ -30,7 +35,7 @@ export default MessageTypes;
 
 export type Message = {
     gameId: string;
-    receivingPlayerId: any;
+    receivingPlayerId: null | string;
     timestamp: number;
     type: string;
 };
