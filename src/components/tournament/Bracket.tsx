@@ -14,7 +14,6 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   const currentLevel = useAppSelector(state => state.tournament.tournamentLevels[levelIndex]);
   const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
 
-
   function goToGame(tournamentGame: TournamentGame) {
     if (tournamentGame.gamePlayed && priorLevelViewed()) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);

@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
 import api from '../api';
 import { useEffect } from 'react';
-import { setGameData } from '../context/slices/gameDataSlice';
+import { clearGameData, setGameData } from '../context/slices/gameDataSlice';
 import messageDispatch from '../context/messageDispatch';
 import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
@@ -22,12 +22,14 @@ import Arbitraryconstants from '../constants/Arbitraryconstants';
 
 type Props = {
   gameID?: null | string;
+  musicElement?: HTMLAudioElement;
   children?: React.ReactNode;
 };
 
-function GameboardView({ gameID, children }: Props) {
+function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR, children }: Props) {
 
   const [volumeIcon, setVolumeIcon] = useState(Arbitraryconstants.TTS_VOLUME === 0 ? volumeOff : volumeOn);
+  const gameEnded = useAppSelector(state => state.currentFrame.gameEnded);
 
   let params = useParams();
   if (!gameID) {
@@ -37,32 +39,52 @@ function GameboardView({ gameID, children }: Props) {
   const dispatch = useAppDispatch();
   const currentFrameState = useAppSelector((state) => state.currentFrame);
 
-  // Initialize the game
+  const isRunning = useAppSelector(state => state.currentFrame.isRunning);
   useEffect(() => {
-    // Reset the current frame state
-    dispatch(clearCurrentFrame());
+    if (isRunning) {
+      musicElement.play();
+    }
+    return () => {
+      musicElement.pause();
+    }
+  } , [isRunning, musicElement]);
 
-    // Setup the game
+  // Reset the music timer when the game ends or when this component is unmounted
+  useEffect(() => {
+    return ()=>{musicElement.currentTime = 0;}
+  }, [musicElement, gameEnded]);
+
+  function tryToFetchHistory() {
     api.getGame(gameID!).then((game) => {
       console.log('Fetched game', game);
       if (JSON.stringify(game) === '{}'){
-        alert('Game not found or might still be running');
+        return;
       }
       dispatch(setGameData(game));
-
-      // dispatch 3 times so we get the first map update
-      messageDispatch();
-      messageDispatch();
-      messageDispatch(false);
     });
+  }
+
+  // Initialize the game
+  useEffect(() => {
+    // Reset the game data and the current frame state
+    dispatch(clearGameData());
+    dispatch(clearCurrentFrame());
+
+    // Setup the game
+    tryToFetchHistory();
+
   }, [dispatch, gameID]);
 
   function handleVolume(){
     if (Arbitraryconstants.TTS_VOLUME === 0){
       Arbitraryconstants.TTS_VOLUME = 0.5;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0.5;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0.5;
       setVolumeIcon(volumeOn);
     }else {
       Arbitraryconstants.TTS_VOLUME = 0;
+      Arbitraryconstants.AUDIO_REGULAR.volume = 0;
+      Arbitraryconstants.AUDIO_FINAL.volume = 0;
       setVolumeIcon(volumeOff);
     }
     console.log(Arbitraryconstants.TTS_VOLUME);

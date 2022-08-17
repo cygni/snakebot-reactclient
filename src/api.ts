@@ -101,6 +101,24 @@ async function createArena(gameSettings = {} as GameSettings): Promise<void> {
   );
 }
 
+async function joinArena(arenaName: string): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.SetCurrentArena',
+      currentArena: arenaName,
+    })
+  );
+}
+
+async function setGameFilter(gameId?: string): Promise<void> {
+  sendWhenConnected(
+    JSON.stringify({
+      type: 'se.cygni.snake.eventapi.request.SetGameFilter',
+      includedGameIds: [gameId],
+    })
+  );
+};
+
 async function startArenaGame(arenaName: string): Promise<void> {
   sendWhenConnected(
     JSON.stringify({
@@ -172,6 +190,9 @@ async function disconnectFromArena(): Promise<void> {
       type: 'se.cygni.snake.eventapi.request.DisconnectFromArena',
     })
   );
+
+  // Clear games subscription
+  setGameFilter();
 }
 
 const api = {
@@ -184,9 +205,11 @@ const api = {
   startTournamentGame,
   updateTournamentSettings,
   createArenaGame: createArena,
+  joinArena,
   startArenaGame,
   getDefaultGameSettings,
   disconnectFromArena,
+  setGameFilter,
 };
 
 export default api;

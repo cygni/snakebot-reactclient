@@ -1,3 +1,4 @@
+import Arbitraryconstants from '../../constants/Arbitraryconstants';
 import { useAppDispatch, useAppSelector } from '../../context/hooks';
 import { disconnectFromArena, startArenaGame } from '../../context/slices/arenaSlice';
 import GameboardView from '../../views/GameboardView';
@@ -21,7 +22,7 @@ export default function Game() {
   
   return (
     <>
-      <GameboardView gameID={gameId}>
+      <GameboardView gameID={gameId} musicElement={Arbitraryconstants.AUDIO_FINAL}>
         <button className='blue' onClick={newGame}>Rematch</button>
         <button className='black' onClick={disconnect}>End</button>
       </GameboardView>

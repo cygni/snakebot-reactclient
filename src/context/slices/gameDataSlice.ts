@@ -21,6 +21,11 @@ export const gameDataSlice = createSlice({
   name: "gameData",
   initialState,
   reducers: {
+    clearGameData: (state) => {
+      // Reset state
+      Object.assign(state, initialState);
+    },
+
     // Set entire data received from
     setGameData: (state, action: PayloadAction<GameData>) => {
       // Reset state
@@ -33,6 +38,10 @@ export const gameDataSlice = createSlice({
       state.counter = 0;
     },
 
+    addMessage: (state, action: PayloadAction<Message>) => {
+      state.messages.push(action.payload);
+    },
+
     incrementMessageIndex: (state) => {
       state.counter += 1;
     },
@@ -43,6 +52,6 @@ export const gameDataSlice = createSlice({
   },
 });
 
-export const { setGameData, incrementMessageIndex, setMessageIndex } = gameDataSlice.actions;
+export const { clearGameData, setGameData, addMessage, incrementMessageIndex, setMessageIndex } = gameDataSlice.actions;
 
 export default gameDataSlice.reducer;

@@ -1474,7 +1474,7 @@ margin-top: 3px;
       border-color: black;
     }
 
-    &:active {
+    &:active:disabled {
       transform: translateY(2px);
     }
   }
@@ -1491,6 +1491,7 @@ margin-top: 3px;
     width: 40px;
     height: 40px;
     float: right;
+    cursor: pointer;
   }
 
   .gitlogo {

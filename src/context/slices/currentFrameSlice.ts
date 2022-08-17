@@ -41,6 +41,8 @@ interface FrameState {
   obstaclePositions: TilePosition[];
   foodPositions: TilePosition[];
   gameEnded: boolean;
+  isRunning: boolean;
+  isFinalGame: boolean;
 }
 
 const initialState: FrameState = {
@@ -52,6 +54,8 @@ const initialState: FrameState = {
   obstaclePositions: [],
   foodPositions: [],
   gameEnded: false,
+  isRunning: true,
+  isFinalGame: false,
 };
 
 export const snakesSlice = createSlice({
@@ -61,6 +65,10 @@ export const snakesSlice = createSlice({
     clearCurrentFrame: (state) => {
       // Reset state
       Object.assign(state, initialState);
+    },
+
+    setGameRunning: (state, action: PayloadAction<boolean>) => {
+      state.isRunning = action.payload;
     },
 
     gameCreatedEvent: (state, action: PayloadAction<GameCreatedMessage>) => {
@@ -92,6 +100,7 @@ export const snakesSlice = createSlice({
         state.playerRanks.push(player.playerName);
         state.playerPoints.push(player.points);
       });
+      state.gameEnded = true;
     },
 
     gameEndedEvent: (state, action: PayloadAction<GameEndedMessage>) => {
@@ -140,7 +149,7 @@ function updateMap(state: Draft<FrameState>, map: GameMap) {
   state.obstaclePositions = map.obstaclePositions.map((position) => convertCoords(position));
 }
 
-export const { clearCurrentFrame, gameCreatedEvent, mapUpdateEvent, snakeDiedEvent, gameResultEvent, gameEndedEvent } =
+export const { clearCurrentFrame, gameCreatedEvent, mapUpdateEvent, snakeDiedEvent, gameResultEvent, gameEndedEvent, setGameRunning } =
   snakesSlice.actions;
 
 export default snakesSlice.reducer;

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import api from "../api";
 import { useAppSelector } from "../context/hooks";
 import TournamentSettings from "../components/tournament/Settings";
 import TournamentSchedule from "../components/tournament/Schedule";
