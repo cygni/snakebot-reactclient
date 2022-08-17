@@ -1,3 +1,4 @@
+import Arbitraryconstants from "./constants/Arbitraryconstants";
 import MessageTypes, { Message } from "./constants/messageTypes";
 
 const HEARTBEAT_INTERVAL = 5000;
@@ -42,20 +43,23 @@ export function createRegisterMoveMessage(direction: Direction, receivingPlayerI
 }
 
 export function simpleClient(arenaName: string, name: string, timeBetweenMoves: number) {
-
-    const host = "ws://localhost:8080/arena/" + arenaName;
-
-    console.log('Using API endpoint', host);
+    let host = '';
+    if (Arbitraryconstants.SERVER_URL.startsWith('http:')) {
+        host = 'ws://' + Arbitraryconstants.SERVER_URL.substring(7);
+    } else if (Arbitraryconstants.SERVER_URL.startsWith('https:')) {
+        host = 'wss://' + Arbitraryconstants.SERVER_URL.substring(8);
+    }
+    host += '/arena/' + arenaName;
+        
+    console.log('PLAYER: Connecting to endpoint', host);
     const ws = new WebSocket(host);
-
-    console.log('url was', ws.url);
 
     let heartbeatTimeout: NodeJS.Timeout;
 
     ws.onopen = handleOpen;
     ws.onmessage = handleMessage;
     ws.onclose = handleClose;
-    ws.onerror = (error: any) => console.error('Error:', error);
+    ws.onerror = (error: any) => console.error('PLAYER: Error:', error);
 
     let currentDirection = Direction.Up;
 
@@ -102,9 +106,9 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
     }
 
     function handleOpen() {
-        console.info('WebSocket is open');
+        console.info('PLAYER: WebSocket is open');
         sendMessage(clientInfo);
-        console.info('Registering player:', name);
+        console.info('PLAYER: Registering player:', name);
         sendMessage(createRegisterPlayerMessage(name));
     }
 
@@ -117,38 +121,36 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
                 heartbeatResponseEvent(message as HeartBeatResponseMessage);
                 break;
             case MessageTypes.PLAYER_REGISTERED:
-                console.info('Player registered successfully!');
+                console.info('PLAYER: Player registered successfully!');
                 break;
             case MessageTypes.MAP_UPDATE_EVENT:
                 mapUpdateEvent(message as MapUpdateEventMessage);
                 break;
         
             default:
-                console.warn('Unknown message type:', message.type);
+                console.warn('PLAYER: Unknown message type:', message.type);
                 break;
         }
     }
 
     function handleClose({ code, reason, wasClean }: { code: number, reason: string, wasClean: boolean }) {
-        console.info(`WebSocket is closed`, { code, reason, wasClean });
+        console.info(`PLAYER: WebSocket is closed`, { code, reason, wasClean });
         clearTimeout(heartbeatTimeout);
     }
 
     function heartbeatResponseEvent(message: HeartBeatResponseMessage) {
-        if (message.receivingPlayerId === null) throw new Error('Receiving player id is null');
+        if (message.receivingPlayerId === null) throw new Error('PLAYER: Receiving player id is null');
         heartbeatTimeout = setTimeout(sendMessage, HEARTBEAT_INTERVAL, createHeartbeatRequestMessage(message.receivingPlayerId));
     }
 
     async function mapUpdateEvent({map, receivingPlayerId, gameId, gameTick, timestamp}: MapUpdateEventMessage) {
-        console.info('Map update event', map);
-
-        console.log('Sleeping for', timeBetweenMoves, 'ms');
+        // Sleep to slow down the game to timeBetweenMoves
         await sleep(timeBetweenMoves - MS_SLEEP_MARGIN);
 
-        if (receivingPlayerId === null) throw new Error('Receiving player id is null');
+        if (receivingPlayerId === null) throw new Error('PLAYER: Receiving player id is null');
 
         const moveMessage = createRegisterMoveMessage(currentDirection, receivingPlayerId, gameId, gameTick);
-        console.info('Sending move message', moveMessage);
+        console.info('PLAYER: Sending move message', moveMessage);
         sendMessage(moveMessage);
     }
 
