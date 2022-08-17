@@ -20,16 +20,21 @@ function ControllBar() {
   const gameEnded = useAppSelector((state) => state.currentFrame.gameEnded);
   const intervalID = useRef<NodeJS.Timer>();
 
+  const snakes = useAppSelector(state => state.currentFrame.snakesData);
   useEffect(() => {
     if (running) {
       intervalID.current = setInterval(() => {
-        if (running) {
+
+        // If a human player is playing, messages are instead dispatched in real time
+        const anyPlayerAlive = Object.entries(snakes).some(snake => snake[1].name.startsWith('Player') && snake[1].alive);
+        if (!anyPlayerAlive && running) {
+          // console.log("Dispatching from ControllBar");
           messageDispatch();
         }
       }, frequency);
     }
     return () => clearInterval(intervalID.current);
-  }, [running, frequency]);
+  }, [running, frequency, snakes]);
 
   useEffect(() => {
     if (gameEnded) {

@@ -110,10 +110,12 @@ export function onSocketMessage(jsonData: string) {
       store.dispatch(addMessage(gameMessage));
 
       if (store.getState().arena.playingAsPlayer) {
+        const noPlayerData = Object.keys(store.getState().currentFrame.snakesData).length === 0;
         const anyPlayerAlive = Object.entries(store.getState().currentFrame.snakesData).some(snake => snake[1].name.startsWith('Player') && snake[1].alive);
 
-        // If any human player is alive, dispatch messages in realtime
-        if (anyPlayerAlive) {
+        // If any human player is alive (or game has not been initialized yet), dispatch messages in realtime
+        if (anyPlayerAlive || noPlayerData) {
+          console.log('Dispatching message in realtime');
           dataDispatch();
         }
       }

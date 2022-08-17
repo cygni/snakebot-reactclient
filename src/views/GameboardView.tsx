@@ -61,11 +61,6 @@ function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR
         return;
       }
       dispatch(setGameData(game));
-
-      // dispatch 3 times so we get the first map update
-      messageDispatch();
-      messageDispatch();
-      messageDispatch(false);
     });
   }
 

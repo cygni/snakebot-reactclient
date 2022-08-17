@@ -60,7 +60,9 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
     let currentDirection = Direction.Up;
 
     // event listener to change the direction of the player
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', handleKeyDown);
+
+    function handleKeyDown(event: KeyboardEvent) {
         console.log("pressed key: " + event.key);
         switch (event.key) {
             case 'ArrowLeft':
@@ -81,7 +83,7 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
                 break;
         }
         console.log("current direction: " + currentDirection);
-    });
+    }
 
     function sendMessage(message: any) {
         console.info('PLAYER: Sending message', message);
@@ -90,6 +92,10 @@ export function simpleClient(arenaName: string, name: string, timeBetweenMoves: 
 
     function close() {
         console.log('PLAYER: Closing connection');
+
+        // Remove keydown listener
+        document.removeEventListener('keydown', handleKeyDown);
+
         if (ws.readyState !== ws.CLOSED && ws.readyState !== ws.CLOSING) {
           ws.close();
         }
