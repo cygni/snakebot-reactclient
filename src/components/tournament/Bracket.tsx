@@ -15,7 +15,7 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
 
   function goToGame(tournamentGame: TournamentGame) {
-    if (tournamentGame.gamePlayed && priorLevelViewed()) {
+    if (priorLevelViewed()) {
       console.log("Go to tournamentGame:", tournamentGame.gameId);
       dispatch(viewGame(tournamentGame.gameId));
     } else {
@@ -62,15 +62,15 @@ function TournamentBracket({ tournamentGame, levelIndex }: Props) {
   function RenderGameLink() {
     if (!priorLevelViewed()) return null;
 
-    if (!tournamentGame.gamePlayed) {
-      return (
-        <div className="gotogame">
-          <label>
-            Running...
-          </label>
-        </div>
-      );
-    }
+    // if (!tournamentGame.gamePlayed) {
+    //   return (
+    //     <div className="gotogame">
+    //       <label>
+    //         Running...
+    //       </label>
+    //     </div>
+    //   );
+    // }
 
     return (
       <div className="gotogame">

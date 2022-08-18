@@ -7,6 +7,7 @@ import {
   TournamentGamePlanMessage,
   Player,
   TournamentLevel,
+  TournamentGame,
 } from '../../constants/messageTypes';
 import Arbitraryconstants from '../../constants/Arbitraryconstants';
 
@@ -21,7 +22,6 @@ export type TournamentData = {
   activeGameId: string;
   finalGameID: string | null;
   finalGameResult: { name: string; playerId: string; points: number }[];
-  startedGames: { [key: string]: boolean };
   gameFinishedShare: number;
   isWinnerDeclared: boolean;
 
@@ -41,7 +41,6 @@ const initialState: TournamentData = {
   activeGameId: '',
   finalGameID: '',
   finalGameResult: [],
-  startedGames: {},
   gameFinishedShare: 0,
   isWinnerDeclared: false,
 
@@ -119,37 +118,7 @@ export const tournamentSlice = createSlice({
       state.tournamentId = action.payload.tournamentId;
       state.tournamentLevels = action.payload.tournamentLevels;
       state.tournamentName = action.payload.tournamentName;
-
-      state.finalGameID = state.tournamentLevels[state.noofLevels - 1].tournamentGames[0].gameId;
-
-      // Initialize isViewed for all games and get amount of games played
-      let totalGamesPlayed = 0;
-      state.tournamentLevels.forEach((level) => {
-        level.tournamentGames.forEach((game) => {
-          // if (game.isViewed === undefined) game.isViewed = false;
-          if (game.gamePlayed) totalGamesPlayed++;
-        });
-      });
-      state.gameFinishedShare = (100 * totalGamesPlayed) / Math.pow(2, state.noofLevels);
-
-      if (localStorage.getItem('isTournamentStarted') === 'true') {
-        // Find and play games that has not been played
-        for (let level of state.tournamentLevels) {
-          let startNextLevel = true;
-          for (let game of level.tournamentGames) {
-            // If a game has not been played, don't start the next level
-            if (!game.gamePlayed) startNextLevel = false;
-
-            if (!game.gamePlayed && game.gameId !== null && !state.startedGames[game.gameId]) {
-              state.startedGames[game.gameId] = true;
-              api.startTournamentGame(game.gameId);
-            }
-          }
-
-          // Start next level if all games in this level has been played
-          if (!startNextLevel) break;
-        }
-      }
+      state.finalGameID = state.tournamentLevels.length===0 ? '' : state.tournamentLevels[state.noofLevels - 1].tournamentGames[0].gameId;
     },
 
     viewGame: (state, action: PayloadAction<string | null>) => {
@@ -158,9 +127,25 @@ export const tournamentSlice = createSlice({
       state.activeGameId = action.payload;
       state.tournamentViewState = TournamentEnums.GAME;
 
-      //state.viewedGames[action.payload] = true;
       const viewedGames: { [key: string]: boolean } = localStorage.getItem('viewedGames') ? JSON.parse(localStorage.getItem('viewedGames')!) : {};
       localStorage.setItem('viewedGames', JSON.stringify({ ...viewedGames, [action.payload]: true }));
+
+      // find active game
+      let activeGame: TournamentGame | null = null;
+      for (let level of state.tournamentLevels) {
+        for (let game of level.tournamentGames) {
+          if (game.gameId === state.activeGameId) {
+            activeGame = game;
+            break;
+          }
+        }
+      }
+
+      if (activeGame && !activeGame.gamePlayed) {
+        api.setGameFilter(state.activeGameId);
+        api.startTournamentGame(state.activeGameId);
+      }
+
     },
 
     setLoggedIn: (state, action: PayloadAction<boolean>) => {

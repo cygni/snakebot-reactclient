@@ -3,7 +3,7 @@ import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
 import api from '../api';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { clearGameData, setGameData } from '../context/slices/gameDataSlice';
 import messageDispatch from '../context/messageDispatch';
 import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
@@ -54,14 +54,13 @@ function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR
     return ()=>{musicElement.currentTime = 0;}
   }, [musicElement, gameEnded]);
 
-  function tryToFetchHistory() {
-    api.getGame(gameID!).then((game) => {
-      console.log('Fetched game', game);
-      if (JSON.stringify(game) === '{}'){
-        return;
-      }
-      dispatch(setGameData(game));
-    });
+  async function tryToFetchHistory() {
+    let game = await api.getGame(gameID!);
+    console.log('Fetched game', game);
+    if (JSON.stringify(game) === '{}'){
+      return;
+    }
+    dispatch(setGameData(game));
   }
 
   // Initialize the game
@@ -71,9 +70,13 @@ function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR
     dispatch(clearCurrentFrame());
 
     // Setup the game
-    tryToFetchHistory();
-
-  }, [dispatch, gameID]);
+    tryToFetchHistory().then(() => {
+      // Dispatch until first map update
+      messageDispatch();
+      messageDispatch();
+      messageDispatch(false);
+    })
+  }, []);
 
   function handleVolume(){
     if (Arbitraryconstants.TTS_VOLUME === 0){
