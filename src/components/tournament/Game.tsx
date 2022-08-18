@@ -24,7 +24,7 @@ export default function Game() {
     );
     const nextGame = currentLevel?.tournamentGames[gameIndex + 1];
 
-    if (nextGame?.gamePlayed) {
+    if (nextGame) {
       return (
         <button className='blue' onClick={() => dispatch(viewGame(nextGame!.gameId))}>
           Go to next game -{'>'}

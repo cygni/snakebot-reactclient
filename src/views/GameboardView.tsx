@@ -3,9 +3,8 @@ import ControllBar from '../components/ControllBar';
 import ScoreBoard from '../components/ScoreBoard';
 
 import api from '../api';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { clearGameData, setGameData } from '../context/slices/gameDataSlice';
-import messageDispatch from '../context/messageDispatch';
 import { clearCurrentFrame } from '../context/slices/currentFrameSlice';
 import { useAppDispatch, useAppSelector } from '../context/hooks';
 import volumeOn from '../assets/icons/volume-icon.svg';
@@ -70,13 +69,8 @@ function GameboardView({ gameID, musicElement = Arbitraryconstants.AUDIO_REGULAR
     dispatch(clearCurrentFrame());
 
     // Setup the game
-    tryToFetchHistory().then(() => {
-      // Dispatch until first map update
-      messageDispatch();
-      messageDispatch();
-      messageDispatch(false);
-    })
-  }, []);
+    tryToFetchHistory();
+  }, [gameID]);
 
   function handleVolume(){
     if (Arbitraryconstants.TTS_VOLUME === 0){
