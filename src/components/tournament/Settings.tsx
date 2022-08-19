@@ -70,14 +70,12 @@ function TournamentSettings() {
               name="maxPlayers"
               id="maxNoofPlayers"
               type="number"
-              min="2"
+              min="4"
               max="100"
               value={localGameSettings.maxNoofPlayers}
               onChange={handleInputChange}
-              // onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
             />
             
-
           </div>
 
           <div>
@@ -99,7 +97,7 @@ function TournamentSettings() {
               name="timeInMsPerTick"
               type="number"
               id="timeInMsPerTick"
-              step="250"
+              step="50"
               min="250"
               max="1500"
               value={localGameSettings.timeInMsPerTick}

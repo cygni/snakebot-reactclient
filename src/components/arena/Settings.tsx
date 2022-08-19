@@ -57,10 +57,8 @@ function Settings() {
               max="100"
               value={localGameSettings.maxNoofPlayers}
               onChange={handleInputChange}
-              // onChange={(e) => {setLocalGameSettings({...localGameSettings, maxNoofPlayers: parseInt(e.target.value)})}}
             />
             
-
           </div>
 
           <div>

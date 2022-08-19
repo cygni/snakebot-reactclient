@@ -28,7 +28,6 @@ function ControllBar() {
         // If a human player is playing, messages are instead dispatched in real time
         const anyPlayerAlive = Object.entries(snakes).some(snake => snake[1].name.startsWith('Player') && snake[1].alive);
         if (!anyPlayerAlive && running) {
-          // console.log("Dispatching from ControllBar");
           messageDispatch();
         }
       }, frequency);
