@@ -2,16 +2,33 @@ import { Group, Rect, Image, Arc } from "react-konva";
 import { TILE_MARGIN, TILE_OFFSET_X, TILE_OFFSET_Y, TILE_SIZE } from "../../constants/BoardUtils";
 import { SnakeData, TilePosition } from "../../context/slices/currentFrameSlice";
 import Colors from "../../constants/Colors";
-import { getCurrentSnakeHead, getCurrentSnakeTail } from "../../constants/Images";
+import { getSnakeHead, getSnakeTail } from "../../constants/Images";
 
 type Props = {
   snake: SnakeData;
 };
 
 function Snake({ snake }: Props) {
-  const headImage = getCurrentSnakeHead(snake);
-  const tailImage = getCurrentSnakeTail(snake);
-  const color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
+  let color = snake.alive ? snake.color : Colors.DEAD_SNAKE;
+  let rotationOffset = 0;
+
+  let headImage = getSnakeHead(color);
+  let tailImage = getSnakeTail(color);
+
+  // Easter egg
+  if (snake.name === "leinad" ||  snake.name === "ebbes") {
+    rotationOffset = 180;
+    headImage = getSnakeTail(color);
+    tailImage = getSnakeHead(color);
+  }
+
+  // Easter egg
+  if (snake.name === "daniel" || snake.name === "sebbe") {
+    // Random color
+    color = Colors.getSnakeColor(Math.round(Math.random() * 10));
+    headImage = getSnakeHead(color);
+    tailImage = getSnakeTail(color);
+  }
 
   function drawLine(line: TilePosition[]) {
     if (line.length <= 1) return null;
@@ -167,6 +184,7 @@ function Snake({ snake }: Props) {
         image={image}
         rotation={rotation + rotationOffset}
         offset={{ x: offset, y: offset }}
+
       />
     );
   }
@@ -174,12 +192,12 @@ function Snake({ snake }: Props) {
   return (
     <>
       {renderSnakeBody()}
-      {renderImage(snake.positions[0], snake.positions[1], headImage)}
+      {renderImage(snake.positions[0], snake.positions[1], headImage, rotationOffset)}
       {renderImage(
         snake.positions[snake.positions.length - 1],
         snake.positions[snake.positions.length - 2],
         tailImage,
-        180
+        rotationOffset+180
       )}
     </>
   );
