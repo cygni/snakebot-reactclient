@@ -112,34 +112,17 @@ export const snakesSlice = createSlice({
 });
 
 function updateMap(state: Draft<FrameState>, map: GameMap) {
-  // Initialize snakes
-  if (Object.keys(state.snakesData).length === 0) {
-    map.snakeInfos.forEach((snake) => {
-      state.IDs.push(snake.id);
-      state.snakesData = {
-        ...state.snakesData,
-        [snake.id]: {
-          name: snake.name,
-          points: snake.points,
-          color: colors.getSnakeColor(state.colorIndex),
-          positions: [],
-          alive: true,
-        },
-      };
-
-      state.colorIndex++;
-    });
-  }
-
   // Update snake positions, points and alive status
-  map.snakeInfos.forEach((snake) => {
-    state.snakesData[snake.id].positions = snake.positions.map((position) => convertCoords(position));
-    state.snakesData[snake.id].points = snake.points;
-    if (snake.positions.length === 0) {
-      state.snakesData[snake.id].alive = false;
-    } else {
-      state.snakesData[snake.id].alive = true;
-    }
+  state.colorIndex = 0;
+  state.IDs = map.snakeInfos.map((snake) => snake.id);
+  map.snakeInfos.forEach(snake => {
+    state.snakesData[snake.id] = {
+      name: snake.name,
+      points: snake.points,
+      color: colors.getSnakeColor(state.colorIndex++),
+      positions: snake.positions.map((position) => convertCoords(position)),
+      alive: snake.positions.length > 0,
+    };
   });
 
   // Update food positions
