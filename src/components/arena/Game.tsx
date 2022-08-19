@@ -5,6 +5,7 @@ import GameboardView from '../../views/GameboardView';
 
 export default function Game() {
   const gameId = useAppSelector(state => state.arena.gameId);
+  const arenaId = useAppSelector((state) => state.arena.arenaName);
   const connectedPlayers = useAppSelector(state => state.arena.players);
   const dispatch = useAppDispatch();
 
@@ -23,6 +24,7 @@ export default function Game() {
   return (
     <>
       <GameboardView gameID={gameId} musicElement={Arbitraryconstants.AUDIO_FINAL}>
+        <p className='arenaLabel'>Arena ID: {arenaId}</p>
         <button className='blue' onClick={newGame}>Rematch</button>
         <button className='black' onClick={disconnect}>End</button>
       </GameboardView>

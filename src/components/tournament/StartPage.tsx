@@ -1,7 +1,6 @@
-import { useState } from "react";
 import api from "../../api";
 import { TournamentEnums } from "../../constants/ViewEnums";
-import { useAppSelector, useAppDispatch } from "../../context/hooks";
+import { useAppDispatch } from "../../context/hooks";
 import { setTournamentView } from "../../context/slices/tournamentSlice";
 
 function StartPage() {
