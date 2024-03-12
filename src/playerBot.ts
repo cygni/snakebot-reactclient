@@ -86,7 +86,8 @@ export function simpleClient(
   ws.onclose = handleClose;
   ws.onerror = (error: any) => console.error("PLAYER: Error:", error);
 
-  let currentDirection = Direction.Up;
+  let directionQueue: Direction[] = [Direction.Up];
+  let lastDirection = Direction.Up;
 
   // event listener to change the direction of the player
   document.addEventListener("keydown", handleKeyDown);
@@ -96,22 +97,22 @@ export function simpleClient(
     switch (event.key) {
       case "ArrowLeft":
       case "a":
-        currentDirection = Direction.Left;
+        directionQueue.push(Direction.Left);
         break;
       case "ArrowUp":
       case "w":
-        currentDirection = Direction.Up;
+        directionQueue.push(Direction.Up);
         break;
       case "ArrowRight":
       case "d":
-        currentDirection = Direction.Right;
+        directionQueue.push(Direction.Right);
         break;
       case "ArrowDown":
       case "s":
-        currentDirection = Direction.Down;
+        directionQueue.push(Direction.Down);
         break;
     }
-    console.log("current direction: " + currentDirection);
+    console.log("current direction: " + directionQueue[0]);
   }
 
   function sendMessage(message: any) {
@@ -194,14 +195,17 @@ export function simpleClient(
     if (receivingPlayerId === null)
       throw new Error("PLAYER: Receiving player id is null");
 
+    const direction = directionQueue.shift() || lastDirection;
+
     const moveMessage = createRegisterMoveMessage(
-      currentDirection,
+      direction,
       receivingPlayerId,
       gameId,
       gameTick,
     );
     console.info("PLAYER: Sending move message", moveMessage);
     sendMessage(moveMessage);
+    lastDirection = direction;
   }
 
   return close;

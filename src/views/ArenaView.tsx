@@ -5,7 +5,7 @@ import PlayerList from "../components/arena/PlayerList";
 import Settings from "../components/arena/Settings";
 import { ArenaEnums } from "../constants/ViewEnums";
 import { useAppSelector } from "../context/hooks";
-import { simpleClient } from "../playerApi";
+import { simpleClient } from "../playerBot";
 
 function ArenaView() { 
   const activeArenaView = useAppSelector(state => state.arena.arenaViewState);
