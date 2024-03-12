@@ -210,4 +210,3 @@ export function simpleClient(
 
   return close;
 }
-
