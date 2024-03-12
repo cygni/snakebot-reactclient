@@ -5,154 +5,205 @@ const HEARTBEAT_INTERVAL = 5000;
 const MS_SLEEP_MARGIN = 80;
 
 export enum Direction {
-    Up = 'UP',
-    Down = 'DOWN',
-    Left = 'LEFT',
-    Right = 'RIGHT',
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
 }
 
 type HeartBeatResponseMessage = Message;
 
 export interface MapUpdateEventMessage extends Message {
-    gameTick: number;
-    gameId: string;
-    map: any; // Not used currently for this simple implementation
+  gameTick: number;
+  gameId: string;
+  map: any; // Not used currently for this simple implementation
 }
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const clientInfo = {
-      type: "se.cygni.snake.api.request.ClientInfo",
-      language: 'JavaScript',
-      languageVersion: 'ES2020',
-      clientVersion: '1.0.0',
-      operatingSystem: 'Node.js Web',
-      operatingSystemVersion: "Web",
+  type: "se.cygni.snake.api.request.ClientInfo",
+  language: "JavaScript",
+  languageVersion: "ES2020",
+  clientVersion: "1.0.0",
+  operatingSystem: "Node.js Web",
+  operatingSystemVersion: "Web",
 };
 
 export function createHeartbeatRequestMessage(receivingPlayerId: string) {
-    return { type: 'se.cygni.snake.api.request.HeartBeatRequest', receivingPlayerId };
+  return {
+    type: "se.cygni.snake.api.request.HeartBeatRequest",
+    receivingPlayerId,
+  };
 }
 
-export function createRegisterPlayerMessage(playerName: string, gameSettings = {}) {
-    return { type: 'se.cygni.snake.api.request.RegisterPlayer', playerName, gameSettings };
+export function createRegisterPlayerMessage(
+  playerName: string,
+  gameSettings = {},
+) {
+  return {
+    type: "se.cygni.snake.api.request.RegisterPlayer",
+    playerName,
+    gameSettings,
+  };
 }
 
-export function createRegisterMoveMessage(direction: Direction, receivingPlayerId: string, gameId: string, gameTick: number) {
-    return { type: 'se.cygni.snake.api.request.RegisterMove', direction, receivingPlayerId, gameId, gameTick };
+export function createRegisterMoveMessage(
+  direction: Direction,
+  receivingPlayerId: string,
+  gameId: string,
+  gameTick: number,
+) {
+  return {
+    type: "se.cygni.snake.api.request.RegisterMove",
+    direction,
+    receivingPlayerId,
+    gameId,
+    gameTick,
+  };
 }
 
-export function simpleClient(arenaName: string, name: string, timeBetweenMoves: number) {
-    let host = '';
-    if (Arbitraryconstants.SERVER_URL.startsWith('http:')) {
-        host = 'ws://' + Arbitraryconstants.SERVER_URL.substring(7);
-    } else if (Arbitraryconstants.SERVER_URL.startsWith('https:')) {
-        host = 'wss://' + Arbitraryconstants.SERVER_URL.substring(8);
+export function simpleClient(
+  arenaName: string,
+  name: string,
+  timeBetweenMoves: number,
+) {
+  let host = "";
+  if (Arbitraryconstants.SERVER_URL.startsWith("http:")) {
+    host = "ws://" + Arbitraryconstants.SERVER_URL.substring(7);
+  } else if (Arbitraryconstants.SERVER_URL.startsWith("https:")) {
+    host = "wss://" + Arbitraryconstants.SERVER_URL.substring(8);
+  }
+  host += "/arena/" + arenaName;
+
+  console.log("PLAYER: Connecting to endpoint", host);
+  const ws = new WebSocket(host);
+
+  let heartbeatTimeout: NodeJS.Timeout;
+
+  ws.onopen = handleOpen;
+  ws.onmessage = handleMessage;
+  ws.onclose = handleClose;
+  ws.onerror = (error: any) => console.error("PLAYER: Error:", error);
+
+  let currentDirection = Direction.Up;
+
+  // event listener to change the direction of the player
+  document.addEventListener("keydown", handleKeyDown);
+
+  function handleKeyDown(event: KeyboardEvent) {
+    console.log("pressed key: " + event.key);
+    switch (event.key) {
+      case "ArrowLeft":
+      case "a":
+        currentDirection = Direction.Left;
+        break;
+      case "ArrowUp":
+      case "w":
+        currentDirection = Direction.Up;
+        break;
+      case "ArrowRight":
+      case "d":
+        currentDirection = Direction.Right;
+        break;
+      case "ArrowDown":
+      case "s":
+        currentDirection = Direction.Down;
+        break;
     }
-    host += '/arena/' + arenaName;
-        
-    console.log('PLAYER: Connecting to endpoint', host);
-    const ws = new WebSocket(host);
+    console.log("current direction: " + currentDirection);
+  }
 
-    let heartbeatTimeout: NodeJS.Timeout;
+  function sendMessage(message: any) {
+    console.info("PLAYER: Sending message", message);
+    ws.send(JSON.stringify(message));
+  }
 
-    ws.onopen = handleOpen;
-    ws.onmessage = handleMessage;
-    ws.onclose = handleClose;
-    ws.onerror = (error: any) => console.error('PLAYER: Error:', error);
+  function close() {
+    console.log("PLAYER: Closing connection");
 
-    let currentDirection = Direction.Up;
+    // Remove keydown listener
+    document.removeEventListener("keydown", handleKeyDown);
 
-    // event listener to change the direction of the player
-    document.addEventListener('keydown', handleKeyDown);
-
-    function handleKeyDown(event: KeyboardEvent) {
-        console.log("pressed key: " + event.key);
-        switch (event.key) {
-            case 'ArrowLeft':
-            case 'a':
-                currentDirection = Direction.Left;
-                break;
-            case 'ArrowUp':
-            case 'w':
-                currentDirection = Direction.Up;
-                break;
-            case 'ArrowRight':
-            case 'd':
-                currentDirection = Direction.Right;
-                break;
-            case 'ArrowDown':
-            case 's':
-                currentDirection = Direction.Down;
-                break;
-        }
-        console.log("current direction: " + currentDirection);
+    if (ws.readyState !== ws.CLOSED && ws.readyState !== ws.CLOSING) {
+      ws.close();
     }
+  }
 
-    function sendMessage(message: any) {
-        console.info('PLAYER: Sending message', message);
-        ws.send(JSON.stringify(message));
+  function handleOpen() {
+    console.info("PLAYER: WebSocket is open");
+    sendMessage(clientInfo);
+    console.info("PLAYER: Registering player:", name);
+    sendMessage(createRegisterPlayerMessage(name));
+  }
+
+  function handleMessage({ data }: MessageEvent) {
+    const message: Message = JSON.parse(data);
+    console.info("PLAYER: Received message:", message);
+
+    switch (message.type) {
+      case MessageTypes.HEARTBEAT_RESPONSE:
+        heartbeatResponseEvent(message as HeartBeatResponseMessage);
+        break;
+      case MessageTypes.PLAYER_REGISTERED:
+        console.info("PLAYER: Player registered successfully!");
+        break;
+      case MessageTypes.MAP_UPDATE_EVENT:
+        mapUpdateEvent(message as MapUpdateEventMessage);
+        break;
+
+      default:
+        console.warn("PLAYER: Unknown message type:", message.type);
+        break;
     }
+  }
 
-    function close() {
-        console.log('PLAYER: Closing connection');
+  function handleClose({
+    code,
+    reason,
+    wasClean,
+  }: {
+    code: number;
+    reason: string;
+    wasClean: boolean;
+  }) {
+    console.info(`PLAYER: WebSocket is closed`, { code, reason, wasClean });
+    clearTimeout(heartbeatTimeout);
+  }
 
-        // Remove keydown listener
-        document.removeEventListener('keydown', handleKeyDown);
+  function heartbeatResponseEvent(message: HeartBeatResponseMessage) {
+    if (message.receivingPlayerId === null)
+      throw new Error("PLAYER: Receiving player id is null");
+    heartbeatTimeout = setTimeout(
+      sendMessage,
+      HEARTBEAT_INTERVAL,
+      createHeartbeatRequestMessage(message.receivingPlayerId),
+    );
+  }
 
-        if (ws.readyState !== ws.CLOSED && ws.readyState !== ws.CLOSING) {
-          ws.close();
-        }
-    }
+  async function mapUpdateEvent({
+    map,
+    receivingPlayerId,
+    gameId,
+    gameTick,
+    timestamp,
+  }: MapUpdateEventMessage) {
+    // Sleep to slow down the game to timeBetweenMoves
+    await sleep(timeBetweenMoves - MS_SLEEP_MARGIN);
 
-    function handleOpen() {
-        console.info('PLAYER: WebSocket is open');
-        sendMessage(clientInfo);
-        console.info('PLAYER: Registering player:', name);
-        sendMessage(createRegisterPlayerMessage(name));
-    }
+    if (receivingPlayerId === null)
+      throw new Error("PLAYER: Receiving player id is null");
 
-    function handleMessage({data}: MessageEvent) {
-        const message: Message = JSON.parse(data);
-        console.info('PLAYER: Received message:', message);
+    const moveMessage = createRegisterMoveMessage(
+      currentDirection,
+      receivingPlayerId,
+      gameId,
+      gameTick,
+    );
+    console.info("PLAYER: Sending move message", moveMessage);
+    sendMessage(moveMessage);
+  }
 
-        switch (message.type) {
-            case MessageTypes.HEARTBEAT_RESPONSE:
-                heartbeatResponseEvent(message as HeartBeatResponseMessage);
-                break;
-            case MessageTypes.PLAYER_REGISTERED:
-                console.info('PLAYER: Player registered successfully!');
-                break;
-            case MessageTypes.MAP_UPDATE_EVENT:
-                mapUpdateEvent(message as MapUpdateEventMessage);
-                break;
-        
-            default:
-                console.warn('PLAYER: Unknown message type:', message.type);
-                break;
-        }
-    }
-
-    function handleClose({ code, reason, wasClean }: { code: number, reason: string, wasClean: boolean }) {
-        console.info(`PLAYER: WebSocket is closed`, { code, reason, wasClean });
-        clearTimeout(heartbeatTimeout);
-    }
-
-    function heartbeatResponseEvent(message: HeartBeatResponseMessage) {
-        if (message.receivingPlayerId === null) throw new Error('PLAYER: Receiving player id is null');
-        heartbeatTimeout = setTimeout(sendMessage, HEARTBEAT_INTERVAL, createHeartbeatRequestMessage(message.receivingPlayerId));
-    }
-
-    async function mapUpdateEvent({map, receivingPlayerId, gameId, gameTick, timestamp}: MapUpdateEventMessage) {
-        // Sleep to slow down the game to timeBetweenMoves
-        await sleep(timeBetweenMoves - MS_SLEEP_MARGIN);
-
-        if (receivingPlayerId === null) throw new Error('PLAYER: Receiving player id is null');
-
-        const moveMessage = createRegisterMoveMessage(currentDirection, receivingPlayerId, gameId, gameTick);
-        console.info('PLAYER: Sending move message', moveMessage);
-        sendMessage(moveMessage);
-    }
-
-    return close;
+  return close;
 }
+
