@@ -1,15 +1,9 @@
-import Arbitraryconstants from "./constants/Arbitraryconstants";
-import MessageTypes, { Message } from "./constants/messageTypes";
+import Arbitraryconstants from "../constants/Arbitraryconstants";
+import MessageTypes, { Message } from "../constants/messageTypes";
+import { Direction } from "./types";
 
 const HEARTBEAT_INTERVAL = 5000;
 const MS_SLEEP_MARGIN = 110;
-
-export enum Direction {
-  Up = "UP",
-  Down = "DOWN",
-  Left = "LEFT",
-  Right = "RIGHT",
-}
 
 type HeartBeatResponseMessage = Message;
 
@@ -93,6 +87,8 @@ export function simpleClient(
   document.addEventListener("keydown", handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {
+    // Do not scroll the window with arrow keys
+    event.preventDefault();
     console.log("pressed key: " + event.key);
     switch (event.key) {
       case "ArrowLeft":
@@ -195,7 +191,23 @@ export function simpleClient(
     if (receivingPlayerId === null)
       throw new Error("PLAYER: Receiving player id is null");
 
-    const direction = directionQueue.shift() || lastDirection;
+    let direction = directionQueue.shift() || lastDirection;
+
+    // Make sure direction is not the opposite of the last direction
+    if (
+      (direction === Direction.Up && lastDirection === Direction.Down) ||
+      (direction === Direction.Down && lastDirection === Direction.Up) ||
+      (direction === Direction.Left && lastDirection === Direction.Right) ||
+      (direction === Direction.Right && lastDirection === Direction.Left)
+    ) {
+      console.log("Opposite direction, moving in last direction instead");
+      direction = lastDirection;
+    }
+
+    if (direction !== lastDirection) {
+      // Make sure new direction does not immediately collide with a wall
+      const head = map.getHeadFromPlayerId(receivingPlayerId);
+    }
 
     const moveMessage = createRegisterMoveMessage(
       direction,
